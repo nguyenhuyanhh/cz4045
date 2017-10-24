@@ -1,4 +1,4 @@
-<code>disc_list = []
+~disc_list = []
 
 def create_list():
     global disc_list
@@ -7,124 +7,124 @@ def create_list():
 
 def move_discs
     cmds.move(disc_list[1], 0, 0, 5)
-</code>
+~
 
-Note that using global variables is not encouraged.
+~Note~that~using~global~variables~is~not~encouraged~.~
 
-Returning list from <code>create_list()</code>:
+~Returning~list~from~create_list()~:~
 
-<code>def create_list():
+~def create_list():
     return ['disc0', 'disc1', 'disc2']
 
 def move_discs():
     disc_list = create_list()
     cmds.move(disc_list[1], 0, 0, 5)
-</code>
+~
 
-But I don't think this will of much help to you as you probably need to keep the state of your list throughout the program.
-I've visited the documenation at https://docs.djangoproject.com/en/1.6/ref/templates/builtins/#std:templatetag-url several times and i cant seem to get this syntax to work anywhere:
+~But~I~do~n't~think~this~will~of~much~help~to~you~as~you~probably~need~to~keep~the~state~of~your~list~throughout~the~program~.~
+~I~'ve~visited~the~documenation~at~https://docs.djangoproject.com/en/1.6/ref/templates/builtins/#std:templatetag-url~several~times~and~i~cant~seem~to~get~this~syntax~to~work~anywhere~:~
 
-<code>{% url 'view' obj.id %}
-</code>
+~{% url 'view' obj.id %}
+~
 
-I have a view that takes one parameter so this should work but im only getting NoReverseMatch exception for some strange reason.
+~I~have~a~view~that~takes~one~parameter~so~this~should~work~but~im~only~getting~NoReverseMatch~exception~for~some~strange~reason~.~
 
-When doing it like this:
+~When~doing~it~like~this~:~
 
-<code>{% url 'view' obj.id as test %}
+~{% url 'view' obj.id as test %}
 &lt;a href="{{ test }}"&gt;test&lt;/a&gt;
-</code>
+~
 
-..im getting the correct url returned back and the link address displays correctly, but when using the above mentioned syntax without setting is as a variable it doesnt work, when i for example use it directly in an element.
+~.~.~im~getting~the~correct~url~returned~back~and~the~link~address~displays~correctly~,~but~when~using~the~above~mentioned~syntax~without~setting~is~as~a~variable~it~doesnt~work~,~when~i~for~example~use~it~directly~in~an~element~.~
 
-When trying to do this which im trying to do:
+~When~trying~to~do~this~which~im~trying~to~do~:~
 
-<code>{% url 'view' obj.id as test %}
+~{% url 'view' obj.id as test %}
 &lt;input type="hidden" value="{{ test }}"&gt;
-</code>
+~
 
-im not getting any error but it doesnt seem like im getting any value in the value field because if there were a value in the field the code would do something, and when replacing the variable with a hard-coded string it does work.
+~im~not~getting~any~error~but~it~doesnt~seem~like~im~getting~any~value~in~the~value~field~because~if~there~were~a~value~in~the~field~the~code~would~do~something~,~and~when~replacing~the~variable~with~a~hard-coded~string~it~does~work~.~
 
-When doing this:
+~When~doing~this~:~
 
-<code>{% url 'view' obj.id as test %}
+~{% url 'view' obj.id as test %}
 {{ test }}
-</code>
+~
 
-just to try to print the value it doesnt return anything which i find strange because when using it with the a element in html as shown at the first code line above it displays the correct url.
+~just~to~try~to~print~the~value~it~doesnt~return~anything~which~i~find~strange~because~when~using~it~with~the~a~element~in~html~as~shown~at~the~first~code~line~above~it~displays~the~correct~url~.~
 
-So basically, im only getting the {% url 'view' obj.id %} syntax to work with the a element of html and only if i define it as a variable.
+~So~basically~,~im~only~getting~the~{% url 'view' obj.id %}~syntax~to~work~with~the~a~element~of~html~and~only~if~i~define~it~as~a~variable~.~
 
-I would like to use the {% url 'view' obj.id %} syntax in order to have a DRY code. According to the documenation this should work, does anyone have a clue about why this isnt working ? If you need more information then please let me know and i will update the question with the necessary information.
+~I~would~like~to~use~the~{% url 'view' obj.id %}~syntax~in~order~to~have~a~DRY~code~.~According~to~the~documenation~this~should~work~,~does~anyone~have~a~clue~about~why~this~isnt~working~?~If~you~need~more~information~then~please~let~me~know~and~i~will~update~the~question~with~the~necessary~information~.~
 
-UPDATE:
-I'm currently using django 1.6.
-The typo in the second snippet has been corrected.
-The exact line from urls.py is (im at this page, using the comment system at /comment/ which should do a reverse to the display_story view (it works without problems when hardcoding the value attribute of the input html tag but not with the url function):
+~UPDATE~:~
+~I~'m~currently~using~django~1~.~6~.~
+~The~typo~in~the~second~snippet~has~been~corrected~.~
+~The~exact~line~from~urls~.~py~is~(~im~at~this~page~,~using~the~comment~system~at~/~comment~/~which~should~do~a~reverse~to~the~display_story~view~(~it~works~without~problems~when~hardcoding~the~value~attribute~of~the~input~html~tag~but~not~with~the~url~function~)~:~
 
-<code>url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story'),
+~url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story'),
 url(r'^comments/', include("django.contrib.comments.urls"))
-</code>
+~
 
-I have also tried the url function just on the application i have created without going through the comments application but i get the same problem.
+~I~have~also~tried~the~url~function~just~on~the~application~i~have~created~without~going~through~the~comments~application~but~i~get~the~same~problem~.~
 
-This is the error message:
+~This~is~the~error~message~:~
 
-<code>NoReverseMatch at /story/display/1/
+~NoReverseMatch at /story/display/1/
 Reverse for 'display_story' with arguments '(1,)' and keyword arguments '{}' not found.
-</code>
+~
 
-Even though i know that the view exists and takes one argument.
+~Even~though~i~know~that~the~view~exists~and~takes~one~argument~.~
 
-This is the html code:
+~This~is~the~html~code~:~
 
-<code>&lt;input type="hidden" name="next" value="{% url 'display_story' story_details.id %}"&gt;
-</code>
+~&lt;input type="hidden" name="next" value="{% url 'display_story' story_details.id %}"&gt;
+~
 
-I have named views with the name argument and i apply the namespace when necessary.
+~I~have~named~views~with~the~name~argument~and~i~apply~the~namespace~when~necessary~.~
 
-The django docs says:
-exception NoReverseMatch
-The NoReverseMatch exception is raised by django.core.urlresolvers when a matching URL in your URLconf cannot be identified based on the parameters supplied.
+~The~django~docs~says~:~
+~exception~NoReverseMatch~
+~The~NoReverseMatch~exception~is~raised~by~django~.~core~.~urlresolvers~when~a~matching~URL~in~your~URLconf~cannot~be~identified~based~on~the~parameters~supplied~.~
 
-but that doesnt seem to be the case.
+~but~that~doesnt~seem~to~be~the~case~.~
 
-This urls.py:
+~This~urls~.~py~:~
 
-<code>url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story')
-</code>
+~url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story')
+~
 
-should match this view code:
+~should~match~this~view~code~:~
 
-<code>def display_story(request, specific_story):
+~def display_story(request, specific_story):
     """ Display details for a specific story. """
     story_details = Story.objects.get(id=specific_story)
 
     return render(request, "base/story/display_story.html", {
                     'story_details': story_details,
         })
-</code>
+~
 
-but for some reason django doesnt think the parameter sent is the the one the function receives when it clearly is stated so in the code.
+~but~for~some~reason~django~doesnt~think~the~parameter~sent~is~the~the~one~the~function~receives~when~it~clearly~is~stated~so~in~the~code~.~
 
-Update 2:
-When giving a keyword argument instead of a positional argument i get this error:
+~Update~2~:~
+~When~giving~a~keyword~argument~instead~of~a~positional~argument~i~get~this~error~:~
 
-<code>NoReverseMatch at /story/display/1/
+~NoReverseMatch at /story/display/1/
 Reverse for 'display_story' with arguments '()' and keyword arguments '{u'specific_story': 1}' not found.
-</code>
+~
 
-This code is used:
+~This~code~is~used~:~
 
-<code>{% url 'display_story' specific_story=story_details.id %}
-</code>
+~{% url 'display_story' specific_story=story_details.id %}
+~
 
-Update 3:
-I will update the question with the values of the local vars for the reverse function.
+~Update~3~:~
+~I~will~update~the~question~with~the~values~of~the~local~vars~for~the~reverse~function~.~
 
-To add some additional infor i ran some code in the python shell:
+~To~add~some~additional~infor~i~ran~some~code~in~the~python~shell~:~
 
-<code>&gt;&gt;&gt; import base.views
+~&gt;&gt;&gt; import base.views
 &gt;&gt;&gt; from django.core.urlresolvers import reverse
 &gt;&gt;&gt;
 &gt;&gt;&gt; test=1
@@ -146,32 +146,32 @@ Traceback (most recent call last):
   File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 416, in _reverse_with_prefix
     "arguments '%s' not found." % (lookup_view_s, args, kwargs))
 NoReverseMatch: Reverse for 'display_story' with arguments '(1,)' and keyword arguments '{}' not found.
-</code>
-Don't worry about that message -- that's not an error -- from the output above, it looks like Bulbs is installed. Start up Rexster and and then try it out...
+~
+~Do~n't~worry~about~that~message~-~-~that~'s~not~an~error~-~-~from~the~output~above~,~it~looks~like~Bulbs~is~installed~.~Start~up~Rexster~and~and~then~try~it~out~.~.~.~
 
-<code>&gt;&gt;&gt; from bulbs.rexster import Graph
+~&gt;&gt;&gt; from bulbs.rexster import Graph
 &gt;&gt;&gt; g = Graph()
 &gt;&gt;&gt; james = g.vertices.create(name="James")
 &gt;&gt;&gt; julie = g.vertices.create(name="Julie")
 &gt;&gt;&gt; g.edges.create(james, "knows", julie)
-</code>
-Thanks to Brian's comment, I solved my issue.
-My call was rejected directly by Apache when the slash was encoded.
+~
+~Thanks~to~Brian~'s~comment~,~I~solved~my~issue~.~
+~My~call~was~rejected~directly~by~Apache~when~the~slash~was~encoded~.~
 
-I've added AllowEncodedSlashes Directive in my apache conf:
+~I~'ve~added~AllowEncodedSlashes~Directive~in~my~apache~conf~:~
 
-<code>AllowEncodedSlashes NoDecode
-</code>
+~AllowEncodedSlashes NoDecode
+~
 
-With the key encoded with :
+~With~the~key~encoded~with~:~
 
-<code>encodeURIComponent(key)
-</code>
+~encodeURIComponent(key)
+~
 
-It works.
-You should not use SSL to a <code>localhost</code> hostname connection. SSL + HTTPS use a certificate with your domain name, and use this to provide authentication.
+~It~works~.~
+~You~should~not~use~SSL~to~a~localhost~hostname~connection~.~SSL~+~HTTPS~use~a~certificate~with~your~domain~name~,~and~use~this~to~provide~authentication~.~
 
-Since you are connecting to <code>localhost</code>, your hostname (localhost) will not match the hostname on the certificate and you will receive a certificate error.
+~Since~you~are~connecting~to~localhost~,~your~hostname~(~localhost~)~will~not~match~the~hostname~on~the~certificate~and~you~will~receive~a~certificate~error~.~
 
 There are some ways to hack around this, but I would just non-SSL (regular HTTP) on your local machine, and then when you push to your server (with your proper domain name), you can enable SSL.
 I was asking myself the same question few times. And even though the guys here tried hard to explain it, IMHO the best answer (and simplest) answer I have found is the description of the Class method in the Python Documentation.
