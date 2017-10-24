@@ -1,0 +1,1250 @@
+<code>disc_list = []
+
+def create_list():
+    global disc_list
+
+    disc_list = ['disc0', 'disc1', 'disc2']
+
+def move_discs
+    cmds.move(disc_list[1], 0, 0, 5)
+</code>
+
+Note that using global variables is not encouraged.
+
+Returning list from <code>create_list()</code>:
+
+<code>def create_list():
+    return ['disc0', 'disc1', 'disc2']
+
+def move_discs():
+    disc_list = create_list()
+    cmds.move(disc_list[1], 0, 0, 5)
+</code>
+
+But I don't think this will of much help to you as you probably need to keep the state of your list throughout the program.
+I've visited the documenation at https://docs.djangoproject.com/en/1.6/ref/templates/builtins/#std:templatetag-url several times and i cant seem to get this syntax to work anywhere:
+
+<code>{% url 'view' obj.id %}
+</code>
+
+I have a view that takes one parameter so this should work but im only getting NoReverseMatch exception for some strange reason.
+
+When doing it like this:
+
+<code>{% url 'view' obj.id as test %}
+&lt;a href="{{ test }}"&gt;test&lt;/a&gt;
+</code>
+
+..im getting the correct url returned back and the link address displays correctly, but when using the above mentioned syntax without setting is as a variable it doesnt work, when i for example use it directly in an element.
+
+When trying to do this which im trying to do:
+
+<code>{% url 'view' obj.id as test %}
+&lt;input type="hidden" value="{{ test }}"&gt;
+</code>
+
+im not getting any error but it doesnt seem like im getting any value in the value field because if there were a value in the field the code would do something, and when replacing the variable with a hard-coded string it does work.
+
+When doing this:
+
+<code>{% url 'view' obj.id as test %}
+{{ test }}
+</code>
+
+just to try to print the value it doesnt return anything which i find strange because when using it with the a element in html as shown at the first code line above it displays the correct url.
+
+So basically, im only getting the {% url 'view' obj.id %} syntax to work with the a element of html and only if i define it as a variable.
+
+I would like to use the {% url 'view' obj.id %} syntax in order to have a DRY code. According to the documenation this should work, does anyone have a clue about why this isnt working ? If you need more information then please let me know and i will update the question with the necessary information.
+
+UPDATE:
+I'm currently using django 1.6.
+The typo in the second snippet has been corrected.
+The exact line from urls.py is (im at this page, using the comment system at /comment/ which should do a reverse to the display_story view (it works without problems when hardcoding the value attribute of the input html tag but not with the url function):
+
+<code>url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story'),
+url(r'^comments/', include("django.contrib.comments.urls"))
+</code>
+
+I have also tried the url function just on the application i have created without going through the comments application but i get the same problem.
+
+This is the error message:
+
+<code>NoReverseMatch at /story/display/1/
+Reverse for 'display_story' with arguments '(1,)' and keyword arguments '{}' not found.
+</code>
+
+Even though i know that the view exists and takes one argument.
+
+This is the html code:
+
+<code>&lt;input type="hidden" name="next" value="{% url 'display_story' story_details.id %}"&gt;
+</code>
+
+I have named views with the name argument and i apply the namespace when necessary.
+
+The django docs says:
+exception NoReverseMatch
+The NoReverseMatch exception is raised by django.core.urlresolvers when a matching URL in your URLconf cannot be identified based on the parameters supplied.
+
+but that doesnt seem to be the case.
+
+This urls.py:
+
+<code>url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story')
+</code>
+
+should match this view code:
+
+<code>def display_story(request, specific_story):
+    """ Display details for a specific story. """
+    story_details = Story.objects.get(id=specific_story)
+
+    return render(request, "base/story/display_story.html", {
+                    'story_details': story_details,
+        })
+</code>
+
+but for some reason django doesnt think the parameter sent is the the one the function receives when it clearly is stated so in the code.
+
+Update 2:
+When giving a keyword argument instead of a positional argument i get this error:
+
+<code>NoReverseMatch at /story/display/1/
+Reverse for 'display_story' with arguments '()' and keyword arguments '{u'specific_story': 1}' not found.
+</code>
+
+This code is used:
+
+<code>{% url 'display_story' specific_story=story_details.id %}
+</code>
+
+Update 3:
+I will update the question with the values of the local vars for the reverse function.
+
+To add some additional infor i ran some code in the python shell:
+
+<code>&gt;&gt;&gt; import base.views
+&gt;&gt;&gt; from django.core.urlresolvers import reverse
+&gt;&gt;&gt;
+&gt;&gt;&gt; test=1
+&gt;&gt;&gt; reverse("display_story", kwargs={'test': test})
+Traceback (most recent call last):
+  File "&lt;console&gt;", line 1, in &lt;module&gt;
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 496, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 416, in _reverse_with_prefix
+    "arguments '%s' not found." % (lookup_view_s, args, kwargs))
+NoReverseMatch: Reverse for 'display_story' with arguments '()' and keyword arguments '{'test': 1}' not found.
+&gt;&gt;&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; reverse("display_story", args=[1])
+Traceback (most recent call last):
+  File "&lt;console&gt;", line 1, in &lt;module&gt;
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 496, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 416, in _reverse_with_prefix
+    "arguments '%s' not found." % (lookup_view_s, args, kwargs))
+NoReverseMatch: Reverse for 'display_story' with arguments '(1,)' and keyword arguments '{}' not found.
+</code>
+Don't worry about that message -- that's not an error -- from the output above, it looks like Bulbs is installed. Start up Rexster and and then try it out...
+
+<code>&gt;&gt;&gt; from bulbs.rexster import Graph
+&gt;&gt;&gt; g = Graph()
+&gt;&gt;&gt; james = g.vertices.create(name="James")
+&gt;&gt;&gt; julie = g.vertices.create(name="Julie")
+&gt;&gt;&gt; g.edges.create(james, "knows", julie)
+</code>
+Thanks to Brian's comment, I solved my issue.
+My call was rejected directly by Apache when the slash was encoded.
+
+I've added AllowEncodedSlashes Directive in my apache conf:
+
+<code>AllowEncodedSlashes NoDecode
+</code>
+
+With the key encoded with :
+
+<code>encodeURIComponent(key)
+</code>
+
+It works.
+You should not use SSL to a <code>localhost</code> hostname connection. SSL + HTTPS use a certificate with your domain name, and use this to provide authentication.
+
+Since you are connecting to <code>localhost</code>, your hostname (localhost) will not match the hostname on the certificate and you will receive a certificate error.
+
+There are some ways to hack around this, but I would just non-SSL (regular HTTP) on your local machine, and then when you push to your server (with your proper domain name), you can enable SSL.
+I was asking myself the same question few times. And even though the guys here tried hard to explain it, IMHO the best answer (and simplest) answer I have found is the description of the Class method in the Python Documentation.
+
+There is also reference to the Static method. And in case someone already know instance methods (which I assume), this answer might be the final piece to put it all together...
+
+Further and deeper elaboration on this topic can be found also in the documentation:
+The standard type hierarchy (scroll down to Instance methods section)
+I am using django 1.8, and REST 3.0 with an angular frontend.
+
+I had set unique_together on the meta class for two fields on my model.
+It did not work well because it would not allow for multiple cases where field1 and field2 were null. 
+I need these fields to be both optional
+or if one has a value then the other must have a value as well.
+Together, they should be unique (unique_together)
+
+What I have so far is ridiculous and ugly. I do not know how to write it any better or more efficiently, but would love to learn how to do this in a more Pythonic way.
+
+<code>data = json.loads(request.body)
+#field1 and field2 are nested in an array that is only POSTed if it exists. 
+
+if 'key' in 'data':
+    field1 = data[key].get(field1,"")
+    field2 = data[key].get(field2,"")
+
+elif 'key' not in 'data':
+   field1 = "" 
+   field2 = ""
+
+if field1=="" and field2=="":
+   field1 = None
+   field2 = None
+
+elif (field1 == "") and (field2 != ""):
+   data.errors += 'You added field 2 but did not add field 1.'
+
+elif (field1 !="") and (field2 ==""):
+   data.errors += 'You added field 1 but did not add field 2.'
+
+elif (field1 = "") and (country_code!=""):
+   try:
+       field1Db = [model].objects.get(field1=field1)
+   except [model].DoesNotExist:
+       valid_field1 = True
+   else:
+       if field1Db and ((field1Db.field2)) == (field2):
+       data.errors += Field 1 + 'and' + Field 2 + 'should form a unique set if both are submitted.'
+else:
+   data.errors = False
+   data.success = True
+   return Response(data)
+</code>
+
+It seems to work, just ugly.
+
+After this, I send data to a serializer.
+Anyway, If anyone knows how to do this more effectively, I would really be appreciative to learn how. Thank you.
+So I'd like to open chrome with its default profile using pythons webdriver. I've tried everything I could find but I still couldn't get it to work. Thanks for the help!
+Provided you have the name in a variable, you could do the following:
+
+<code>#defining a name ...
+name = 'Bill Joe'
+if name.isalpha():
+    #do what you want ...
+else:
+    #return or print an error ...
+</code>
+
+You should look through 
+
+https://docs.python.org/3/library/stdtypes.html?highlight=isalpha#str.isalpha
+I think you should drop the "analog=True" from your call to scipy.signal.butter and use the default digital filter. When I did this with your data, it worked pretty well.
+
+From the docs:
+
+
+  A scalar or length-2 sequence giving the critical frequencies. For a
+  Butterworth filter, this is the point at which the gain drops to
+  1/sqrt(2) that of the passband (the “-3 dB point”). For digital
+  filters, Wn is normalized from 0 to 1, where 1 is the Nyquist
+  frequency, pi radians/sample. (Wn is thus in half-cycles / sample.)
+  For analog filters, Wn is an angular frequency (e.g. rad/s).
+
+
+Because you requested an analog filter, you shouldn't have normalized the start and stop frequencies to the nyquist rate. That's only appropriate for a digital filter.
+
+Is there a reason you want to use an analog filter here? I always use digital filters.
+
+Also, consider using <code>scipy.signal.filtfilt</code> instead of <code>scipy.signal.lfilter</code>. Refs:
+
+How To apply a filter to a signal in python
+
+https://dsp.stackexchange.com/questions/19084/applying-filter-in-scipy-signal-use-lfilter-or-filtfilt
+I have a pandas data frame with a column that represents dates as:
+
+<code>Name: ts_placed, Length: 13631, dtype: datetime64[ns]
+</code>
+
+It looks like this:
+
+<code>0    2014-10-18 16:53:00
+1    2014-10-27 11:57:00
+2    2014-10-27 11:57:00
+3    2014-10-08 16:35:00
+4    2014-10-24 16:36:00
+5    2014-11-06 15:34:00
+6    2014-11-11 10:30:00
+....
+</code>
+
+I know how to group it in general using the function:
+
+<code>grouped = data.groupby('ts_placed')
+</code>
+
+What I want to do is to use the same function but to group the rows by week.
+In Dockerfile I use:
+
+<code>EXPOSE 8888
+</code>
+
+So, I run the container:
+
+<code>docker run --name some-app --link some-redis:redis -d app
+</code>
+
+In output I have this string:
+
+<code>c980349b5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
+</code>
+
+Then I want to know the ip, that I can connect from browser:
+
+<code>docker inspect --format '{{ .NetworkSettings.IPAddress }}' c980349b
+5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
+</code>
+
+It returns 172.17.0.20
+
+I go to web-brouser and on page <code>http://172.17.0.20:8888</code>, but I have in Chrome 
+
+<code>ERR_CONNECTION_TIMED_OUT
+</code>
+
+Whats the problem and how to fix that?
+
+Thanks!
+
+UPDATE
+
+Dockerfile:
+
+<code>FROM python:3.4.3-slim
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY app.py /usr/src/app/
+COPY requirements.txt /usr/src/app/
+RUN pip install -r requirements.txt
+CMD [ "python", "./app.py" ]
+EXPOSE 8888
+</code>
+
+When I use:
+
+<code>docker exec -it some-app bash
+netstat -tulnp | grep 8888
+</code>
+
+It returned:
+
+<code>bash: netstat: command not found
+</code>
+
+And
+
+<code>docker logs some-app
+</code>
+
+Returns nothing
+I have been playing with various interpolation techniques - and particularly like the varieties shown in the youtube video 
+https://www.youtube.com/watch?v=_cJLVhdj0j4
+
+However, the scatter module plots the points in the wrong location. I have transposed them below (Example 5) to make it work, but this does not work if the area of interest is not centred on the origin (Test_Rbf).
+
+Am I mis-understanding something fundamental, or is this a problem in the pylab scatter module?
+
+<code># Example 5 
+#
+# https://www.youtube.com/watch?v=_cJLVhdj0j4
+
+import numpy as np
+from scipy import interpolate
+import pylab as py
+
+def func(x,y):
+return (x+y)*np.cos(-5.0*x + 4.0*y)
+
+x = np.random.uniform(-1.0, 1.0,size=50)
+y = np.random.uniform(-1.0, 1.0,size=50)
+fvals = func(x,y)
+
+newfunc = interpolate.Rbf(x, y, fvals, function='multiquadric')
+xnew, ynew = np.mgrid[-1:1:100j, -1:1:100j]
+
+fnew = newfunc(xnew, ynew)
+true = func(xnew, ynew)
+
+py.figure()
+py.clf()
+py.imshow( fnew, extent=[-1,1,-1,1], cmap=py.cm.jet)
+# py.scatter( x, y, 30, fvals, cmap=py.cm.jet)
+py.scatter( y, -x, 30, fvals, cmap=py.cm.jet)
+
+py.show()
+
+from enthought.mayavi import mlab
+
+mlab.clf()
+mlab.surf(xnew, ynew, fnew*2)
+</code>
+I want to run the following script from python:
+
+<code>temp=$(sky2xy image.fits 124.6456 -2.5517); arr=(${temp// / });
+</code>
+
+For that I am using the <code>os.system()</code> module:
+
+<code>import os
+os.system('temp=$(sky2xy image.fits 124.6456 -2.5517); arr=(${temp// / });')
+</code>
+
+But I am getting an unexpected syntax error
+
+
+  sh: 1: Syntax error: "(" unexpected
+  512
+
+
+The error is due to the parenthesis used in <code>arr=(${temp// / })</code>
+
+How should I get rid of this error?
+There are at least two key things you can rely on: the container box with <code>id="lclbox"</code> and elements with <code>class="intrlu"</code> corresponding to each result item.
+
+How to extract the address and a phone number from each result item can vary, here is one option (definitely, not beautiful) involving locating the phone number via regex check of each <code>span</code> element text:
+
+<code>import re
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+
+
+driver = webdriver.Chrome()
+driver.get('https://www.google.com/?gws_rd=ssl#q=plumbers%2Bhouston%2Btx')
+
+# waiting for results to load
+wait = WebDriverWait(driver, 10)
+box = wait.until(EC.visibility_of_element_located((By.ID, "lclbox")))
+
+phone_re = re.compile(r"\(\d{3}\) \d{3}-\d{4}")
+
+for result in box.find_elements_by_class_name("intrlu"):
+    for span in result.find_elements_by_tag_name("span"):
+        if phone_re.search(span.text):
+            parent = span.find_element_by_xpath("../..")
+            print parent.text
+            break
+    print "-----"
+</code>
+
+I'm pretty sure it can be improved, but hope it would give you a starting point. Prints:
+
+<code>Houston, TX
+(713) 812-7070
+-----
+Houston, TX
+(713) 472-5554
+-----
+6646 Satsuma Dr
+Houston, TX
+(713) 896-9700
+-----
+1420 N Durham Dr
+Houston, TX
+(713) 868-9907
+-----
+5630 Edgemoor Dr
+Houston, TX
+(713) 665-5890
+-----
+5403 Kirby Dr
+Houston, TX
+(713) 224-3747
+-----
+Houston, TX
+(713) 385-0349
+-----
+</code>
+Programming language: Python 3.4
+
+I have written a program for the Bioinformatics 1 course from Coursera. The program is working all right, but is very slow for large datasets. I guess, it is because the loop is running for 4**k times, where k is the length of the sub-string that is passed into the function.
+Input: Strings Text and Pattern along with an integer d.
+Output: All starting positions where Pattern appears as a substring of Text with at most d mismatches.
+
+This is my code:
+
+<code>def MotifCount(string1, substring, d):
+    k = 4 ** (len(substring))
+    codeArray = list(itertools.product(['A', 'C', 'G', 'T'], repeat=len(substring)))
+    for i in range(k):
+        codeArray2 = ''.join(list(codeArray[i]))
+        HammingValue = HammingDistance(codeArray2, substring)
+        if HammingValue &lt;= d:
+            for j in range(len(string1)):
+                if(string1.find(codeArray2, j) == j):
+                    print(j)
+
+
+
+def HammingDistance(string_1, string_2):
+    length_1 = len(string_1)
+    length_2 = len(string_2)
+    count = 0
+    for i in range(length_1):
+        if string_1[i] != string_2[i]:
+            count += 1
+    return count
+</code>
+
+Sample Input:
+
+<code>CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAAT
+ATTCTGGA
+3
+</code>
+
+Output:
+
+<code>6 7 26 27
+</code>
+
+I want to optimize this code for bigger data sets. Is there any way to reduce the run time of the code?
+Try to read the info thrown by the python interpreter:
+
+<code>Traceback (most recent call last):
+  File "prog.py", line 17, in &lt;module&gt;
+NameError: name 'i' is not defined
+</code>
+
+The line number where the error happens (17) and the type of error ('i' is not defined) appears clearly i the traceback.
+Can't figure it out how upload the file there? It needs to be drag and dropped or just selected via dialog box
+Try to use different tags in Angular so that they don't conflict with those for Flask:
+
+<code>app.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('&lt;%');
+    $interpolateProvider.endSymbol('%&gt;');
+});
+</code>
+
+and then in template:
+
+<code>&lt;% Person.name %&gt; &lt;% Person.number %&gt;
+</code>
+
+Check $interpolateProvider for details.
+Here is the code that does as you asked:
+
+<code>import os
+
+def rootdir(x):
+     for paths, dirs, files in os.walk(x):
+         for filename in files:
+             try:
+                 f=open(os.path.join(dirpath, name), 'w')
+                 f.write('new content here')
+                 f.close()
+             except Exception, e:
+                print "Could not open " + filename
+
+rootdir("/Users/xrisk/Desktop")
+</code>
+
+However, I have a feeling you don’t quite understand what’s happening here (no offence). First have a look at the documentation of <code>os.walk</code> provided by @mescalinum . The third tuple element <code>files</code> will contain only the file name. You need to combine it with <code>paths</code> to get a full path to the file. 
+
+Also, you don’t need to read the file first to write to it. On the other hand, if you want to append to the file, you should use the mode 'a' when opening the file
+
+In general, when reading/writing a file, you only close it after finishing all the read/writes. Otherwise you will get an exception.
+
+Thanks @mescalinum
+Let's say that I have a code like:
+
+<code>{% for x in posts %}
+   &lt;p&gt;We are in item: {{ x }}&lt;/&gt;
+{% else %}
+</code>
+
+And I want to get the current index of the for loop to run an if loop, something like(logically):
+
+<code>{% for x in posts %}
+ {% if x.index = 0 %}
+   &lt;p&gt;We are in the first item!&lt;/p&gt;
+ {% else %}
+   &lt;p&gt;We are in item: {{ x }}&lt;/&gt;
+ {% endif %}
+{% endfor %}
+</code>
+
+How to do it inside jijna2? (I use Python with Flask).
+I did use <code>re.findall</code>
+
+<code>x = re.findall(r'(?&lt;=x)\d+|\d+(?=x)', s)
+</code>
+
+Then get the first element by specifying the first index like <code>x[0]</code> . You won't get <code>None</code> value.
+
+or
+
+You may also use <code>re.search</code> function without capturing groups.
+
+<code>re.search(r'(?&lt;=x)\d+|\d+(?=x)', s).group()
+</code>
+
+I think you want tjis,
+
+<code>&gt;&gt;&gt; import re
+&gt;&gt;&gt; s = "Boost LevDAX 3x Daily ETP"
+&gt;&gt;&gt; re.sub(r'\d+(?=x)|(?&lt;=x)\d+', r'+\g&lt;0&gt;00', s)
+'Boost LevDAX +300x Daily ETP'
+</code>
+
+OR
+
+<code>&gt;&gt;&gt; s = "Boost LevDAX 3x Daily ETP"
+&gt;&gt;&gt; re.sub(r'(\d+)x|x(\d+)', lambda m: '+'+m.group(1)+'00' if m.group(1) else '+' + m.group(2) + '00', s)
+'Boost LevDAX +300 Daily ETP'
+&gt;&gt;&gt; s = "ComStage LevDAX x2 UCITS ETF"
+&gt;&gt;&gt; re.sub(r'(\d+)x|x(\d+)', lambda m: '+'+m.group(1)+'00' if m.group(1) else '+' + m.group(2) + '00', s)
+'ComStage LevDAX +200 UCITS ETF'
+</code>
+
+According to your comment, there is only one <code>nox</code> or <code>xno</code> present in your input strings. If yes, then you may try this,
+
+<code>&gt;&gt;&gt; s = "ComStage LevDAX x2 UCITS ETF"
+&gt;&gt;&gt; fundleverage = re.sub(r'.*(?:(\d+)x|x(\d+)).*', lambda m: '+'+m.group(1)+'00' if m.group(1) else '+' + m.group(2) + '00', s)
+&gt;&gt;&gt; print fundleverage
+</code>
+In my opinion, simultaneously reading and modifying a file is a bad thing to do. Consider using something like this. First read the file, make modifications, and then overwrite the file completely.
+
+<code>def modify(path):
+    out = []
+    f = open(path)
+    for line in f:
+        if some_condition:
+            out.append(edited_line) #make sure it has a \n at the end
+        else:
+            out.append(original_line)
+    f.close()
+    with open(path,'w') as f:
+        for line in out:
+            f.write(line)
+</code>
+I have 2 tkinter programs. The main program will have button to open the second program. The problem is when i try to close the child program, the main program is closed instead. I close the second program with command <code>app.destroy()</code>.
+How to fix this?
+Thanks in advance.
+
+All of the programs have this script
+
+<code>from Tkinter import *
+import Tkinter as tk
+import os
+
+class SeaofBTCapp(tk.Tk):
+
+    def __init__(self,*args,**kwargs):
+
+        tk.Tk.__init__(self)
+        container = tk.Frame(self, background="black")
+        container.pack(side="top", fill="both", expand = True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+
+
+        self.frames = {}
+
+        for F in (StartPage, PageCheck, PageUpdate, PageDigital, PageAnalog,
+                  PageResult, PageHasil):
+
+            frame = F(container, self)
+
+            self.frames[F] = frame
+
+            ##self.overrideredirect(1)
+
+            self.geometry("800x480")
+            self.title("IC Checker")
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, cont):
+
+        frame = self.frames[cont]
+        frame.tkraise()
+
+##frame class
+
+app = SeaofBTCapp()
+app.mainloop()
+</code>
+Python looks for local variables in functions at compile time. There is only one scope per function. So <code>global_var2</code> is local, because it is defined as local variable in the last line of the function.
+This code is not tested, it is likely to include syntax errors. It's just for you to get an idea of how to get started. It's also not efficient because I don't know exactly what information you want to get. I'm iteration over the excel sheet multiple times, if you really want to get the information of all customers everytime, it would be more efficient to read all customers into memory before iterating over the excel sheet.
+
+First some modules we will use.
+
+<code>import re
+</code>
+
+You already managed to read the excel file so I will start with the loop that iterates over the customers. You can use the os.listdir function to do so.
+
+<code>customer_folder = "path/to/customer/folder"
+for file in os.listdir(customer_folder):
+</code>
+
+Now we have a loop that iterates over the customer files. Let's print which customer we are looking at at the momemnt and check if the file name is of the expected format.
+
+<code>    match = re.match("By_Customer_Id_([0-9]+)\.txt", file)
+    if match:
+        print("Looking at customer id '{0}':".format(match.group[1]))
+</code>
+
+Now we have to open the file, so we can make a list of all order id numbers of a customer.
+
+<code>        with open(os.path.join(customer_folder, file) as customer:
+            customer_idnos = [order.split(",")[0] for order in customer]
+</code>
+
+Let's iterate over the elements in the excel document so we can get information from them. We first create a dict where we save our informations later.
+
+<code>            sites = {}
+            for _, row in df.iterrows():
+                if row["order_idno"] in customer_idnos:
+</code>
+
+If the ordner id number we are looking at is in the order id numbers of the customer we are looking at we get our information.
+
+<code>                    if not row["sitename"] in sites:
+                        sites[row["sitename"]] = []
+                    sites[row["sitename"]].append(row["ts_placed"])
+</code>
+
+Let's print our informations.
+
+<code>            for site, weeks in sites:
+                print("    Site '{0}' visited {1} time(s):".format(
+                                 site,        len(weeks)))
+                for week in weeks:
+                    print("        In week {0}".format(week))
+</code>
+I would do it with OrderedDict , this way:
+
+<code>from collections import OrderedDict
+
+d = OrderedDict()
+with open('1.txt', 'r') as f:
+    for line in f:
+        a,b = line.strip().split()
+        print a,b
+        if a not in d:
+            d[a] = [b]
+        else:
+            d[a].append(b)
+print d
+</code>
+
+Output:
+
+<code>OrderedDict([('D000001', ['T109', 'T109', 'T195']), ('D000002', ['T115', 'T115', 'T131']), ('D000003', ['T073', 'T073']), ('D000004', ['T170', 'T170', 'T175', 'T180'])])
+</code>
+<code># simple case alternative
+
+some_value = 5.0
+
+# this while loop block simulates a case block
+
+# case
+while True:
+
+    # case 1
+    if some_value &gt; 5:
+        print ('Greater than five')
+        break
+
+    # case 2
+    if some_value == 5:
+        print ('Equal to five')
+        break
+
+    # else case 3
+    print ( 'Must be less than 5')
+    break
+</code>
+I wrote a decorator which you can use on any method to make it so that all of the arguments passed in, or any defaults, are assigned to the instance.
+
+<code>def argumentsToAttributes(method):
+    argumentNames = method.func_code.co_varnames[1:]
+
+    # Generate a dictionary of default values:
+    defaultsDict = {}
+    defaults = method.func_defaults if method.func_defaults else ()
+    for i, default in enumerate(defaults, start = len(argumentNames) - len(defaults)):
+        defaultsDict[argumentNames[i]] = default
+
+    def newMethod(self, *args, **kwargs):
+        # Use the positional arguments.
+        for name, value in zip(argumentNames, args):
+            setattr(self, name, value)
+
+        # Add the key word arguments. If anything is missing, use the default.
+        for name in argumentNames[len(args):]:
+            setattr(self, name, kwargs.get(name, defaultsDict[name]))
+
+        # Run whatever else the method needs to do.
+        method(self, *args, **kwargs)
+
+    return newMethod
+</code>
+
+A quick demonstration. Note that I use a positional argument <code>a</code>, use the default value for <code>b</code>, and a named argument <code>c</code>. I then print all 3 referencing <code>self</code>, to show that they've been properly assigned before the method is entered.
+
+<code>class A(object):
+    @argumentsToAttributes
+    def __init__(self, a, b = 'Invisible', c = 'Hello'):
+        print(self.a)
+        print(self.b)
+        print(self.c)
+
+A('Why', c = 'Nothing')
+</code>
+
+Note that my decorator should work with any method, not just <code>__init__</code>.
+While there are suggestions above for "doing it the python way", if one wants to really have a logic based on EOF, then I suppose using exception handling is the way to do it -- 
+
+<code>try:
+    line = raw_input()
+    ... whatever needs to be done incase of no EOF ...
+except EOFError:
+    ... whatever needs to be done incase of EOF ...
+</code>
+
+Example:
+
+<code>$ echo test | python -c "while True: print raw_input()"
+test
+Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt; 
+EOFError: EOF when reading a line
+</code>
+
+Or press Ctrl-Z at a <code>raw_input()</code> prompt (Windows, Ctrl-Z Linux)
+If you want to list part of your attributes, override <code>__dict__</code>:
+
+<code>def __dict__(self):
+    d = {
+    'attr_1' : self.attr_1,
+    ...
+    }
+    return d
+
+# Call __dict__
+d = instance.__dict__()
+</code>
+
+This helps a lot if your <code>instance</code> get some large block data and you want to push <code>d</code> to Redis like message queue. 
+For echo Server :
+
+HTML :
+
+<code>&lt;html&gt;
+ &lt;head&gt;
+
+ &lt;script&gt;
+function validateLogin()
+{
+var username = document.getElementById("username").value;
+var password = document.getElementById("password").value;
+
+if (username.length &lt;= 0 || password.length &lt;= 0)
+  {
+  document.alert("The username or password cannot be blank");
+  return;
+  }
+
+var xmlhttp;
+
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+  } else {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)
+        {
+            document.getElementById("resultText").innerHTML=xmlhttp.responseText;
+        }else if (xmlhttp.readyState==4) {
+            document.write(xmlhttp.status + xmlhttp.statusText);
+        }
+}
+
+xmlhttp.open("POST","../post_test.py",true);
+xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded; charset=UTF-8')
+xmlhttp.send("username=" + username + "&amp;password=" + password);
+}
+&lt;/script&gt;
+ &lt;/head&gt;
+
+
+
+
+ &lt;body&gt;
+
+
+&lt;form name="login" &gt;
+Username:&lt;input type="text"  id="username"&gt;&lt;br&gt;
+Password:&lt;input type="text"  id="password"&gt;&lt;br&gt;
+Confirm password:&lt;input type="text"  id="repassword"&gt;&lt;br&gt;
+
+&lt;/form&gt;
+&lt;button onclick="validateLogin()"&gt;Login&lt;/button&gt;
+&lt;span id="resultText"&gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code>
+
+CGI-SCRIPT:
+
+<code>#!/usr/bin/python2.7
+
+import cgi
+
+
+form = cgi.FieldStorage()
+print "Content-Type: text/html;charset=utf-8"
+print "Access-Control-Allow-Origin:*"
+print
+print form
+</code>
+
+Replace input type <code>password</code> to <code>text</code> because got security bugs !
+
+Yo got wrong answer on cgi script. Who know service is live ? So need some type, status, header, content..
+
+Check post address : <code>..//</code> mean <code>currient_uri + new_path + target</code>
+
+On javascript: Call by ID but where ID parameter ?
+I can suggest you to use the plibsys C library. It is very simple, lightweight and cross-platform. Released under the LGPL. It provides:
+
+
+named system-wide shared memory regions (System V, POSIX and Windows implementations);
+named system-wide semaphores for access synchronization (System V, POSIX and Windows implementations);
+named system-wide shared buffer implementation based on the shared memory and semaphore;
+sockets (TCP, UDP, SCTP) with IPv4 and IPv6 support (UNIX and Windows implementations).
+
+
+It is easy to use library with quite a good documentation. As it is written in C you can easily make bindings from scripting languages.
+
+If you need to pass large data sets between processes (especially if speed is essential) it is better to use shared memory to pass the data itself and sockets to notify a process that the data is ready. You can make it as following:
+
+
+a process puts the data into a shared memory segment and sends a notification via a socket to another process; as a notification usually is very small the time overhead is minimal;
+another process receives the notification and reads the data from the shared memory segment; after that it sends a notification that the data was read back to the first process so it can feed more data.
+
+
+This approach can be implemented in a cross-platform fashion.
+Life is too short, just use <code>pandas</code>
+
+<code>import pandas as pd
+df.to_csv('output.csv', sep='|')
+</code>
+
+By default, the delimiator is <code>','</code>, that is why it is called Commasv. But by changing the <code>sep</code> to <code>'|'</code>, you could simply achieve what you want.
+You can use not in, like this: <code>X[i+1] not in group[j]</code>
+
+Secondly, your algorithm seems overly complicated. What something like this?
+
+<code>A = [[0,1], [0,2], [0,3], [1,1], [2,1], [3,2], [3,3], [4,2], [4,3], [5,3], [6,3]]
+point, label = A[0]
+cuts = []
+for npoint, nlabel in A[1:]:
+  if not npoint == point:
+     if not label == nlabel:
+       cuts.append((point+npoint)/2.)
+  point = npoint
+  label = nlabel
+</code>
+If you need them to be in separate threads then a Timer object or as a commenter pointed out APScheduler. If you want to do the threading manually you could also use sched. They added support for threads in version 3.3. Docs
+I have looked for <code>django</code> doc in their official site but i can't find the article about the <code>on_update</code> model function here in Related objects reference except for <code>on_delete</code>.
+
+Here is an example code:
+
+<code>from django.db import models
+
+class Reporter(models.Model):
+    # ...
+    pass
+
+class Article(models.Model):
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+</code>
+
+Is there any version of <code>on_update</code>?
+
+I have visited this Cascade on update and delete wih django but there is not a clear answer about the <code>on_update</code> 
+
+I am using <code>mysql</code> and define the relationship in the <code>ERD</code> and sync it to the db and tried running the <code>python manage.py inspectdb</code> to generate the <code>django-model</code> but it shows only <code>models.DO_NOTHING</code>.
+
+Is there a better way to achieve this, if any?
+You can use:
+
+<code>f, ((ax1, ax2, ax3),(ax4, ax5, ax6)) = plt.subplots(2, 3)
+</code>
+
+or:
+
+<code>f, axarray = plt.subplots(2, 3)
+</code>
+Consider a sum of <code>n</code> squared iid normal random variables <code>S = sum (Z^2(mu, sig^2))</code>.  According to this question, <code>S / sig^2</code> has a noncentral chi-squared distribution with degrees of freedom = <code>n</code> and non-centrality parameter = <code>n*mu^2</code>.
+
+However, compare generating <code>N</code> of these variables <code>S</code> by summing squared normals with generating <code>N</code> noncentral chi-squared random variables directly using <code>scipy.ncx2</code>:
+
+<code>import numpy as np
+from scipy.stats import ncx2, chi2
+import matplotlib.pyplot as plt
+
+n = 1000  # number of normals in sum
+N_MC = 100000  # number of trials
+
+mu = 0.05
+sig = 0.3
+
+### Generate sums of squared normals ###
+Z = np.random.normal(loc=mu, scale=sig, size=(N_MC, n))
+S = np.sum(Z**2, axis=1)
+
+### Generate non-central chi2 RVs directly ###
+dof = n
+non_centrality = n*mu**2
+NCX2 = sig**2 * ncx2.rvs(dof, non_centrality, size=N_MC)
+# NCX2 = sig**2 * chi2.rvs(dof, size=N_MC)  # for mu = 0.0
+
+### Plot histos ###
+fig, ax = plt.subplots()
+ax.hist(S, bins=50, label='S')
+ax.hist(NCX2, bins=50, label='NCX2', alpha=0.7)
+ax.legend()
+plt.show()
+</code>
+
+This results in the histograms
+
+
+I believe the mathematics is correct; could the discrepancy be a bug in the <code>ncx2</code> implementation?  Setting <code>mu = 0</code> and using <code>scipy.chi2</code> looks much better:
+
+I don't think there's any way of avoiding having to explictly convert the byte strings into unicode strings with the <code>csv</code> module in Python 3. In Python 2, they're implicitly converted to ASCII. 
+
+To make this easier you could effectively subclass <code>csv.writer</code> (or wrap) objects as shown below, which will make the process more convenient.
+
+<code>import csv
+
+class MyCsvWriter(object):
+    def __init__(self, *args, **kwrds):
+        self.csv_writer = csv.writer(*args, **kwrds)
+
+    def __getattr__(self, name):
+        return getattr(self.csv_writer, name)
+
+    def writerow(self, row):
+        self.csv_writer.writerow(
+            str(v, encoding='utf-8') if isinstance(v, bytes) else v for v in row)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
+
+with open('bytes_test.csv', 'w', newline='') as file:
+    writer = MyCsvWriter(file)
+    writer.writerow([u'hello', b'world'])
+</code>
+Dlib has a really handy, fast and efficient object detection routine, and I wanted to make a cool face tracking example similar to the example here.
+
+OpenCV, which is widely supported, has VideoCapture module that is fairly quick (a fifth of a second to snapshot compared with 1 second or more for calling up some program that wakes up the webcam and fetches a picture). I added this to the face detector Python example in Dlib.
+
+If you directly show and process the OpenCV VideoCapture output it looks odd because apparently OpenCV stores BGR instead of RGB order. After adjusting this, it works, but slowly:
+
+<code>from __future__ import division
+import sys
+
+import dlib
+from skimage import io
+
+
+detector = dlib.get_frontal_face_detector()
+win = dlib.image_window()
+
+if len( sys.argv[1:] ) == 0:
+    from cv2 import VideoCapture
+    from time import time
+
+    cam = VideoCapture(0)  #set the port of the camera as before
+
+    while True:
+        start = time()
+        retval, image = cam.read() #return a True bolean and and the image if all go right
+
+        for row in image:
+            for px in row:
+                #rgb expected... but the array is bgr?
+                r = px[2]
+                px[2] = px[0]
+                px[0] = r
+        #import matplotlib.pyplot as plt
+        #plt.imshow(image)
+        #plt.show()
+
+        print( "readimage: " + str( time() - start ) )
+
+        start = time()
+        dets = detector(image, 1)
+        print "your faces: %f" % len(dets)
+        for i, d in enumerate( dets ):
+            print("Detection {}: Left: {} Top: {} Right: {} Bottom: {}".format(
+                i, d.left(), d.top(), d.right(), d.bottom()))
+            print("from left: {}".format( ( (d.left() + d.right()) / 2 ) / len(image[0]) ))
+            print("from top: {}".format( ( (d.top() + d.bottom()) / 2 ) /len(image)) )
+        print( "process: " + str( time() - start ) )
+
+        start = time()
+        win.clear_overlay()
+        win.set_image(image)
+        win.add_overlay(dets)
+
+        print( "show: " + str( time() - start ) )
+        #dlib.hit_enter_to_continue()
+
+
+
+for f in sys.argv[1:]:
+    print("Processing file: {}".format(f))
+    img = io.imread(f)
+    # The 1 in the second argument indicates that we should upsample the image
+    # 1 time.  This will make everything bigger and allow us to detect more
+    # faces.
+    dets = detector(img, 1)
+    print("Number of faces detected: {}".format(len(dets)))
+    for i, d in enumerate(dets):
+        print("Detection {}: Left: {} Top: {} Right: {} Bottom: {}".format(
+            i, d.left(), d.top(), d.right(), d.bottom()))
+
+    win.clear_overlay()
+    win.set_image(img)
+    win.add_overlay(dets)
+    dlib.hit_enter_to_continue()
+
+
+# Finally, if you really want to you can ask the detector to tell you the score
+# for each detection.  The score is bigger for more confident detections.
+# Also, the idx tells you which of the face sub-detectors matched.  This can be
+# used to broadly identify faces in different orientations.
+if (len(sys.argv[1:]) &gt; 0):
+    img = io.imread(sys.argv[1])
+    dets, scores, idx = detector.run(img, 1)
+    for i, d in enumerate(dets):
+        print("Detection {}, score: {}, face_type:{}".format(
+            d, scores[i], idx[i]))
+</code>
+
+From the output of the timings in this program, it seems processing and grabbing the picture are each taking a fifth of a second, so you would think it should show one or 2 updates per second - however, if you raise your hand it shows in the webcam view after 5 seconds or so!
+
+Is there some sort of internal cache keeping it from grabbing the latest webcam image? Could I adjust or multi-thread the webcam input process to fix the lag? This is on an Intel i5 with 16gb RAM.
+
+Update
+
+According to here, it suggests the read grabs a video frame by frame. This would explain it grabbing the next frame and the next frame, until it finally caught up to all the frames that had been grabbed while it was processing. I wonder if there is an option to set the framerate or set it to drop frames and just click a picture of the face in the webcam now on read?
+http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_video_display/py_video_display.html#capture-video-from-camera
+Python <code>pickle</code> cannot serialize anonymous functions. Lets illustrate that on a simplified example:
+
+<code>import pickle
+
+xs = [[1, 2, 3], [1, 2, 5], [1, 3, 5], [2, 4, 6]]
+pickle.dumps([x for x in  groupby(xs, lambda x: x[0])])
+
+## PicklingError
+## ...
+## PicklingError: Can't pickle ...
+</code>
+
+You should get rid of all references to the <code>lambdas</code> before serializing:
+
+<code>pickle.dumps([(k, list(v)) for (k, v) in groupby(xs, itemgetter(0))])
+
+## b'\x80\x ...
+</code>
+
+or don't use <code>lambda</code> expressions:
+
+<code>from operator import itemgetter
+
+pickle.dumps([kv for kv in groupby(xs, itemgetter(0))])
+
+## b'\x80\x ...
+</code>
+You can take advantage of the <code>operator</code> module in Python and use a dictionary dispatch method, eg:
+
+<code>import operator
+from math import sqrt
+
+operations = {
+    '1': operator.add,
+    '2': operator.sub,
+    '3': operator.mul,
+    '4': operator.truediv,
+    '6': sqrt,
+    '99': lambda c: c * 1.8 + 32 # convert C -&gt; F
+}
+
+for operation in iter(lambda: input('Operation: '), 'quit'):
+    if operation not in operations:
+        print('Sorry - not sure what {} is'.format(operation))
+        continue
+    args = map(int, input('Enter values: ').split())
+    print('Result is', operations[operation](*args))
+</code>
+You are missing a few things in your <code>ListBoxComboPopup</code> class needed to make it work well with the <code>ComboCtrl</code>. At a minimum you are missing some event binding and handler to catch selection events from the <code>ListBox</code>, and an implementation of the <code>GetStringValue</code> method which the combo will call to get the value to be displayed.  Please see the <code>ComboCtrl</code> sample in the wxPython demo for more details and example code.
+Have you try to use sudo and place the arch command inside task.arguments
+
+Like this : 
+
+task.launchPath = "/usr/bin/sudo"
+    task.arguments = ["arch", "-x86_64", "/usr/bin/python", "/Users/tomas/Developement/N_news_reader/NReader1/ahoj.py"]
+
+It works for me as long as I change the visudo settings to avoid the "enter your password" step.
+I don't see this answer here, so I figure I'll add it since I'm leaning Python right now and just discovered it. The Python tutorial (Python 2 in this case) gives the following simple and effective example:
+
+<code>class Employee:
+    pass
+
+john = Employee()  # Create an empty employee record
+
+# Fill the fields of the record
+john.name = 'John Doe'
+john.dept = 'computer lab'
+john.salary = 1000
+</code>
+
+That is, an empty class object is created, then instantiated, and the fields are added dynamically.
+
+The up-side to this is its really simple. The downside is it isn't particularly self-documenting (the intended members aren't listed anywhere in the class "definition"), and unset fields can cause problems when accessed. Those two problems can be solved by:
+
+<code>class Employee:
+    def __init__ (self):
+        self.name = None # or whatever
+        self.dept = None
+        self.salary = None
+</code>
+
+Now at a glance you can at least see what fields the program will be expecting.
+
+Both are prone to typos, <code>john.slarly = 1000</code> will succeed. Still, it works.
+<code>value = 0x7fffffff
+</code>
+
+Set the value using the code above
