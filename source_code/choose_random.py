@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import re
 
 OUT_SIZE = 100
 SEED = 42
@@ -13,6 +14,9 @@ out.sort_index(by=['Id'],inplace=True)
 
 out.to_csv('TokenTagRaw.csv',index=False)
 
+out = out['Body']
+regex_data = [re.sub(r"<(?!\/?code).*?>", r"", i) for i in out]
+
 with open('TokenTagText.txt','w+') as textFile:
-    for line in out['Body']:
+    for line in regex_data:
         textFile.write(line)
