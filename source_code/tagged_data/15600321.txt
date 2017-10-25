@@ -1,15 +1,9 @@
- Change 
-
- <code>i[0] == r[0]
+~Change~ 
+~i[0] == r[0]
 r == g[1][0]
 r == g[1][1]
-</code> 
-
- to (respectively) 
-
- <code>i[0] = r[0]
+~to~(~respectively~)~ 
+~i[0] = r[0]
 r = g[1][0]
 r = g[1][1]
-</code> 
-
- <code>==</code> is a logical comparison (it tests whether the two values are equal and returns <code>False</code> or <code>True</code>). <code>=</code> is the assignment operator. 
+~==~is~a~logical~comparison~(~it~tests~whether~the~two~values~are~equal~and~returns~False~or~True~)~.~=~is~the~assignment~operator~.~

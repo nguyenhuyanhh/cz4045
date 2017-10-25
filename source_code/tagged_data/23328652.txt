@@ -1,4 +1,4 @@
- <code>class marcos_artwork(osv.osv):
+~class marcos_artwork(osv.osv):
     def _check_appraisal_price(self, cr, uid, ids, context=None):
         record = self.pool.get('appraisal_price')
         if record&lt;0:
@@ -33,13 +33,7 @@
     _constraints = [(_check_appraisal_price, 'Error: Length must be Positive', ['appraisal_price'])]
 
 marcos_artwork()
-</code> 
-
- When I want to install the module, I get shown this error: 
-
- <code>-cannot concatenate 'str' and 'function' object...
-</code> 
-
- My function is for checking that the appraisal price is positive. 
-
- Can anybody help me? 
+~When~I~want~to~install~the~module~,~I~get~shown~this~error~:~
+~-cannot concatenate 'str' and 'function' object...
+~My~function~is~for~checking~that~the~appraisal~price~is~positive~.~ 
+~Can~anybody~help~me~?~

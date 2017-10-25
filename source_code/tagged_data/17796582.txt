@@ -1,5 +1,3 @@
- try following this tutorial -  http://singlas.in/5-step-tutorial-for-using-django-with-apache-and-mod_wsgi/  
-
- you are trying to host apache /var/www/ folder and the Django app both at root (/). Since Alias directive takes precedence over WSGIScriptAlias, it is rendering apache directory. 
-
- you can try to host the django app at /app. Alternatively host the /var/www/ folder at a different location like /public 
+~try~following~this~tutorial~-~http://singlas.in/5-step-tutorial-for-using-django-with-apache-and-mod_wsgi/~ 
+~you~are~trying~to~host~apache~/var/www/~folder~and~the~Django~app~both~at~root~(~/~)~.~Since~Alias~directive~takes~precedence~over~WSGIScriptAlias~,~it~is~rendering~apache~directory~.~
+~you~can~try~to~host~the~django~app~at~/app~.~Alternatively~host~the~/var/www/~folder~at~a~different~location~like~/public~ 

@@ -1,9 +1,5 @@
- I am trying to get some accurate runtime comparisons of PHP vs Python (and potentially any other language that I have to include). Timing within a script is not my problem but timing within a script does not account for everything from the moment the request is made to run the script to output. 
-
- 
-   1) Is it actually worth taking such things into account? 
-  
-   2) Assuming it is worth taking it into account, how do I do this? 
- 
-
- I'm using a Mac so I've got access to Linux commands and I'm not afraid to compile/create a command to help me, I just don't know how to write such a command. 
+~I~am~trying~to~get~some~accurate~runtime~comparisons~of~PHP~vs~Python~(~and~potentially~any~other~language~that~I~have~to~include~)~.~Timing~within~a~script~is~not~my~problem~but~timing~within~a~script~does~not~account~for~everything~from~the~moment~the~request~is~made~to~run~the~script~to~output~.~
+
+   ~1~)~Is~it~actually~worth~taking~such~things~into~account~?~ 
+   ~2~)~Assuming~it~is~worth~taking~it~into~account,~how~do~I~do~this~?~ 
+~I~'m~using~a~Mac~so~I~'ve~got~access~to~Linux~commands~and~I~'m~not~afraid~to~compile~/~create~a~command~to~help~me~,~I~just~do~n't~know~how~to~write~such~a~command~.~ 

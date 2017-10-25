@@ -1,1121 +1,0 @@
-~Use~a~subrange~of~[\u0000-\uFFFF]~for~what~you~want~.~~You~can~also~use~the~re.UNICODE~compile~flag~.~The~docs~say~that~if~UNICODE~is~set~,~\w~will~match~the~characters~[0-9_]~plus~whatever~is~classified~as~alphanumeric~in~the~Unicode~character~properties~database. ~See~also~http://coding.derkeiler.com/Archive/Python/comp.lang.python/2004-05/2560.html~.~~Tom~'s~and~Martin~'s~response~are~definitely~true~(~in~just~about~any~open~source~project~,~you~'ll~find~that~most~contributors~are~particularly~interested~in~,~well~,~developing~;~not~so~much~in~semi-related~matters~such~as~documentation~)~,~but~I~do~n't~think~your~particular~question~at~the~end~would~fit~well~inside~PyObjC~documentation~.~~NSThread.detachNewThreadSelector_toTarget_withObject_("queryController", self, None)~NSThread~is~part~of~the~Cocoa~API~,~and~as~such~documented~over~at~Apple~,~including~the~particular~method~+ detachNewThreadSelector:toTarget:withObject:~(~I~'d~link~there~,~but~apparently~stackoverflow~has~bugs~with~parsing~it~)~.~The~CocoaDev~wiki~also~has~an~article~.~~I~do~n't~think~it~would~be~a~good~idea~for~PyObjC~to~attempt~to~document~Cocoa~,~other~than~a~few~basic~examples~of~how~to~use~it~from~within~Python~.~Explaining~selectors~is~also~likely~outside~the~scope~of~PyObjC~,~as~those~,~too~,~are~a~feature~of~Objective-C~,~not~PyObjC~specifically~.~I~really~like~python~,~it~'s~usually~my~language~of~choice~these~days~for~small~(~non-gui~)~stuff~that~I~do~on~my~own~.~~However~,~for~some~larger~Python~projects~I~'ve~tackled~,~I~'m~finding~that~it~'s~not~quite~the~same~as~programming~in~say,~C++.~I~was~working~on~a~language~parser~,~and~needed~to~represent~an~AST~in~Python~.~This~is~certainly~within~the~scope~of~what~Python~can~do~,~but~I~had~a~bit~of~trouble~with~some~refactoring~.~I~was~changing~the~representation~of~my~AST~and~changing~methods~and~classes~around~a~lot~,~and~I~found~I~missed~the~strong~typing~that~would~be~available~to~me~in~a~C++~solution.~Python~'s~duck~typing~was~almost~too~flexible~and~I~found~myself~adding~a~lot~of~assert~code~to~try~to~check~my~types~as~the~program~ran.~And~then~I~could~n't~really~be~sure~that~everything~was~properly~typed~unless~I~had~100%~code~coverage~testing~(which~I~did~n't~at~the~time~)~.~~Actually~,~that~'s~another~thing~that~I~miss~sometimes~.~It~'s~possible~to~write~syntactically~correct~code~in~Python~that~simply~wo~n't~run~.~The~compiler~is~incapable~of~telling~you~about~it~until~it~actually~executes~the~code~,~so~in~infrequently-used~code~paths~such~as~error~handlers~you~can~easily~have~unseen~bugs~lurking~around~.~Even~code~that~'s~as~simple~as~printing~an~error~message~with~a~%~format~string~can~fail~at~runtime~because~of~mismatched~types~.~~I~have~n't~used~Python~for~any~GUI~stuff~so~I~ca~n't~comment~on~that~aspect~.~~B.name~is~a~class~attribute~,~not~an~instance~attribute~.~It~shows~up~in~B.__dict__~,~but~not~in~b = B(); b.__dict__~.~~The~distinction~is~obscured~somewhat~because~when~you~access~an~attribute~on~an~instance~,~the~class~dict~is~a~fallback~.~So~in~the~above~example,~b.name~will~give~you~the~value~of~B.name~.~~In~the~following~method~definitions~,~what~does~the~*~and~**~do~for~param2~?~~def foo(param1, *param2):def bar(param1, **param2):~~The~*args~and~**kwargs~is~a~common~idiom~to~allow~arbitrary~number~of~arguments~to~functions~as~described~in~the~section~more~on~defining~functions~in~the~Python~documentation~.~~The~*args~will~give~you~all~function~parameters~as~a~tuple~:~~In [1]: def foo(*args):   ...:     for a in args:   ...:         print a   ...:            ...:         In [2]: foo(1)1In [4]: foo(1,2,3)123~~The~**kwargs~will~give~you~all~keyword~arguments~except~for~those~corresponding~to~a~formal~parameter~as~a~dictionary~.~~In [5]: def bar(**kwargs):   ...:     for a in kwargs:   ...:         print a, kwargs[a]   ...:            ...:         In [6]: bar(name='one', age=27)age 27name one~Both~idioms~can~be~mixed~with~normal~arguments~to~allow~a~set~of~fixed~and~some~variable~arguments~:~~def foo(kind, *args, **kwargs):   pass~Another~usage~of~the~*l~idiom~is~to~unpack~argument~lists~when~calling~a~function~.~~In [9]: def foo(bar, lee):   ...:     print bar, lee   ...:        ...:     In [10]: l = [1,2]In [11]: foo(*l)1 2~In~Python~3~it~is~possible~to~use~*l~on~the~left~side~of~an~assignment~(~Extended~Iterable~Unpacking~)~,~though~it~gives~a~list~instead~of~a~tuple~in~this~context~:~~first, *rest = [1,2,3,4]first, *l, last = [1,2,3,4]~Also~Python~3~adds~new~semantic~(~refer~PEP~3102~)~:~~def func(arg1, arg2, arg3, *, kwarg1, kwarg2):    pass~Such~function~accepts~only~3~positional~arguments~,~and~everything~after~*~can~only~be~passed~as~keyword~arguments~.~~You~will~want~to~wire~your~URL~to~the~Django~create_object~generic~view~,~and~pass~it~either~"~model~"~(~the~model~you~want~to~create~)~or~"~form_class~"~(~a~customized~ModelForm~class~)~.~There~are~a~number~of~other~arguments~you~can~also~pass~to~override~default~behaviors~.~~Sample~URLconf~for~the~simplest~case~:~~from django.conf.urls.defaults import *from django.views.generic.create_update import create_objectfrom my_products_app.models import Producturlpatterns = patterns('',    url(r'^admin/products/add/$', create_object, {'model': Product}))~Your~template~will~get~the~context~variable~"~form~"~,~which~you~just~need~to~wrap~in~a~&lt;form>~tag~and~add~a~submit~button~.~The~simplest~working~template~(~by~default~should~go~in~"~my_products_app/product_form.html~"~)~:~
-~&lt;form action="." method="POST"&gt;
-  {{ form }}
-  &lt;input type="submit" name="submit" value="add"&gt;
-&lt;/form&gt;
-~Note~that~your~Product~model~must~have~a~get_absolute_url~method~,~or~else~you~must~pass~in~the~post_save_redirect~parameter~to~the~view~.~Otherwise~it~wo~n't~know~where~to~redirect~to~after~save~.~
-~You~might~need~something~more~complicated~than~a~regular~expression~.~Web~pages~often~have~angle~brackets~that~are~n't~part~of~a~tag~,~like~this~:~
-~&lt;div&gt;5 &lt; 7&lt;/div&gt;
-~Stripping~the~tags~with~regex~will~return~the~string~"~5~"~and~treat~
-~ &lt; 7&lt;/div&gt;
-~as~a~single~tag~and~strip~it~out~.~
-~I~suggest~looking~for~already-written~code~that~does~this~for~you~.~I~did~a~search~and~found~this~:~http://zesty.ca/python/scrape.html~It~also~can~resolve~HTML~entities~.~
-~There~'s~a~pattern~that~I~learned~from~Twisted~Python~code~.~
-~class SMTP:
-    def lookupMethod(self, command):
-        return getattr(self, 'do_' + command.upper(), None)
-    def do_HELO(self, rest):
-        return 'Howdy ' + rest
-    def do_QUIT(self, rest):
-        return 'Bye'
-
-SMTP().lookupMethod('HELO')('foo.bar.com') # =&gt; 'Howdy foo.bar.com'
-SMTP().lookupMethod('QUIT')('') # =&gt; 'Bye'
-~You~can~use~it~any~time~you~need~to~dispatch~on~a~token~and~execute~extended~piece~of~code~.~In~a~state~machine~you~would~have~state_~methods~,~and~dispatch~on~self.state~.~This~switch~can~be~cleanly~extended~by~inheriting~from~base~class~and~defining~your~own~do_~methods~.~Often~times~you~wo~n't~even~have~do_~methods~in~the~base~class~.~
-~Edit~:~how~exactly~is~that~used~
-~In~case~of~SMTP~you~will~receive~HELO~from~the~wire~.~The~relevant~code~(~from~twisted/mail/smtp.py~,~modified~for~our~case~)~looks~like~this
-~class SMTP:
-    # ...
-
-    def do_UNKNOWN(self, rest):
-        raise NotImplementedError, 'received unknown command'
-
-    def state_COMMAND(self, line):
-        line = line.strip()
-        parts = line.split(None, 1)
-        if parts:
-            method = self.lookupMethod(parts[0]) or self.do_UNKNOWN
-            if len(parts) == 2:
-                return method(parts[1])
-            else:
-                return method('')
-        else:
-            raise SyntaxError, 'bad syntax'
-
-SMTP().state_COMMAND('   HELO   foo.bar.com  ') # =&gt; Howdy foo.bar.com
-~You~'ll~receive~'  HELO   foo.bar.com '~(~or~you~might~get~'QUIT'~or~'RCPT TO: foo'~)~.~This~is~tokenized~into~parts~as~['HELO', 'foo.bar.com']~.~The~actual~method~lookup~name~is~taken~from~parts[0]~.~
-~(~The~original~method~is~also~called~state_COMMAND~,~because~it~uses~the~same~pattern~to~implement~a~state~machine~,~i.e.~getattr(self, 'state_' + self.mode)~)~
-Install Mozlab in Firefox and enable the telnet server, then open a socket.
-How do I select a(or some) random row(s) from a table using SQLAlchemy? 
-This is very much a database-specific issue.
-
-I know that PostgreSQL and MySQL have the ability to order by a random function, so you can use this in SQLAlchemy:
-
-<code>from  sqlalchemy.sql.expression import func, select
-
-select.order_by(func.random()) # for PostgreSQL, SQLite
-
-select.order_by(func.rand()) # for MySQL
-
-select.order_by('dbms_random.value') # For Oracle
-</code>
-
-Next, you need to limit the query by the number of records you need (for example using <code>.limit()</code>).
-
-Bear in mind that at least in PostgreSQL, selecting random record has severe perfomance issues; here is good article about it.
-I am trying to get some accurate runtime comparisons of PHP vs Python (and potentially any other language that I have to include). Timing within a script is not my problem but timing within a script does not account for everything from the moment the request is made to run the script to output.
-
-
-  1) Is it actually worth taking such things into account?
-  
-  2) Assuming it is worth taking it into account, how do I do this?
-
-
-I'm using a Mac so I've got access to Linux commands and I'm not afraid to compile/create a command to help me, I just don't know how to write such a command.
-This is how you'd do it with re:
-
-<code>import re
-p = re.compile('^hello$', re.I)
-p.match('Hello')
-p.match('hello')
-p.match('HELLO')
-</code>
-Have you taken a look at put.py? I've used it in the past. You can also just hack up your own request with urllib.
-Here is a benchmark showing that using <code>str.lower</code> is faster than the accepted answer's proposed method (<code>libc.strcasecmp</code>):
-
-<code>#/usr/bin/env python2.5
-import random
-import timeit
-
-from ctypes import *
-libc = CDLL("libc.dylib") # change to "libc.so.6" on linux
-
-words = [word.rstrip() for word in
-          open('/usr/share/dict/words', 'r').readlines()]
-random.shuffle(words)
-print '%i words in list' % len(words)
-
-setup = 'from __main__ import words, libc; gc.enable()'
-stmts = [
-    ("simple sort", "sorted(words)"),
-    ("sort with key=str.lower", "sorted(words, key=str.lower)"),
-    ("sort with cmp=libc.strcasecmp", "sorted(words, cmp=libc.strcasecmp)"),
-]
-
-for (comment, stmt) in stmts:
-    t = timeit.Timer(stmt=stmt, setup=setup)
-    print "%s: %.2f msec/pass" % (comment, (1000*t.timeit(10)/10))
-</code>
-
-typical times on my machine:
-
-<code>235886 words in list
-simple sort: 483.59 msec/pass
-sort with key=str.lower: 1064.70 msec/pass
-sort with cmp=libc.strcasecmp: 5487.86 msec/pass
-</code>
-
-So, the version with <code>str.lower</code> is not only the fastest by far, but also the most portable and pythonic of all the proposed solutions here.
-I have not profiled memory usage, but the original poster has still not given a compelling reason to worry about it. Also, who says that a call into the libc module doesn't duplicate any strings?
-
-NB: The <code>lower()</code> string method also has the advantage of being locale-dependent. Something you will probably not be getting right when writing your own "optimised" solution. Even so, due to bugs and missing features in Python, this kind of comparison may give you wrong results in a unicode context.
-In Python and Ruby it is only possible to use multiple cores, is to spawn new (heavyweight) processes.
-The Java counterparts inherit the possibilities of the Java platform. You could imply use Java threads. That is for example a reason why sometimes (often) Java Application Server like Glassfish are used for Ruby on Rails applications.
-The question is super old, but hell: http://code.google.com/p/formalchemy/
-
-Gives you basic crud out of the box, customizable to do even relatively complex things easily, and gives you a drop-in Pylons admin app too (written and customizable with the same api, no magic).
-To provide some timing figures behind the different approaches, consider the following code.
-The get() is my custom addition to Python's setobject.c, being just a pop() without removing the element.
-
-<code>from timeit import *
-
-stats = ["for i in xrange(1000): iter(s).next()   ",
-         "for i in xrange(1000): \n\tfor x in s: \n\t\tbreak",
-         "for i in xrange(1000): s.add(s.pop())   ",
-         "for i in xrange(1000): s.get()          "]
-
-for stat in stats:
-    t = Timer(stat, setup="s=set(range(100))")
-    try:
-        print "Time for %s:\t %f"%(stat, t.timeit(number=1000))
-    except:
-        t.print_exc()
-</code>
-
-The output is:
-
-<code>$ ./test_get.py
-Time for for i in xrange(1000): iter(s).next()   :       0.433080
-Time for for i in xrange(1000):
-        for x in s:
-                break:   0.148695
-Time for for i in xrange(1000): s.add(s.pop())   :       0.317418
-Time for for i in xrange(1000): s.get()          :       0.146673
-</code>
-
-This means that the for/break solution is the fastest (sometimes faster than the custom get() solution).
-Many command line tools don't have a javascript interpreter so do not support web 2.0 functionality.  juicedpyshell is based on PyXPCOMext's PyShell example.  It gives you a python shell window "inside" the browser, and simplifies access to both the DOM of what you are browsing to and also the shell window itself (so you can add GUI elements as part of your automation script).  But its a new project so probably not as full featured as some of the above.
-The solutions I use: 
-
-A combination of 2 of the solutions posted here, which is relatively easy to read and supports defaults.
-
-<code>result = {
-  'a': lambda x: x * 5,
-  'b': lambda x: x + 7,
-  'c': lambda x: x - 2
-}.get(whatToUse, lambda x: x - 22)(value)
-</code>
-
-where
-
-<code>.get('c', lambda x: x - 22)(23)
-</code>
-
-looks up <code>"lambda x: x - 2"</code> in the dict and uses it with <code>x=23</code> 
-
-<code>.get('xxx', lambda x: x - 22)(44)
-</code>
-
-doesn't find it in the dict and uses the default <code>"lambda x: x - 22"</code> with <code>x=44</code>.
-Class methods provide a "semantic sugar" (don't know if this term is widely used) - or "semantic convenience".
-
-Example: you got a set of classes representing objects. You might want to have the class method <code>all()</code> or <code>find()</code> to write <code>User.all()</code> or <code>User.find(firstname='Guido')</code>. That could be done using module level functions of course...
-I recommended this ebook A Byte of Python
-This solution is a simple way of getting a class for the enumeration defined as a list (no more annoying integer assignments):
-
-enumeration.py:
-
-<code>import new
-
-def create(class_name, names):
-    return new.classobj(
-        class_name, (object,), dict((y, x) for x, y in enumerate(names))
-    )
-</code>
-
-example.py:
-
-<code>import enumeration
-
-Colors = enumeration.create('Colors', (
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'blue',
-    'violet',
-))
-</code>
-Use a defaultdict.
-
-<code>from collections import defaultdict
-complete_dict = defaultdict(lambda: defaultdict(list))
-
-with open('data.txt', mode="rb") as data_file:
-    reader = csv.reader(data_file, delimiter="\t")
-    for c, s, v1, v in reader:
-        complete_dict[c][s].append([v1, v2])
-</code>
-
-  I thought that f_dot would be slower since it had to create the temporary array denominator, and I assumed that this step was skipped by f_no_dot.
-
-
-For what it's worth, creating the temporary array is skipped, which is why <code>f_no_dot</code> is slower (but uses less memory).
-
-Element-wise operations on arrays of the same size are faster, because numpy doesn't have to worry about the striding (dimensions, size, etc) of the arrays.
-
-Operations that use broadcasting will generally be a bit slower than operations that don't have to.
-
-If you have the memory to spare, creating a temporary copy can give you a speedup, but will use more memory.
-
-For example, comparing these three functions:
-
-<code>import numpy as np
-import timeit
-
-def f_no_dot(x, y):
-    return x / y
-
-def f_dot(x, y):
-    denom = np.dot(y, np.ones((1,2)))
-    return x / denom
-
-def f_in_place(x, y):
-    x /= y
-    return x
-
-num = 3600000
-x = np.ones((num, 2))
-y = np.ones((num, 1))
-
-
-for func in ['f_dot', 'f_no_dot', 'f_in_place']:
-    t = timeit.timeit('%s(x,y)' % func, number=100,
-            setup='from __main__ import x,y,f_dot, f_no_dot, f_in_place')
-    print func, 'time...'
-    print t / 100.0
-</code>
-
-This yields similar timings to your results:
-
-<code>f_dot time...
-0.184361531734
-f_no_dot time...
-0.619203259945
-f_in_place time...
-0.585789341927
-</code>
-
-However, if we compare the memory usage, things become a bit clearer...
-
-The combined size of our <code>x</code> and <code>y</code> arrays is about 27.5 + 55 MB, or 82 MB (for 64-bit ints).  There's an additional ~11 MB of overhead in import numpy, etc.
-
-Returning <code>x / y</code> as a new array (i.e. not doing <code>x /= y</code>) will require another 55 MB array.
-
-100 runs of <code>f_dot</code>:
-We're creating a temporary array here, so we'd expect to see 11 + 82 + 55 + 55 MB or ~203 MB of memory usage.  And, that's what we see...
-
-
-100 runs of <code>f_no_dot</code>:
-If no temporary array is created, we'd expect a peak memory usage of 11 + 82 + 55 MB, or 148 MB...
-
-...which is exactly what we see. 
-
-So, <code>x / y</code> is not creating an additional <code>num x 2</code> temporary array to do the division.
-
-Thus, the division takes a quite a bit longer than it would if it were operating on two arrays of the same size.
-
-100 runs of <code>f_in_place</code>:
-If we can modify <code>x</code> in-place, we can save even more memory, if that's the main concern.
-
-
-Basically, numpy tries to conserve memory at the expense of speed, in some cases.
-I'm now making a web crawler.
-
-getting a link from HTML is easy part but acquiring a link from the result of javascript is not easy for me.
-
-Can I get the result of javascript so as to know where a link is referred to?
-
-for example.
-
-How can I retrieve the link to google.com from javascript code in Python?
-
-<code>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-    &lt;head&gt;&lt;/head&gt;
-    &lt;body&gt;
-        &lt;a href="#" id="goog"&gt;to google&lt;/a&gt;
-    &lt;/body&gt;
-    &lt;script&gt;
-        document.getElementById('goog').onclick = function() {
-            window.location = "http://google.com";
-        };
-
-    &lt;/script&gt;
-&lt;/html&gt;
-</code>
-A simple approach would be to pass in strings as stockQty containing the name of the member you want to modify (e.g. "qtyA"), and use <code>getattr(self, stockQty)</code> to read and <code>setattr(self, stockQty, newVal)</code> to change the value of this parameter.
-
-If you are not happy about passing in free form strings, you can define some class variables, e.g. <code>refQtyA = "qtyA"</code>, and use them as your parameters when you call your function: <code>buy(p.refQtyA, 10, 25)</code>.
-You are matching it with <code>\d{3}</code> so it will match only if it is a number with three digits ( including leading zeroes)
-I need to access the process' environment block in a platform-independent manner.
-
-The python os module docs don't specify anything about case-sensitivity of the <code>os.environ</code> / <code>os.getenv</code>.  Experimenting on my ubuntu and win7 dev box's, I see that os.environ is case sensitive on linux but not on windows (This mirrors the behavior of <code>set</code> on both platforms)
-
-Since dict's are obviously case-senstive for string keys, it appears that the value returned by <code>os.environ</code> is only duck-typed as a dict...
-
-Question:
-Where/How should I be able to find the definitive answer on this behavior?  I would rather have a real answer than just empirically determine it :)
-
-Alternatively, is os.getenv(...) a better api to use? why?
-
-Thanks!
-How can I get currently running testcase name, while in the testsuite collection there are 16 testcases. Tests are executed sequentially (in the order of adding test to the testSuite collection). When I add all tests to testSuite collection I can preview this object but how can I get currently executing test while tests are running. Maybe some variable holds this information?
-
-example:
-
-<code>def suite():
-    testSuite= unittest.TestSuite()
-    testSuite.addTest(FlightsTestCases('test_sel__reservation_one_way_wizzair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_wizzair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_wizzair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_tair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_wizzair_credit_card'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_credit_card'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_wizzair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_wizzair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_easyjet_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_ryanair_transfer'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_ryanair_credit_card'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_duplicated'))
-    testSuite.addTest(FlightsTestCases('test_reservation_wrong_card_lowcost'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_credit_card'))
-    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_wrong_credit_card'))
-
-    return testSuite
-
-if __name__ == "__main__":
-    result = unittest.TextTestRunner(verbosity=2).run(suite())
-    sys.exit(not result.wasSuccessful())
-</code>
-
-Tests are executed using Selenium-RC framework.
-Each <code>for</code> makes a loop; your code has two loops for years inside each other – it processes all the years with the first line of the file, then all the years for the second, etc. This is the error you're running into, but if you just go and fix it somehow, another one will pop up soon enough.
-
-
-
-Now, please do borrow a good Python book at the library and spend some time reading and doing the exercises. Or join a course. Get a knowledgeable friend to review your code for you. StackOverflow might help you to get through a specific problem, but sadly it can't teach you the concepts. You're on the wrong path; there's nothing but trouble ahead if you just continue like this. You should go back and learn the basics a bit better, it'll make it much easier in the long run.
-
-Computers are there to do tedious and repetitive tasks for you. You should never type out a giant list of numbers or numbered variables.
-Get familiar with lists (and lists of lists), and the range function.
-
-Use descriptive names for your variables, not abbreviations. This is Python, we like things clear. And put each statement on its own line; all those semicolons look ugly. These things are important if you want to share code, get help, or just organize your own thoughts on it.
-
-Study the documentation for the csv module and use its reader also, not just the writer.
-
-Get familiar with list slicing, particularly the line[1::3] variety.
-
-Learn the with statement for files.
-
-If you do the same thing in each if/elif, move it out of there to a common place.
-
-Here's to you becoming a good programmer one day :)
-I'm struggling to understand how standardizing on one or another would not introduce serious violations of the principle of least astonishment.
-
-On windows, programmers are used to case insensitivity... why would a windows-only programmer expect to have to picky about this? Note that there is no possible way to implement case-sensitive environment variables here, that option simply doesn't work.
-
-In the linux world, ENVVAR and envvar are two different variables, you cannot standardize to the windows mechanism without potentially hiding information.
-
-In the version that is implemented, you force the developer to specify upper or lower case for a cross-platform app. The case specification is irrelevant on windows, and you'd have to do it anyways for *nix.
-I think the most elegant way it to invoke the W3C Validation Service at
-
-<code>http://validator.w3.org/
-</code>
-
-programmatically. Few people know that you do not have to screen-scrape the results in order to get the results, because the service returns non-standard HTTP header paramaters 
-
-<code>X-W3C-Validator-Recursion: 1
-X-W3C-Validator-Status: Invalid (or Valid)
-X-W3C-Validator-Errors: 6
-X-W3C-Validator-Warnings: 0
-</code>
-
-for indicating the validity and the number of errors and warnings.
-
-For instance, the command line 
-
-<code>curl -I "http://validator.w3.org/check?uri=http%3A%2F%2Fwww.stalsoft.com"
-</code>
-
-returns
-
-<code>HTTP/1.1 200 OK
-Date: Wed, 09 May 2012 15:23:58 GMT
-Server: Apache/2.2.9 (Debian) mod_python/3.3.1 Python/2.5.2
-Content-Language: en
-X-W3C-Validator-Recursion: 1
-X-W3C-Validator-Status: Invalid
-X-W3C-Validator-Errors: 6
-X-W3C-Validator-Warnings: 0
-Content-Type: text/html; charset=UTF-8
-Vary: Accept-Encoding
-Connection: close
-</code>
-
-Thus, you can elegantly invoke the W3C Validation Service and extract the results from the HTTP header:
-
-<code># Programmatic XHTML Validations in Python
-# Martin Hepp and Alex Stolz
-# mhepp@computer.org / alex.stolz@ebusiness-unibw.org
-
-import urllib
-import urllib2
-
-URL = "http://validator.w3.org/check?uri=%s"
-SITE_URL = "http://www.heppnetz.de"
-
-# pattern for HEAD request taken from 
-# http://stackoverflow.com/questions/4421170/python-head-request-with-urllib2
-
-request = urllib2.Request(URL % urllib.quote(SITE_URL))
-request.get_method = lambda : 'HEAD'
-response = urllib2.urlopen(request)
-
-valid = response.info().getheader('X-W3C-Validator-Status')
-if valid == "Valid":
-    valid = True
-else:
-    valid = False
-errors = int(response.info().getheader('X-W3C-Validator-Errors'))
-warnings = int(response.info().getheader('X-W3C-Validator-Warnings'))
-
-print "Valid markup: %s (Errors: %i, Warnings: %i) " % (valid, errors, warnings)
-</code>
-<code>*</code> and <code>**</code> have special usage in the function argument list. <code>*</code>
-implies that the argument is a list and <code>**</code> implies that the argument
-is a dictionary. This allows functions to take arbitrary number of
-arguments
-Turn the list into a tuple instead:
-
-<code>print '%s (...) %s (...) %s%s (...)%s (...)' % tuple(mylist)
-</code>
-
-Demo:
-
-<code>&gt;&gt;&gt; mylist = ['a', 'b', 'c', 'd', 'e']
-&gt;&gt;&gt; print '%s (...) %s (...) %s%s (...)%s (...)' % tuple(mylist)
-a (...) b (...) cd (...)e (...)
-</code>
-
-Alternatively, use the <code>.format()</code> method instead to format your string:
-
-<code>print '{} (...) {} (...) {}{} (...){} (...)'.format(*mylist)
-</code>
-
-<code>.format()</code> also supports indexing into the list:
-
-<code>print '{0[0]} (...) {0[1]} (...) {0[2]}{0[3]} (...){0[4]} (...)'.format(mylist)
-</code>
-Saw the following example to illustrate how to create NAN through DataFrame.
-
-<code>import pandas as pd
-import numpy as np
-import math
-import copy
-import QSTK.qstkutil.qsdateutil as du
-import datetime as dt
-import QSTK.qstkutil.DataAccess as da
-import QSTK.qstkutil.tsutil as tsu
-import QSTK.qstkstudy.EventProfiler as ep
-
-"""
-Accepts a list of symbols along with start and end date
-Returns the Event Matrix which is a pandas Datamatrix
-Event matrix has the following structure :
-    |IBM |GOOG|XOM |MSFT| GS | JP |
-(d1)|nan |nan | 1  |nan |nan | 1  |
-(d2)|nan | 1  |nan |nan |nan |nan |
-(d3)| 1  |nan | 1  |nan | 1  |nan |
-(d4)|nan |  1 |nan | 1  |nan |nan |
-...................................
-...................................
-Also, d1 = start date
-nan = no information about any event.
-1 = status bit(positively confirms the event occurence)
-"""
-
-def find_events(ls_symbols, d_data):
-    ''' Finding the event dataframe '''
-    df_close = d_data['actual_close']
-    ts_market = df_close['SPY']
-
-    print "Finding Events"
-
-    # Creating an empty dataframe
-    df_events = copy.deepcopy(df_close) # type &lt;class 'pandas.core.frame.DataFrame'&gt;
-    df_events = df_events * np.NAN # &lt;&lt; why it works here
-</code>
-
-Try to duplicate the method as follows:
-
-<code>import numpy as np
-import pandas as pd
-from pandas import Series, DataFrame
-
-data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada'],
-        'year': [2000, 2001, 2002, 2001, 2002],
-        'pop': [1.5, 1.7, 3.6, 2.4, 2.9]}
-frame = DataFrame(data)
-frame = frame * np.NAN # TypeError: can't multiply sequence by non-int of type 'float'
-</code>
-
-Q> Why it doesn't work here now?
-I got a program running on my local machine which uses some files. I create the reference to the files by using: <code>os.path.join( tempfile.gettempdir(), 'filename.txt' )</code>
-
-After that I'm running a program which accepts some parameters <code>--log-file filepath</code> where filepath is one of the files I just explained above.
-
-On my machine python creates backslashes for the paths but not double backslashes and the program complains because it's considered an escape character and should be a double backslash.
-
-Is there any standard way of making sure that I get a working path with double backslashes in python? I could use regex but I would prefer something similar to what <code>os.</code> provides. Maybe I'm missing something.
-
-I'm calling the program using <code>subprocess.Popen</code>:
-
-<code>self._proc = subprocess.Popen( command.split( ' ' ) )</code>
-
-where <code>command</code> is something like <code>pcix.exe --log-file file_path</code>
-
-Also, running a test on my console shows that my python does not produce double backslash for paths:
-
-<code>&gt;&gt;&gt; print os.path.join(tempfile.gettempdir(), "test.txt")
-c:\users\manilo~1\appdata\local\temp\test.txt
-</code>
-
-Leaving out the print command produces the same path:
-
-<code>&gt;&gt;&gt; os.path.join(tempfile.gettempdir(), "test.txt")
-c:\users\manilo~1\appdata\local\temp\test.txt
-</code>
-
-Any idea why?
-
-P.S. The platform i'm running is <code>CPython</code>
-You need to remove the element from its parent; you'll need to get a reference to the parent directly though, there is no path from child back up. In this case you'll have to get a reference to the <code>&lt;bar&gt;</code> element at the same time as finding the <code>&lt;buildCommand&gt;</code> element.
-
-Trying to remove the tag from the root fails because the tag is not a direct child of the root.
-Create an inverted index that has:
-
-<code>customer1: [item1, item3, item8, ...]
-customer2: [item7, item8, item74, ...]
-</code>
-
-Then you can:
-
-
-Look up an item to get the list of customers who bought it
-Look up each customer to get the list of items that customer bought
-
-
-Your time per item should go from 2 minutes to less than 2 seconds.
-
-It requires more memory for that second index, but you're not duplicating the data. And if memory is a problem, you can store this in a simple database and still be much faster than the N^2 algorithm that you're currently using.
-
-More detail
-
-You want to create an N*N matrix that shows the similarity between any two items. Using my technique, you do the following:
-
-<code>Create an N*N matrix, and initialize it to 0.
-for each item
-  Get the list of customers who bought the item (from your item-to-customer index).
-  Create an empty dictionary of related items
-  for each customer in that list
-    for each item that the customer bought
-      update the dictionary (add new item, or increase count)
-    end for
-  end for
-  You now have a dictionary that contains the related items,
-  and how many customers bought each one. You can update the matrix row
-  for the current item from that dictionary.
-end for
-</code>
-<code>while True:
-    p = []
-    q = []
-    H = []
-    E = []
-    for m in range(n):
-        p = (i-d[m-2][1])/d[m-2][0]
-        q.append(p)
-    print q
-
-    r = q[0]
-    if r  &lt; g[1][0]:
-        r == g[1][0]
-    elif r &gt; g[1][1]:
-        r == g[1][1]
-    print r
-</code>
-
-For the problem of the coding above, I want to explain it in a simpler manner.
-
-<code>i = [3,5]
-
-r = [5,6]
-
-if i[0] &lt; r[0]:
-    i[0] == r[0]
-    print i
-</code>
-
-However, i could not get <code>[5,5]</code> in this example, why? the output is still <code>[3,5]</code>
-Change
-
-<code>i[0] == r[0]
-r == g[1][0]
-r == g[1][1]
-</code>
-
-to (respectively)
-
-<code>i[0] = r[0]
-r = g[1][0]
-r = g[1][1]
-</code>
-
-<code>==</code> is a logical comparison (it tests whether the two values are equal and returns <code>False</code> or <code>True</code>). <code>=</code> is the assignment operator.
-try following this tutorial - http://singlas.in/5-step-tutorial-for-using-django-with-apache-and-mod_wsgi/
-
-you are trying to host apache /var/www/ folder and the Django app both at root (/). Since Alias directive takes precedence over WSGIScriptAlias, it is rendering apache directory.
-
-you can try to host the django app at /app. Alternatively host the /var/www/ folder at a different location like /public
-From Python 3.4 there will be official support for enums. You can find documentation and examples here on Python 3.4 documentation page.
-
-
-  Enumerations are created using the class syntax, which makes them easy
-  to read and write. An alternative creation method is described in
-  Functional API. To define an enumeration, subclass Enum as follows:
-
-
-<code>from enum import Enum
-class Color(Enum):
-     red = 1
-     green = 2
-     blue = 3
-</code>
-Get the number of results by splitting the <code>b-tabs-utility</code> div into spaces and getting element before last:
-
-<code>base_url = "http://example.com/something/?page=%d" 
-results_per_page = 60
-
-div = page.xpath("//div[contains(@class, 'b-tabs-utility')]")[0].text
-last_pg = int(div.split()[-2]) / results_per_page
-for i in xrange(last_pg):
-    r = requests.get(base_url % i)
-</code>
-
-I'm assuming the <code>div</code> text is in the following format, example: <code>... of 642 Results</code>
-I need to create a function without the use of <code>itertools</code> which will create a permutation list of tuples with a given set of anything.
-
-Example:
-
-<code>perm({1,2,3}, 2)</code> should return <code>[(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]</code> 
-
-This is what i got:
-
-<code>def permutacion(conjunto, k):
-    a, b = list(), list()
-    for i in conjunto:
-        if len(b) &lt; k and i not in b:
-            b.append(i)
-
-    b = tuple(b)
-    a.append(b)
-    return a
-</code>
-
-I know this doesn't do anything, it will add the first combination and nothing else.
-Posting on behalf of the OP who is new to the site and found the answer on their own.
-
-<code>tileX = 0
-tileY = 0
-tile_dict = {0: pygame.image.load("C:\Users\Software Development\Desktop\Tile00.png"),    1: pygame.image.load("C:\Users\Software Development\Desktop\Tile01.png")}
-
-map00 = [[0,0,0,0],
-    [1,1,1,1], [1,0,1,0]]
-
-for x in map00:
-for x in x:
-    if x == 0:
-        screen.blit(tile_dict[0], (tileX, tileY))
-        tileX = tileX+16
-    if x == 1:
-        screen.blit(tile_dict[1], (tileX, tileY))
-        tileX = tileX+16
-tileX = 0
-tileY += 16
-</code>
-<code>class marcos_artwork(osv.osv):
-    def _check_appraisal_price(self, cr, uid, ids, context=None):
-        record = self.pool.get('appraisal_price')
-        if record&lt;0:
-            return False
-        return True
-
-    """artwork class"""
-    _name = 'marcos.artwork'
-    _columns = {
-        'name': fields.char('Artwork',size=32,required=True),
-        'description': fields.char('Description',size=200),
-        'appraisal_price': fields.integer('Appraisal price' ),
-        'createArtWork': fields.integer('Year of creation'),
-        'award': fields.boolean('Award'),
-        'barcode': fields.integer('Barcode'),
-        'commission': fields.integer('Commission',size=10),
-        'author_ids': fields.many2one('marcos.author', 'Author'),
-        'typeartwork_ids': fields.many2one('marcos.artwork_type', 'Artwork Type'),
-        'owner_ids': fields.many2one('marcos.owner','Owner'),
-        'style_ids': fields.many2one('marcos.style','Style'),
-        'lots_ids': fields.many2many('marcos.lots','artworks_lots_form_rel','id_artwork','id_lot','Artworks'),
-    }
-    _defaults = {
-        'award': lambda *a: False,
-    }
-
-    _sql_constraints = [
-        ('name_uniqe', 'unique(name)', 'only equals name!'),
-        ('barcode_uniqe', 'unique(barcode)', 'only equals barcode!')
-    ]
-
-    _constraints = [(_check_appraisal_price, 'Error: Length must be Positive', ['appraisal_price'])]
-
-marcos_artwork()
-</code>
-
-When I want to install the module, I get shown this error:
-
-<code>-cannot concatenate 'str' and 'function' object...
-</code>
-
-My function is for checking that the appraisal price is positive.
-
-Can anybody help me?
-I am making a small program in Python (PyGTK) that prints out a calendar (Gregorian) for a year the user inputs.
-
-Here is my code:
-
-<code>#!/usr/bin/env python
-
-import pygtk, gtk, subprocess
-pygtk.require("2.0")
-
-class Base:
-    def printing(self, widget):
-        text = self.textbox.get_text()
-        printingit = "cal -y %s | lpr" % (text)
-        process = subprocess.Popen(printingit.split(), stdout=subprocess.PIPE)
-        output = process.communicate()[0]   
-
-    def __init__(self):
-            self.win = gtk.Window(gtk.WINDOW_TOPLEVEL)
-            self.win.set_position(gtk.WIN_POS_CENTER)
-            self.win.set_size_request(350, 200)
-        self.win.set_resizable(False)
-        self.win.set_title("Calendar")
-        self.win.connect('destroy',lambda w: gtk.main_quit())
-
-        self.textbox = gtk.Entry()
-        self.textbox.set_size_request(70, 30)
-
-        self.lable = gtk.Label("Year:")
-
-        self.button = gtk.Button("Print")
-        self.button.set_size_request(60, 45)
-        self.button.connect("clicked", self.printing)
-
-        box = gtk.Fixed()
-        box.put(self.lable, 160, 25)
-        box.put(self.textbox, 140, 40)
-        box.put(self.button, 145, 100)
-
-        self.win.add(box)
-        self.win.show_all()
-
-    def main(self):
-        gtk.main()
-
-if __name__ == "__main__":
-    base = Base()
-    base.main()
-</code>
-
-It's not working when actually printing the command <code>cal -y %s | lpr % (text)</code>. I have made it so it replaces the textbox's text with the final command it should get and it changes to what I want it to be <code>cal -y 2015 | lpr</code>. I tried just putting that into terminal and it worked as usual, it's confusing me a lot!
-
-I ran the program in terminal and this is the message I recieve when it tries to print:
-
-<code>Usage: cal [general options] [-hjy] [[month] year]
-   cal [general options] [-hj] [-m month] [year]
-   ncal [general options] [-bhJjpwySM] [-s country_code] [[month] year]
-   ncal [general options] [-bhJeoSM] [year]
-General options: [-NC3] [-A months] [-B months]
-For debug the highlighting: [-H yyyy-mm-dd] [-d yyyy-mm]
-</code>
-
-If anyone understands why this is happening I would be extremely grateful! Thank you in advance =D
-
-
-Harry
-
-I am trying to get a correct way of fitting a beta distribution. It's not a real world problem i am just testing the effects of a few different methods, and in doing this something is puzzling me.
-
-Here is the python code I am working on, in which I tested 3 different approaches:
-1>: fit using moments (sample mean and variance).
-2>: fit by minimizing the negative log-likelihood (by using scipy.optimize.fmin()).
-3>: simply call scipy.stats.beta.fit()
-
-<code>from scipy.optimize import fmin
-from scipy.stats import beta
-from scipy.special import gamma as gammaf
-import matplotlib.pyplot as plt
-import numpy
-
-
-def betaNLL(param,*args):
-    '''Negative log likelihood function for beta
-    &lt;param&gt;: list for parameters to be fitted.
-    &lt;args&gt;: 1-element array containing the sample data.
-
-    Return &lt;nll&gt;: negative log-likelihood to be minimized.
-    '''
-
-    a,b=param
-    data=args[0]
-    pdf=beta.pdf(data,a,b,loc=0,scale=1)
-    lg=numpy.log(pdf)
-    #-----Replace -inf with 0s------
-    lg=numpy.where(lg==-numpy.inf,0,lg)
-    nll=-1*numpy.sum(lg)
-    return nll
-
-#-------------------Sample data-------------------
-data=beta.rvs(5,2,loc=0,scale=1,size=500)
-
-#----------------Normalize to [0,1]----------------
-#data=(data-numpy.min(data))/(numpy.max(data)-numpy.min(data))
-
-#----------------Fit using moments----------------
-mean=numpy.mean(data)
-var=numpy.var(data,ddof=1)
-alpha1=mean**2*(1-mean)/var-mean
-beta1=alpha1*(1-mean)/mean
-
-#------------------Fit using mle------------------
-result=fmin(betaNLL,[1,1],args=(data,))
-alpha2,beta2=result
-
-#----------------Fit using beta.fit----------------
-alpha3,beta3,xx,yy=beta.fit(data)
-
-print '\n# alpha,beta from moments:',alpha1,beta1
-print '# alpha,beta from mle:',alpha2,beta2
-print '# alpha,beta from beta.fit:',alpha3,beta3
-
-#-----------------------Plot-----------------------
-plt.hist(data,bins=30,normed=True)
-fitted=lambda x,a,b:gammaf(a+b)/gammaf(a)/gammaf(b)*x**(a-1)*(1-x)**(b-1) #pdf of beta
-
-xx=numpy.linspace(0,max(data),len(data))
-plt.plot(xx,fitted(xx,alpha1,beta1),'g')
-plt.plot(xx,fitted(xx,alpha2,beta2),'b')
-plt.plot(xx,fitted(xx,alpha3,beta3),'r')
-
-plt.show()
-</code>
-
-The problem I have is about the normalization process (<code>z=(x-a)/(b-a)</code>) where <code>a</code> and <code>b</code> are the min and max of the sample, respectively.
-
-When I don't do the normalization, everything works Ok, there are slight differences among different fitting methods, by reasonably good.
-
-But when I did the normalization, here is the result plot I got.
-
-
-
-Only the moment method (green line) looks Ok.
-
-The scipy.stats.beta.fit() method (red line) is uniform always, no matter what parameters I use to generate the random numbers.
-
-And the MLE (blue line) fails.
-
-So it seems like the normalization is creating these issues. But I think it is legal to have <code>x=0</code> and <code>x=1</code> in the beta distribution. And if given a real world problem, isn't it the 1st step to normalize the sample observations to make it in between [0,1] ? In that case, how should I fit the curve?
-I'm writing a program for a dice game (Pig). In the game, the player will roll a d6 until they decide to hold their score (passing to the computer) or until they roll a 1, which will automatically make it the computer's turn.
-
-The issue I'm having is that I need the function for the computer's turn to loop ten times. I want the computer to roll the die ten times, where it will either roll a one and pass back to the player or it will hold after ten rolls. How do I get the computer to roll the die ten times without using a loop inside of Tk?
-
-Here's the code:
-
-<code>from Tkinter import *
-from random import *
-
-class App(Tk):
-    def __init__(self):
-        Tk.__init__(self)
-
-        self.headerFont = ("courier new", "16", "bold")
-
-        self.title("Pig, The Dice Game")
-        self.headers()
-        self.rollDie()
-
-    def headers(self):
-        Label(self, text = "Instructions", font = self.headerFont).grid(columnspan = 4)
-        Label(self, text = "Text", font = self.headerFont).grid(row = 1, columnspan = 4)
-
-        Label(self).grid(row = 1, columnspan = 4)
-        Label(self, text = "The Game of Pig", font = self.headerFont).grid(row = 2, columnspan = 4)
-
-    def rollDie(self):
-        self.btnRoll = Button(self, text = "Roll The Die")
-        self.btnRoll["state"] = 'active'
-        self.btnRoll.grid(row = 3, columnspan = 4)
-        self.btnRoll["command"] = self.playerTurn
-
-        self.btnHold = Button(self, text = "Hold")
-        self.btnHold["state"]= 'active'
-        self.btnHold.grid(row = 4, columnspan = 4)
-        self.btnHold["command"] = self.compTurn
-
-        self.btnPass = Button(self, text = "Pass")
-        self.btnPass.grid(row = 5, columnspan = 4)
-        self.btnPass["command"] = self.compTurn
-
-        Label(self, text = "You Rolled:").grid(row = 6, column = 0)
-        self.lblYouRolled = Label(self, bg = "#fff", anchor = "w", relief = "groove")
-        self.lblYouRolled.grid(row = 6, column = 1, columnspan = 1, sticky = "we")
-
-        Label(self, text = "Options:").grid(row = 7, column = 0)
-        self.lblOptions = Label(self, bg = "#fff", anchor = "w", relief = "groove")
-        self.lblOptions.grid(row = 7, column = 1, sticky = "we")
-
-        Label(self, text = "Player One Turn Score:").grid(row = 8, column = 0)
-        self.lblPlayerOneTurnScore = Label(self, bg = "#fff", anchor = "w", relief = "groove")
-        self.lblPlayerOneTurnScore.grid(row = 8, column = 1, sticky = "we")
-
-
-    def playerTurn(self):
-        self.oneTurnTotal = [0]
-        self.oneRoll = randint(1,6)
-        self.btnHold["state"] = 'active'
-
-        self.lblYouRolled["text"] = self.oneRoll
-
-        if self.oneRoll != 1:
-            self.oneTurnTotal.append(self.oneRoll)
-            self.lblOptions["text"] = "Roll again, or hold and pass the dice to Player Two."
-        else:
-            self.lblOptions["text"] = "You rolled a 1! Click 'Pass' to pass your turn to the computer."
-            self.oneTurnTotal = [0]
-            self.btnRoll["state"] = 'disabled'
-            self.btnHold["state"] = 'disabled'
-
-
-    def calculatePlayerOneTurnScore(self):
-        turnScore = sum(self.oneTurnTotal)
-        self.lblPlayerOneTurnScore["text"] = turnScore
-
-
-
-    def compTurn(self):
-
-        self.compTurnTotal = [0]
-        self.compRoll = randint(1,6)
-
-        self.lblYouRolled["text"] = self.compRoll
-
-        if self.compRoll != 1:
-            self.compTurnTotal.append(self.compRoll)
-            self.lblOptions["text"] = "The computer will roll again."
-
-        else:
-            self.lblOptions["text"] = "The computer rolled a 1! Its turn has ended."
-            self.compTurnTotal = [0]
-            self.btnRoll["state"] = 'active'
-
-    def calculatePlayerTwoTurnScore(self):
-        turnScore = sum(self.twoTurnTotal)
-        self.lblPlayerTwoTurnScore["text"] = turnScore
-
-
-def main():
-  app = App()
-  app.mainloop()
-
-if __name__ == "__main__":
-  main()
-</code>
-My python files are fun by fcgi without a problem, but my static content is producing 404 errors.
-
-My fastcgi.conf:
-
-<code>server.modules += ( "mod_fastcgi" )
-fastcgi.server = ("/" =&gt;
-    ((  
-        "socket" =&gt; "/tmp/webxyz-fcgi.sock",
-        "bin-path" =&gt; "/opt/local/www/xyz/webxyz.fcgi",
-        "check-local" =&gt; "disable",
-        "max-procs" =&gt; 1
-    ))  
-)
-
-alias.url = ( 
-    "/static" =&gt; "/opt/local/www/xyz/app/static"
-)
-
-url.rewrite-once = ( 
-    #"^(/static($|/.*))$" =&gt; "$1",
-    "^(/static.*)$" =&gt; "$1",
-    "^(/.*)$" =&gt; "/webxyz.fcgi$1"
-)
-</code>
-
-I have some debugging turned on:
-
-<code>debug.log-request-handling        = "enable"
-debug.log-request-header-on-error = "enable"
-debug.log-file-not-found          = "enable"
-</code>
-
-(though oddly file not found doesn't seem to do anything...)
-
-Here's what I see in the error.log for one of the static files - all the others produce similar output (the ellipses below are a bunch more uninformative condition blocks that vary only in line number):
-
-<code>2014-04-27 15:20:24: (response.c.340) Request-URI     :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-2014-04-27 15:20:24: (response.c.341) URI-scheme      :  http 
-2014-04-27 15:20:24: (response.c.342) URI-authority   :  75.101.102.25:8080 
-2014-04-27 15:20:24: (response.c.343) URI-path (raw)  :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-2014-04-27 15:20:24: (response.c.344) URI-path (clean):  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-2014-04-27 15:20:24: (response.c.345) URI-query       :   
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (response.c.249) run condition 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.273) 2 global/HTTPurl=~\.pdf$ nej 
-2014-04-27 15:20:24: (configfile-glue.c.530) 1 (uncached) result: unknown 
-...
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.467) HTTP["url"] ( /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js ) compare to  \.pdf$ 
-2014-04-27 15:20:24: (configfile-glue.c.530) 1 (uncached) result: false 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (response.c.339) -- splitting Request-URI 
-2014-04-27 15:20:24: (response.c.340) Request-URI     :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-2014-04-27 15:20:24: (response.c.341) URI-scheme      :  http 
-2014-04-27 15:20:24: (response.c.342) URI-authority   :  75.101.102.25:8080 
-2014-04-27 15:20:24: (response.c.343) URI-path (raw)  :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-2014-04-27 15:20:24: (response.c.344) URI-path (clean):  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-2014-04-27 15:20:24: (response.c.345) URI-query       :   
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (mod_access.c.135) -- mod_access_uri_handler called 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (mod_fastcgi.c.3626) handling it in mod_fastcgi 
-2014-04-27 15:20:24: (response.c.473) -- before doc_root 
-2014-04-27 15:20:24: (response.c.474) Doc-Root     : /opt/local/www/htdocs 
-2014-04-27 15:20:24: (response.c.475) Rel-Path     : /static 
-2014-04-27 15:20:24: (response.c.476) Path         :  
-2014-04-27 15:20:24: (response.c.524) -- after doc_root 
-2014-04-27 15:20:24: (response.c.525) Doc-Root     : /opt/local/www/htdocs 
-2014-04-27 15:20:24: (response.c.526) Rel-Path     : /static 
-2014-04-27 15:20:24: (response.c.527) Path         : /opt/local/www/htdocs/static 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (response.c.544) -- logical -&gt; physical 
-2014-04-27 15:20:24: (response.c.545) Doc-Root     : /opt/local/www/htdocs 
-2014-04-27 15:20:24: (response.c.546) Basedir      : /opt/local/www/xyz/app/static 
-2014-04-27 15:20:24: (response.c.547) Rel-Path     : /static 
-2014-04-27 15:20:24: (response.c.548) Path         : /opt/local/www/xyz/app/static 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.537) 1 (cached) result: false 
-2014-04-27 15:20:24: (response.c.249) run condition 
-2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
-2014-04-27 15:20:24: (configfile-glue.c.273) 2 global/HTTPurl=~\.pdf$ nej 
-...
-</code>
-
-The last path it's looking at, /opt/local/www/xyz/app/static is my static directory, and contains bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
-
-I'm not sure why it's not being found - the permissions are fine:
-
-<code>sudo -u www cat /opt/local/www/xyz/app/static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js
-</code>
-
-works as expected.
-
-Any guidance or suggestions appreciated.
-I'm not so sure there is a faster way. As I see it, you have to first find "val2" in the list, which in my experience requires a loop.
-If you don't want to use Classes to maintain state, then you may want to have a <code>global</code> variable or you can return the list from <code>create_list()</code>.
-
-Using global variable:

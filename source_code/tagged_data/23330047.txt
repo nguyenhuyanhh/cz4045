@@ -1,1 +1,1 @@
- I'm not so sure there is a faster way. As I see it, you have to first find "val2" in the list, which in my experience requires a loop. 
+~I~'m~not~so~sure~there~is~a~faster~way~.~As~I~see~it~,~you~have~to~first~find~"~val2~"~in~the~list~,~which~in~my~experience~requires~a~loop~.~

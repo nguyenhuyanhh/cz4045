@@ -1,14 +1,10 @@
- From Python 3.4 there will be official support for enums. You can find documentation and examples  here on Python 3.4 documentation page . 
-
- 
-   Enumerations are created using the class syntax, which makes them easy
-  to read and write. An alternative creation method is described in
-  Functional API. To define an enumeration, subclass Enum as follows: 
- 
-
- <code>from enum import Enum
+~From~Python~3.4~there~will~be~official~support~for~enums~.~You~can~find~documentation~and~examples~~here~on~Python~3.4~documentation~page~.~ 
+~Enumerations~are~created~using~the~class~syntax~,~which~makes~them~easy~
+~to~read~and~write~.~An~alternative~creation~method~is~described~in~
+~Functional~API~.~To~define~an~enumeration~,~subclass~Enum~as~follows~:~ 
+~from enum import Enum
 class Color(Enum):
      red = 1
      green = 2
      blue = 3
-</code> 
+~ 

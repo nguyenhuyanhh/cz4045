@@ -1,10 +1,9 @@
- Use a  defaultdict . 
-
- <code>from collections import defaultdict
+~Use~a~defaultdict~.~
+~from collections import defaultdict
 complete_dict = defaultdict(lambda: defaultdict(list))
 
 with open('data.txt', mode="rb") as data_file:
     reader = csv.reader(data_file, delimiter="\t")
     for c, s, v1, v in reader:
         complete_dict[c][s].append([v1, v2])
-</code> 
+~ 

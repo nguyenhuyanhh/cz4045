@@ -1,3 +1,1 @@
- <code>B.name</code> is a class attribute, not an instance attribute.  It shows up in <code>B.__dict__</code>, but not in <code>b = B(); b.__dict__</code>. 
-
- The distinction is obscured somewhat because when you access an attribute on an instance, the class dict is a fallback.  So in the above example, <code>b.name</code> will give you the value of <code>B.name</code>. 
+~B.name~is~a~class~attribute~,~not~an~instance~attribute~.~It~shows~up~in~B.__dict__~,~but~not~in~b = B(); b.__dict__~.~~The~distinction~is~obscured~somewhat~because~when~you~access~an~attribute~on~an~instance~,~the~class~dict~is~a~fallback~.~So~in~the~above~example,~b.name~will~give~you~the~value~of~B.name~.~

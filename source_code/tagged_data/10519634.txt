@@ -1,26 +1,15 @@
- I think the most elegant way it to invoke the W3C Validation Service at 
-
- <code>http://validator.w3.org/
-</code> 
-
- programmatically. Few people know that you do not have to screen-scrape the results in order to get the results, because the service returns non-standard HTTP header paramaters  
-
- <code>X-W3C-Validator-Recursion: 1
+~I~think~the~most~elegant~way~it~to~invoke~the~W3C~Validation~Service~at~
+~http://validator.w3.org/
+~programmatically~.~Few~people~know~that~you~do~not~have~to~screen-scrape~the~results~in~order~to~get~the~results,~because~the~service~returns~non-standard~HTTP~header~paramaters~  
+~X-W3C-Validator-Recursion: 1
 X-W3C-Validator-Status: Invalid (or Valid)
 X-W3C-Validator-Errors: 6
 X-W3C-Validator-Warnings: 0
-</code> 
-
- for indicating the validity and the number of errors and warnings. 
-
- For instance, the command line  
-
- <code>curl -I "http://validator.w3.org/check?uri=http%3A%2F%2Fwww.stalsoft.com"
-</code> 
-
- returns 
-
- <code>HTTP/1.1 200 OK
+~for~indicating~the~validity~and~the~number~of~errors~and~warnings~.~ 
+~For~instance~,~the~command~line~  
+~curl -I "http://validator.w3.org/check?uri=http%3A%2F%2Fwww.stalsoft.com"
+~returns~ 
+~HTTP/1.1 200 OK
 Date: Wed, 09 May 2012 15:23:58 GMT
 Server: Apache/2.2.9 (Debian) mod_python/3.3.1 Python/2.5.2
 Content-Language: en
@@ -31,11 +20,8 @@ X-W3C-Validator-Warnings: 0
 Content-Type: text/html; charset=UTF-8
 Vary: Accept-Encoding
 Connection: close
-</code> 
-
- Thus, you can elegantly invoke the W3C Validation Service and extract the results from the HTTP header: 
-
- <code># Programmatic XHTML Validations in Python
+~Thus,~you~can~elegantly~invoke~the~W3C~Validation~Service~and~extract~the~results~from~the~HTTP~header~:~ 
+~# Programmatic XHTML Validations in Python
 # Martin Hepp and Alex Stolz
 # mhepp@computer.org / alex.stolz@ebusiness-unibw.org
 
@@ -61,4 +47,4 @@ errors = int(response.info().getheader('X-W3C-Validator-Errors'))
 warnings = int(response.info().getheader('X-W3C-Validator-Warnings'))
 
 print "Valid markup: %s (Errors: %i, Warnings: %i) " % (valid, errors, warnings)
-</code> 
+~ 

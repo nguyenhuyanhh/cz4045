@@ -1,8 +1,7 @@
- This is how you'd do it with re: 
-
- <code>import re
+~This~is~how~you~'d~do~it~with~re~:~ 
+~import re
 p = re.compile('^hello$', re.I)
 p.match('Hello')
 p.match('hello')
 p.match('HELLO')
-</code> 
+~ 

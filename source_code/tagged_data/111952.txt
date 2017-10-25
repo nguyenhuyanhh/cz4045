@@ -1,1 +1,1 @@
- Have you taken a look at  put.py ? I've used it in the past. You can also just hack up your own request with urllib. 
+~Have~you~taken~a~look~at~put.py~?~I~'ve~used~it~in~the~past~.~You~can~also~just~hack~up~your~own~request~with~urllib~.~

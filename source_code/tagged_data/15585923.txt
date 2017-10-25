@@ -1,3 +1,2 @@
- You need to remove the element from its  parent ; you'll need to get a reference to the parent directly though, there is no path from child back up. In this case you'll have to get a reference to the <code>&lt;bar&gt;</code> element at the same time as finding the <code>&lt;buildCommand&gt;</code> element. 
-
- Trying to remove the tag from the root fails because the tag is not a direct child of the root. 
+~You~need~to~remove~the~element~from~its~~parent~;~you~'ll~need~to~get~a~reference~to~the~parent~directly~though~,~there~is~no~path~from~child~back~up~.~In~this~case~you~'ll~have~to~get~a~reference~to~the~&lt;bar&gt;~element~at~the~same~time~as~finding~the~&lt;buildCommand&gt;~element~.~ 
+~Trying~to~remove~the~tag~from~the~root~fails~because~the~tag~is~not~a~direct~child~of~the~root~.~ 

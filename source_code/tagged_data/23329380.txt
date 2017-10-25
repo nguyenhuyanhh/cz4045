@@ -1,10 +1,7 @@
- I'm writing a program for a dice game (Pig). In the game, the player will roll a d6 until they decide to hold their score (passing to the computer) or until they roll a 1, which will automatically make it the computer's turn. 
-
- The issue I'm having is that I need the function for the computer's turn to loop ten times. I want the computer to roll the die ten times, where it will either roll a one and pass back to the player or it will hold after ten rolls. How do I get the computer to roll the die ten times without using a loop inside of Tk? 
-
- Here's the code: 
-
- <code>from Tkinter import *
+~I~'m~writing~a~program~for~a~dice~game~(~Pig~)~.~In~the~game~,~the~player~will~roll~a~d6~until~they~decide~to~hold~their~score~(~passing~to~the~computer`)~or~until~they~roll~a~1~,~which~will~automatically~make~it~the~computer~'s~turn~.~
+~The~issue~I~'m~having~is~that~I~need~the~function~for~the~computer~'s~turn~to~loop~ten~times~.~I~want~the~computer~to~roll~the~die~ten~times~,~where~it~will~either~roll~a~one~and~pass~back~to~the~player~or~it~will~hold~after~ten~rolls~.~How~do~I~get~the~computer~to~roll~the~die~ten~times~without~using~a~loop~inside~of~Tk~?~
+~Here~'s~the~code~:~ 
+~from Tkinter import *
 from random import *
 
 class App(Tk):
@@ -102,4 +99,4 @@ def main():
 
 if __name__ == "__main__":
   main()
-</code> 
+~ 

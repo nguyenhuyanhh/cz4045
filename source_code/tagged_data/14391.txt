@@ -1,5 +1,1 @@
- Use a subrange of [\u0000-\uFFFF] for what you want. 
-
- You can also use the re.UNICODE compile flag.  The docs  say that if UNICODE is set, \w will match the characters [0-9_] plus whatever is classified as alphanumeric in the Unicode character properties database.  
-
- See also  http://coding.derkeiler.com/Archive/Python/comp.lang.python/2004-05/2560.html . 
+~Use~a~subrange~of~[\u0000-\uFFFF]~for~what~you~want~.~~You~can~also~use~the~re.UNICODE~compile~flag~.~The~docs~say~that~if~UNICODE~is~set~,~\w~will~match~the~characters~[0-9_]~plus~whatever~is~classified~as~alphanumeric~in~the~Unicode~character~properties~database~.~ ~See~also~http://coding.derkeiler.com/Archive/Python/comp.lang.python/2004-05/2560.html~.~ 

@@ -1,18 +1,13 @@
- This solution is a simple way of getting a class for the enumeration defined as a list (no more annoying integer assignments): 
-
- enumeration.py: 
-
- <code>import new
+~This~solution~is~a~simple~way~of~getting~a~class~for~the~enumeration~defined~as~a~list~(~no~more~annoying~integer~assignments~)~:~
+~enumeration.py~:~ 
+~import new
 
 def create(class_name, names):
     return new.classobj(
         class_name, (object,), dict((y, x) for x, y in enumerate(names))
     )
-</code> 
-
- example.py: 
-
- <code>import enumeration
+~example.py~:~ 
+~import enumeration
 
 Colors = enumeration.create('Colors', (
     'red',
@@ -22,4 +17,4 @@ Colors = enumeration.create('Colors', (
     'blue',
     'violet',
 ))
-</code> 
+~ 
