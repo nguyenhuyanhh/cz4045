@@ -1,0 +1,96 @@
+ Dlib has a really handy, fast and efficient object detection routine, and I wanted to make a cool face tracking example similar to the example  here . 
+
+ OpenCV, which is widely supported, has VideoCapture module that is fairly quick (a fifth of a second to snapshot compared with 1 second or more for calling up some program that wakes up the webcam and fetches a picture). I added this to the face detector Python example in Dlib. 
+
+ If you directly show and process the OpenCV VideoCapture output it looks odd because apparently OpenCV stores BGR instead of RGB order. After adjusting this, it works, but slowly: 
+
+ <code>from __future__ import division
+import sys
+
+import dlib
+from skimage import io
+
+
+detector = dlib.get_frontal_face_detector()
+win = dlib.image_window()
+
+if len( sys.argv[1:] ) == 0:
+    from cv2 import VideoCapture
+    from time import time
+
+    cam = VideoCapture(0)  #set the port of the camera as before
+
+    while True:
+        start = time()
+        retval, image = cam.read() #return a True bolean and and the image if all go right
+
+        for row in image:
+            for px in row:
+                #rgb expected... but the array is bgr?
+                r = px[2]
+                px[2] = px[0]
+                px[0] = r
+        #import matplotlib.pyplot as plt
+        #plt.imshow(image)
+        #plt.show()
+
+        print( "readimage: " + str( time() - start ) )
+
+        start = time()
+        dets = detector(image, 1)
+        print "your faces: %f" % len(dets)
+        for i, d in enumerate( dets ):
+            print("Detection {}: Left: {} Top: {} Right: {} Bottom: {}".format(
+                i, d.left(), d.top(), d.right(), d.bottom()))
+            print("from left: {}".format( ( (d.left() + d.right()) / 2 ) / len(image[0]) ))
+            print("from top: {}".format( ( (d.top() + d.bottom()) / 2 ) /len(image)) )
+        print( "process: " + str( time() - start ) )
+
+        start = time()
+        win.clear_overlay()
+        win.set_image(image)
+        win.add_overlay(dets)
+
+        print( "show: " + str( time() - start ) )
+        #dlib.hit_enter_to_continue()
+
+
+
+for f in sys.argv[1:]:
+    print("Processing file: {}".format(f))
+    img = io.imread(f)
+    # The 1 in the second argument indicates that we should upsample the image
+    # 1 time.  This will make everything bigger and allow us to detect more
+    # faces.
+    dets = detector(img, 1)
+    print("Number of faces detected: {}".format(len(dets)))
+    for i, d in enumerate(dets):
+        print("Detection {}: Left: {} Top: {} Right: {} Bottom: {}".format(
+            i, d.left(), d.top(), d.right(), d.bottom()))
+
+    win.clear_overlay()
+    win.set_image(img)
+    win.add_overlay(dets)
+    dlib.hit_enter_to_continue()
+
+
+# Finally, if you really want to you can ask the detector to tell you the score
+# for each detection.  The score is bigger for more confident detections.
+# Also, the idx tells you which of the face sub-detectors matched.  This can be
+# used to broadly identify faces in different orientations.
+if (len(sys.argv[1:]) &gt; 0):
+    img = io.imread(sys.argv[1])
+    dets, scores, idx = detector.run(img, 1)
+    for i, d in enumerate(dets):
+        print("Detection {}, score: {}, face_type:{}".format(
+            d, scores[i], idx[i]))
+</code> 
+
+ From the output of the timings in this program, it seems processing and grabbing the picture are each taking a fifth of a second, so you would think it should show one or 2 updates per second - however, if you raise your hand it shows in the webcam view after 5 seconds or so! 
+
+ Is there some sort of internal cache keeping it from grabbing the latest webcam image? Could I adjust or multi-thread the webcam input process to fix the lag? This is on an Intel i5 with 16gb RAM. 
+
+   Update   
+
+ According to here, it suggests the read grabs a video  frame by frame . This would explain it grabbing the next frame and the next frame, until it finally caught up to all the frames that had been grabbed while it was processing. I wonder if there is an option to set the framerate or set it to drop frames and just click a picture of the face in the webcam  now  on read?
+ http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_video_display/py_video_display.html#capture-video-from-camera  

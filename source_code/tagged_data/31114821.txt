@@ -1,0 +1,20 @@
+ I would do it with  OrderedDic t , this way: 
+
+ <code>from collections import OrderedDict
+
+d = OrderedDict()
+with open('1.txt', 'r') as f:
+    for line in f:
+        a,b = line.strip().split()
+        print a,b
+        if a not in d:
+            d[a] = [b]
+        else:
+            d[a].append(b)
+print d
+</code> 
+
+ Output: 
+
+ <code>OrderedDict([('D000001', ['T109', 'T109', 'T195']), ('D000002', ['T115', 'T115', 'T131']), ('D000003', ['T073', 'T073']), ('D000004', ['T170', 'T170', 'T175', 'T180'])])
+</code> 

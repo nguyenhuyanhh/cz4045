@@ -1,0 +1,27 @@
+ Python <code>pickle</code> cannot serialize anonymous functions. Lets illustrate that on a simplified example: 
+
+ <code>import pickle
+
+xs = [[1, 2, 3], [1, 2, 5], [1, 3, 5], [2, 4, 6]]
+pickle.dumps([x for x in  groupby(xs, lambda x: x[0])])
+
+## PicklingError
+## ...
+## PicklingError: Can't pickle ...
+</code> 
+
+ You should get rid of all references to the <code>lambdas</code> before serializing: 
+
+ <code>pickle.dumps([(k, list(v)) for (k, v) in groupby(xs, itemgetter(0))])
+
+## b'\x80\x ...
+</code> 
+
+ or don't use <code>lambda</code> expressions: 
+
+ <code>from operator import itemgetter
+
+pickle.dumps([kv for kv in groupby(xs, itemgetter(0))])
+
+## b'\x80\x ...
+</code> 

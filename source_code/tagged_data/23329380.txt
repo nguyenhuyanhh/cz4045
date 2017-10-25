@@ -1,0 +1,105 @@
+ I'm writing a program for a dice game (Pig). In the game, the player will roll a d6 until they decide to hold their score (passing to the computer) or until they roll a 1, which will automatically make it the computer's turn. 
+
+ The issue I'm having is that I need the function for the computer's turn to loop ten times. I want the computer to roll the die ten times, where it will either roll a one and pass back to the player or it will hold after ten rolls. How do I get the computer to roll the die ten times without using a loop inside of Tk? 
+
+ Here's the code: 
+
+ <code>from Tkinter import *
+from random import *
+
+class App(Tk):
+    def __init__(self):
+        Tk.__init__(self)
+
+        self.headerFont = ("courier new", "16", "bold")
+
+        self.title("Pig, The Dice Game")
+        self.headers()
+        self.rollDie()
+
+    def headers(self):
+        Label(self, text = "Instructions", font = self.headerFont).grid(columnspan = 4)
+        Label(self, text = "Text", font = self.headerFont).grid(row = 1, columnspan = 4)
+
+        Label(self).grid(row = 1, columnspan = 4)
+        Label(self, text = "The Game of Pig", font = self.headerFont).grid(row = 2, columnspan = 4)
+
+    def rollDie(self):
+        self.btnRoll = Button(self, text = "Roll The Die")
+        self.btnRoll["state"] = 'active'
+        self.btnRoll.grid(row = 3, columnspan = 4)
+        self.btnRoll["command"] = self.playerTurn
+
+        self.btnHold = Button(self, text = "Hold")
+        self.btnHold["state"]= 'active'
+        self.btnHold.grid(row = 4, columnspan = 4)
+        self.btnHold["command"] = self.compTurn
+
+        self.btnPass = Button(self, text = "Pass")
+        self.btnPass.grid(row = 5, columnspan = 4)
+        self.btnPass["command"] = self.compTurn
+
+        Label(self, text = "You Rolled:").grid(row = 6, column = 0)
+        self.lblYouRolled = Label(self, bg = "#fff", anchor = "w", relief = "groove")
+        self.lblYouRolled.grid(row = 6, column = 1, columnspan = 1, sticky = "we")
+
+        Label(self, text = "Options:").grid(row = 7, column = 0)
+        self.lblOptions = Label(self, bg = "#fff", anchor = "w", relief = "groove")
+        self.lblOptions.grid(row = 7, column = 1, sticky = "we")
+
+        Label(self, text = "Player One Turn Score:").grid(row = 8, column = 0)
+        self.lblPlayerOneTurnScore = Label(self, bg = "#fff", anchor = "w", relief = "groove")
+        self.lblPlayerOneTurnScore.grid(row = 8, column = 1, sticky = "we")
+
+
+    def playerTurn(self):
+        self.oneTurnTotal = [0]
+        self.oneRoll = randint(1,6)
+        self.btnHold["state"] = 'active'
+
+        self.lblYouRolled["text"] = self.oneRoll
+
+        if self.oneRoll != 1:
+            self.oneTurnTotal.append(self.oneRoll)
+            self.lblOptions["text"] = "Roll again, or hold and pass the dice to Player Two."
+        else:
+            self.lblOptions["text"] = "You rolled a 1! Click 'Pass' to pass your turn to the computer."
+            self.oneTurnTotal = [0]
+            self.btnRoll["state"] = 'disabled'
+            self.btnHold["state"] = 'disabled'
+
+
+    def calculatePlayerOneTurnScore(self):
+        turnScore = sum(self.oneTurnTotal)
+        self.lblPlayerOneTurnScore["text"] = turnScore
+
+
+
+    def compTurn(self):
+
+        self.compTurnTotal = [0]
+        self.compRoll = randint(1,6)
+
+        self.lblYouRolled["text"] = self.compRoll
+
+        if self.compRoll != 1:
+            self.compTurnTotal.append(self.compRoll)
+            self.lblOptions["text"] = "The computer will roll again."
+
+        else:
+            self.lblOptions["text"] = "The computer rolled a 1! Its turn has ended."
+            self.compTurnTotal = [0]
+            self.btnRoll["state"] = 'active'
+
+    def calculatePlayerTwoTurnScore(self):
+        turnScore = sum(self.twoTurnTotal)
+        self.lblPlayerTwoTurnScore["text"] = turnScore
+
+
+def main():
+  app = App()
+  app.mainloop()
+
+if __name__ == "__main__":
+  main()
+</code> 

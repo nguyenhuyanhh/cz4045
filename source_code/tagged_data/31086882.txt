@@ -1,0 +1,24 @@
+ Here is the code that does as you asked: 
+
+ <code>import os
+
+def rootdir(x):
+     for paths, dirs, files in os.walk(x):
+         for filename in files:
+             try:
+                 f=open(os.path.join(dirpath, name), 'w')
+                 f.write('new content here')
+                 f.close()
+             except Exception, e:
+                print "Could not open " + filename
+
+rootdir("/Users/xrisk/Desktop")
+</code> 
+
+ However, I have a feeling you don’t  quite  understand what’s happening here (no offence). First have a look at the documentation of <code>os.walk</code> provided by @mescalinum . The third tuple element <code>files</code> will contain only the file name. You need to combine it with <code>paths</code> to get a full path to the file.  
+
+ Also, you don’t need to read the file first to write to it. On the other hand, if you want to  append  to the file, you should use the mode 'a' when opening the file 
+
+ In general, when reading/writing a file, you only close it  after  finishing all the read/writes. Otherwise you will get an exception. 
+
+ Thanks @mescalinum 

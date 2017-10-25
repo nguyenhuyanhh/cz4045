@@ -1,0 +1,66 @@
+ I am making a small program in Python (PyGTK) that prints out a calendar (Gregorian) for a year the user inputs. 
+
+ Here is my code: 
+
+ <code>#!/usr/bin/env python
+
+import pygtk, gtk, subprocess
+pygtk.require("2.0")
+
+class Base:
+    def printing(self, widget):
+        text = self.textbox.get_text()
+        printingit = "cal -y %s | lpr" % (text)
+        process = subprocess.Popen(printingit.split(), stdout=subprocess.PIPE)
+        output = process.communicate()[0]   
+
+    def __init__(self):
+            self.win = gtk.Window(gtk.WINDOW_TOPLEVEL)
+            self.win.set_position(gtk.WIN_POS_CENTER)
+            self.win.set_size_request(350, 200)
+        self.win.set_resizable(False)
+        self.win.set_title("Calendar")
+        self.win.connect('destroy',lambda w: gtk.main_quit())
+
+        self.textbox = gtk.Entry()
+        self.textbox.set_size_request(70, 30)
+
+        self.lable = gtk.Label("Year:")
+
+        self.button = gtk.Button("Print")
+        self.button.set_size_request(60, 45)
+        self.button.connect("clicked", self.printing)
+
+        box = gtk.Fixed()
+        box.put(self.lable, 160, 25)
+        box.put(self.textbox, 140, 40)
+        box.put(self.button, 145, 100)
+
+        self.win.add(box)
+        self.win.show_all()
+
+    def main(self):
+        gtk.main()
+
+if __name__ == "__main__":
+    base = Base()
+    base.main()
+</code> 
+
+ It's not working when actually printing the command <code>cal -y %s | lpr % (text)</code>. I have made it so it replaces the textbox's text with the final command it should get and it changes to what I want it to be <code>cal -y 2015 | lpr</code>. I tried just putting that into terminal and it worked as usual, it's confusing me a lot! 
+
+ I ran the program in terminal and this is the message I recieve when it tries to print: 
+
+ <code>Usage: cal [general options] [-hjy] [[month] year]
+   cal [general options] [-hj] [-m month] [year]
+   ncal [general options] [-bhJjpwySM] [-s country_code] [[month] year]
+   ncal [general options] [-bhJeoSM] [year]
+General options: [-NC3] [-A months] [-B months]
+For debug the highlighting: [-H yyyy-mm-dd] [-d yyyy-mm]
+</code> 
+
+ If anyone understands why this is happening I would be extremely grateful! Thank you in advance =D 
+
+ 
+ Harry 
+ 

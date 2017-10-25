@@ -1,0 +1,7 @@
+ I'm struggling to understand how standardizing on one or another would not introduce serious violations of the principle of least astonishment. 
+
+ On windows, programmers are used to case insensitivity... why would a windows-only programmer expect to have to picky about this? Note that there is no possible way to implement case-sensitive environment variables here, that option simply doesn't work. 
+
+ In the linux world, ENVVAR and envvar are two different variables, you  cannot  standardize to the windows mechanism without potentially hiding information. 
+
+ In the version that is implemented, you force the developer to specify upper or lower case for a cross-platform app. The case specification is irrelevant on windows, and you'd have to do it anyways for *nix. 

@@ -1,0 +1,21 @@
+ Turn the list into a tuple instead: 
+
+ <code>print '%s (...) %s (...) %s%s (...)%s (...)' % tuple(mylist)
+</code> 
+
+ Demo: 
+
+ <code>&gt;&gt;&gt; mylist = ['a', 'b', 'c', 'd', 'e']
+&gt;&gt;&gt; print '%s (...) %s (...) %s%s (...)%s (...)' % tuple(mylist)
+a (...) b (...) cd (...)e (...)
+</code> 
+
+ Alternatively, use the  <code>.format()</code> method  instead to format your string: 
+
+ <code>print '{} (...) {} (...) {}{} (...){} (...)'.format(*mylist)
+</code> 
+
+ <code>.format()</code> also supports indexing into the list: 
+
+ <code>print '{0[0]} (...) {0[1]} (...) {0[2]}{0[3]} (...){0[4]} (...)'.format(mylist)
+</code> 

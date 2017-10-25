@@ -1,0 +1,35 @@
+ Create an inverted index that has: 
+
+ <code>customer1: [item1, item3, item8, ...]
+customer2: [item7, item8, item74, ...]
+</code> 
+
+ Then you can: 
+
+ 
+ Look up an item to get the list of customers who bought it 
+ Look up each customer to get the list of items that customer bought 
+ 
+
+ Your time per item should go from 2 minutes to less than 2 seconds. 
+
+ It requires more memory for that second index, but you're not duplicating the data. And if memory is a problem, you can store this in a simple database and still be much faster than the N^2 algorithm that you're currently using. 
+
+ More detail 
+
+ You want to create an N*N matrix that shows the similarity between any two items. Using my technique, you do the following: 
+
+ <code>Create an N*N matrix, and initialize it to 0.
+for each item
+  Get the list of customers who bought the item (from your item-to-customer index).
+  Create an empty dictionary of related items
+  for each customer in that list
+    for each item that the customer bought
+      update the dictionary (add new item, or increase count)
+    end for
+  end for
+  You now have a dictionary that contains the related items,
+  and how many customers bought each one. You can update the matrix row
+  for the current item from that dictionary.
+end for
+</code> 

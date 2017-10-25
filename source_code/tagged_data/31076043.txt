@@ -1,0 +1,58 @@
+ There are at least two key things you can rely on: the container box with <code>id="lclbox"</code> and elements with <code>class="intrlu"</code> corresponding to each result item. 
+
+ How to extract the address and a phone number from each result item can vary, here is one option (definitely, not beautiful) involving locating the phone number via regex check of each <code>span</code> element text: 
+
+ <code>import re
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+
+
+driver = webdriver.Chrome()
+driver.get('https://www.google.com/?gws_rd=ssl#q=plumbers%2Bhouston%2Btx')
+
+# waiting for results to load
+wait = WebDriverWait(driver, 10)
+box = wait.until(EC.visibility_of_element_located((By.ID, "lclbox")))
+
+phone_re = re.compile(r"\(\d{3}\) \d{3}-\d{4}")
+
+for result in box.find_elements_by_class_name("intrlu"):
+    for span in result.find_elements_by_tag_name("span"):
+        if phone_re.search(span.text):
+            parent = span.find_element_by_xpath("../..")
+            print parent.text
+            break
+    print "-----"
+</code> 
+
+ I'm pretty sure it can be improved, but hope it would give you a starting point. Prints: 
+
+ <code>Houston, TX
+(713) 812-7070
+-----
+Houston, TX
+(713) 472-5554
+-----
+6646 Satsuma Dr
+Houston, TX
+(713) 896-9700
+-----
+1420 N Durham Dr
+Houston, TX
+(713) 868-9907
+-----
+5630 Edgemoor Dr
+Houston, TX
+(713) 665-5890
+-----
+5403 Kirby Dr
+Houston, TX
+(713) 224-3747
+-----
+Houston, TX
+(713) 385-0349
+-----
+</code> 

@@ -1,0 +1,20 @@
+ Posting on behalf of the OP who is new to the site and found the answer on their own. 
+
+ <code>tileX = 0
+tileY = 0
+tile_dict = {0: pygame.image.load("C:\Users\Software Development\Desktop\Tile00.png"),    1: pygame.image.load("C:\Users\Software Development\Desktop\Tile01.png")}
+
+map00 = [[0,0,0,0],
+    [1,1,1,1], [1,0,1,0]]
+
+for x in map00:
+for x in x:
+    if x == 0:
+        screen.blit(tile_dict[0], (tileX, tileY))
+        tileX = tileX+16
+    if x == 1:
+        screen.blit(tile_dict[1], (tileX, tileY))
+        tileX = tileX+16
+tileX = 0
+tileY += 16
+</code> 

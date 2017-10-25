@@ -1,0 +1,5 @@
+ In the following method definitions, what does the <code>*</code> and <code>**</code> do for <code>param2</code>? 
+
+ <code>def foo(param1, *param2):
+def bar(param1, **param2):
+</code> 

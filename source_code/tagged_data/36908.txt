@@ -1,0 +1,66 @@
+ The <code>*args</code> and <code>**kwargs</code> is a common idiom to allow arbitrary number of arguments to functions as described in the section  more on defining functions  in the Python documentation. 
+
+ The <code>*args</code> will give you all function parameters  as a tuple : 
+
+ <code>In [1]: def foo(*args):
+   ...:     for a in args:
+   ...:         print a
+   ...:         
+   ...:         
+
+In [2]: foo(1)
+1
+
+
+In [4]: foo(1,2,3)
+1
+2
+3
+</code> 
+
+ The <code>**kwargs</code> will give you all 
+ keyword arguments  except for those corresponding to a formal parameter as a dictionary. 
+
+ <code>In [5]: def bar(**kwargs):
+   ...:     for a in kwargs:
+   ...:         print a, kwargs[a]
+   ...:         
+   ...:         
+
+In [6]: bar(name='one', age=27)
+age 27
+name one
+</code> 
+
+ Both idioms can be mixed with normal arguments to allow a set of fixed and some variable arguments: 
+
+ <code>def foo(kind, *args, **kwargs):
+   pass
+</code> 
+
+ Another usage of the <code>*l</code> idiom is to  unpack argument lists  when calling a function. 
+
+ <code>In [9]: def foo(bar, lee):
+   ...:     print bar, lee
+   ...:     
+   ...:     
+
+In [10]: l = [1,2]
+
+In [11]: foo(*l)
+1 2
+</code> 
+
+ In Python 3 it is possible to use <code>*l</code> on the left side of an assignment ( Extended Iterable Unpacking ), though it gives a list instead of a tuple in this context: 
+
+ <code>first, *rest = [1,2,3,4]
+first, *l, last = [1,2,3,4]
+</code> 
+
+ Also Python 3 adds new semantic (refer  PEP 3102 ): 
+
+ <code>def func(arg1, arg2, arg3, *, kwarg1, kwarg2):
+    pass
+</code> 
+
+ Such function accepts only 3 positional arguments, and everything after <code>*</code> can only be passed as keyword arguments. 

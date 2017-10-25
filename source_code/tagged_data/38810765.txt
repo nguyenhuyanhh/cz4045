@@ -1,0 +1,21 @@
+ You can take advantage of the <code>operator</code> module in Python and use a dictionary dispatch method, eg: 
+
+ <code>import operator
+from math import sqrt
+
+operations = {
+    '1': operator.add,
+    '2': operator.sub,
+    '3': operator.mul,
+    '4': operator.truediv,
+    '6': sqrt,
+    '99': lambda c: c * 1.8 + 32 # convert C -&gt; F
+}
+
+for operation in iter(lambda: input('Operation: '), 'quit'):
+    if operation not in operations:
+        print('Sorry - not sure what {} is'.format(operation))
+        continue
+    args = map(int, input('Enter values: ').split())
+    print('Result is', operations[operation](*args))
+</code> 

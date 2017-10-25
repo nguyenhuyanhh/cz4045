@@ -1,0 +1,4 @@
+ <code>*</code> and <code>**</code> have special usage in the function argument list. <code>*</code>
+implies that the argument is a list and <code>**</code> implies that the argument
+is a dictionary. This allows functions to take arbitrary number of
+arguments 

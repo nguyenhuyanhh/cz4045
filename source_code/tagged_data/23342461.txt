@@ -1,0 +1,28 @@
+ If you don't want to use Classes to maintain state, then you may want to have a <code>global</code> variable or you can return the list from <code>create_list()</code>. 
+
+  Using global variable : 
+
+ <code>disc_list = []
+
+def create_list():
+    global disc_list
+
+    disc_list = ['disc0', 'disc1', 'disc2']
+
+def move_discs
+    cmds.move(disc_list[1], 0, 0, 5)
+</code> 
+
+ Note that using global variables is not encouraged. 
+
+  Returning list from <code>create_list()</code> : 
+
+ <code>def create_list():
+    return ['disc0', 'disc1', 'disc2']
+
+def move_discs():
+    disc_list = create_list()
+    cmds.move(disc_list[1], 0, 0, 5)
+</code> 
+
+ But I don't think this will of much help to you as you probably need to keep the state of your list throughout the program. 

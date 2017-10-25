@@ -1,0 +1,31 @@
+ How can I get  currently running testcase name , while in the testsuite collection there are 16 testcases. Tests are executed sequentially (in the order of adding test to the testSuite collection). When I add all tests to testSuite collection I can preview this object but how can I get currently executing test while tests are running. Maybe some variable holds this information? 
+
+  example:  
+
+ <code>def suite():
+    testSuite= unittest.TestSuite()
+    testSuite.addTest(FlightsTestCases('test_sel__reservation_one_way_wizzair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_wizzair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_wizzair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_tair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_wizzair_credit_card'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_credit_card'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_wizzair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_wizzair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_easyjet_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_ryanair_transfer'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_round_ryanair_credit_card'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_duplicated'))
+    testSuite.addTest(FlightsTestCases('test_reservation_wrong_card_lowcost'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_credit_card'))
+    testSuite.addTest(FlightsTestCases('test_sel_reservation_one_way_tair_wrong_credit_card'))
+
+    return testSuite
+
+if __name__ == "__main__":
+    result = unittest.TextTestRunner(verbosity=2).run(suite())
+    sys.exit(not result.wasSuccessful())
+</code> 
+
+ Tests are executed using Selenium-RC framework. 

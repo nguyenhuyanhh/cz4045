@@ -1,0 +1,37 @@
+ Consider a sum of <code>n</code> squared iid normal random variables <code>S = sum (Z^2(mu, sig^2))</code>.  According to  this question , <code>S / sig^2</code> has a  noncentral chi-squared distribution  with degrees of freedom = <code>n</code> and non-centrality parameter = <code>n*mu^2</code>. 
+
+ However, compare generating <code>N</code> of these variables <code>S</code> by summing squared normals with generating <code>N</code> noncentral chi-squared random variables directly using <code>scipy.ncx2</code>: 
+
+ <code>import numpy as np
+from scipy.stats import ncx2, chi2
+import matplotlib.pyplot as plt
+
+n = 1000  # number of normals in sum
+N_MC = 100000  # number of trials
+
+mu = 0.05
+sig = 0.3
+
+### Generate sums of squared normals ###
+Z = np.random.normal(loc=mu, scale=sig, size=(N_MC, n))
+S = np.sum(Z**2, axis=1)
+
+### Generate non-central chi2 RVs directly ###
+dof = n
+non_centrality = n*mu**2
+NCX2 = sig**2 * ncx2.rvs(dof, non_centrality, size=N_MC)
+# NCX2 = sig**2 * chi2.rvs(dof, size=N_MC)  # for mu = 0.0
+
+### Plot histos ###
+fig, ax = plt.subplots()
+ax.hist(S, bins=50, label='S')
+ax.hist(NCX2, bins=50, label='NCX2', alpha=0.7)
+ax.legend()
+plt.show()
+</code> 
+
+ This results in the histograms
+    
+
+ I believe the mathematics is correct; could the discrepancy be a bug in the <code>ncx2</code> implementation?  Setting <code>mu = 0</code> and using <code>scipy.chi2</code> looks much better:
+    

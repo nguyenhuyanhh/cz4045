@@ -1,0 +1,15 @@
+ In my opinion, simultaneously reading and modifying a file is a bad thing to do. Consider using something like this. First read the file, make modifications, and then overwrite the file completely. 
+
+ <code>def modify(path):
+    out = []
+    f = open(path)
+    for line in f:
+        if some_condition:
+            out.append(edited_line) #make sure it has a \n at the end
+        else:
+            out.append(original_line)
+    f.close()
+    with open(path,'w') as f:
+        for line in out:
+            f.write(line)
+</code> 

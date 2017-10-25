@@ -1,0 +1,21 @@
+ I have looked for <code>django</code> doc in their official site but i can't find the article about the <code>on_update</code> model function here in  Related objects reference  except for <code>on_delete</code>. 
+
+ Here is an example code: 
+
+ <code>from django.db import models
+
+class Reporter(models.Model):
+    # ...
+    pass
+
+class Article(models.Model):
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+</code> 
+
+ Is there any version of <code>on_update</code>? 
+
+ I have visited this  Cascade on update and delete wih django  but there is not a clear answer about the <code>on_update</code>  
+
+ I am using <code>mysql</code> and define the relationship in the <code>ERD</code> and sync it to the db and tried running the <code>python manage.py inspectdb</code> to generate the <code>django-model</code> but it shows only <code>models.DO_NOTHING</code>. 
+
+ Is there a better way to achieve this, if any? 

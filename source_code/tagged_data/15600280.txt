@@ -1,0 +1,30 @@
+ <code>while True:
+    p = []
+    q = []
+    H = []
+    E = []
+    for m in range(n):
+        p = (i-d[m-2][1])/d[m-2][0]
+        q.append(p)
+    print q
+
+    r = q[0]
+    if r  &lt; g[1][0]:
+        r == g[1][0]
+    elif r &gt; g[1][1]:
+        r == g[1][1]
+    print r
+</code> 
+
+ For the problem of the coding above, I want to explain it in a simpler manner. 
+
+ <code>i = [3,5]
+
+r = [5,6]
+
+if i[0] &lt; r[0]:
+    i[0] == r[0]
+    print i
+</code> 
+
+ However, i could not get <code>[5,5]</code> in this example, why? the output is still <code>[3,5]</code> 

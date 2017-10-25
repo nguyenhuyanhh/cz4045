@@ -1,0 +1,83 @@
+ For echo Server : 
+
+ HTML : 
+
+ <code>&lt;html&gt;
+ &lt;head&gt;
+
+ &lt;script&gt;
+function validateLogin()
+{
+var username = document.getElementById("username").value;
+var password = document.getElementById("password").value;
+
+if (username.length &lt;= 0 || password.length &lt;= 0)
+  {
+  document.alert("The username or password cannot be blank");
+  return;
+  }
+
+var xmlhttp;
+
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+  } else {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)
+        {
+            document.getElementById("resultText").innerHTML=xmlhttp.responseText;
+        }else if (xmlhttp.readyState==4) {
+            document.write(xmlhttp.status + xmlhttp.statusText);
+        }
+}
+
+xmlhttp.open("POST","../post_test.py",true);
+xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded; charset=UTF-8')
+xmlhttp.send("username=" + username + "&amp;password=" + password);
+}
+&lt;/script&gt;
+ &lt;/head&gt;
+
+
+
+
+ &lt;body&gt;
+
+
+&lt;form name="login" &gt;
+Username:&lt;input type="text"  id="username"&gt;&lt;br&gt;
+Password:&lt;input type="text"  id="password"&gt;&lt;br&gt;
+Confirm password:&lt;input type="text"  id="repassword"&gt;&lt;br&gt;
+
+&lt;/form&gt;
+&lt;button onclick="validateLogin()"&gt;Login&lt;/button&gt;
+&lt;span id="resultText"&gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code> 
+
+ CGI-SCRIPT: 
+
+ <code>#!/usr/bin/python2.7
+
+import cgi
+
+
+form = cgi.FieldStorage()
+print "Content-Type: text/html;charset=utf-8"
+print "Access-Control-Allow-Origin:*"
+print
+print form
+</code> 
+
+ Replace input type <code>password</code> to <code>text</code> because got security bugs ! 
+
+ Yo got wrong answer on cgi script. Who know service is live ? So need some type, status, header, content.. 
+
+ Check post address : <code>..//</code> mean <code>currient_uri + new_path + target</code> 
+
+ On javascript: Call by ID but where ID parameter ? 

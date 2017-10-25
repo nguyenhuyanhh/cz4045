@@ -1,0 +1,45 @@
+ <code>class marcos_artwork(osv.osv):
+    def _check_appraisal_price(self, cr, uid, ids, context=None):
+        record = self.pool.get('appraisal_price')
+        if record&lt;0:
+            return False
+        return True
+
+    """artwork class"""
+    _name = 'marcos.artwork'
+    _columns = {
+        'name': fields.char('Artwork',size=32,required=True),
+        'description': fields.char('Description',size=200),
+        'appraisal_price': fields.integer('Appraisal price' ),
+        'createArtWork': fields.integer('Year of creation'),
+        'award': fields.boolean('Award'),
+        'barcode': fields.integer('Barcode'),
+        'commission': fields.integer('Commission',size=10),
+        'author_ids': fields.many2one('marcos.author', 'Author'),
+        'typeartwork_ids': fields.many2one('marcos.artwork_type', 'Artwork Type'),
+        'owner_ids': fields.many2one('marcos.owner','Owner'),
+        'style_ids': fields.many2one('marcos.style','Style'),
+        'lots_ids': fields.many2many('marcos.lots','artworks_lots_form_rel','id_artwork','id_lot','Artworks'),
+    }
+    _defaults = {
+        'award': lambda *a: False,
+    }
+
+    _sql_constraints = [
+        ('name_uniqe', 'unique(name)', 'only equals name!'),
+        ('barcode_uniqe', 'unique(barcode)', 'only equals barcode!')
+    ]
+
+    _constraints = [(_check_appraisal_price, 'Error: Length must be Positive', ['appraisal_price'])]
+
+marcos_artwork()
+</code> 
+
+ When I want to install the module, I get shown this error: 
+
+ <code>-cannot concatenate 'str' and 'function' object...
+</code> 
+
+ My function is for checking that the appraisal price is positive. 
+
+ Can anybody help me? 

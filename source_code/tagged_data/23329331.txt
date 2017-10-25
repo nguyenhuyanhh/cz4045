@@ -1,0 +1,81 @@
+ I am trying to get a correct way of fitting a beta distribution. It's not a real world problem i am just testing the effects of a few different methods, and in doing this something is puzzling me. 
+
+ Here is the python code I am working on, in which I tested 3 different approaches:
+1>: fit using moments (sample mean and variance).
+2>: fit by minimizing the negative log-likelihood (by using scipy.optimize.fmin()).
+3>: simply call scipy.stats.beta.fit() 
+
+ <code>from scipy.optimize import fmin
+from scipy.stats import beta
+from scipy.special import gamma as gammaf
+import matplotlib.pyplot as plt
+import numpy
+
+
+def betaNLL(param,*args):
+    '''Negative log likelihood function for beta
+    &lt;param&gt;: list for parameters to be fitted.
+    &lt;args&gt;: 1-element array containing the sample data.
+
+    Return &lt;nll&gt;: negative log-likelihood to be minimized.
+    '''
+
+    a,b=param
+    data=args[0]
+    pdf=beta.pdf(data,a,b,loc=0,scale=1)
+    lg=numpy.log(pdf)
+    #-----Replace -inf with 0s------
+    lg=numpy.where(lg==-numpy.inf,0,lg)
+    nll=-1*numpy.sum(lg)
+    return nll
+
+#-------------------Sample data-------------------
+data=beta.rvs(5,2,loc=0,scale=1,size=500)
+
+#----------------Normalize to [0,1]----------------
+#data=(data-numpy.min(data))/(numpy.max(data)-numpy.min(data))
+
+#----------------Fit using moments----------------
+mean=numpy.mean(data)
+var=numpy.var(data,ddof=1)
+alpha1=mean**2*(1-mean)/var-mean
+beta1=alpha1*(1-mean)/mean
+
+#------------------Fit using mle------------------
+result=fmin(betaNLL,[1,1],args=(data,))
+alpha2,beta2=result
+
+#----------------Fit using beta.fit----------------
+alpha3,beta3,xx,yy=beta.fit(data)
+
+print '\n# alpha,beta from moments:',alpha1,beta1
+print '# alpha,beta from mle:',alpha2,beta2
+print '# alpha,beta from beta.fit:',alpha3,beta3
+
+#-----------------------Plot-----------------------
+plt.hist(data,bins=30,normed=True)
+fitted=lambda x,a,b:gammaf(a+b)/gammaf(a)/gammaf(b)*x**(a-1)*(1-x)**(b-1) #pdf of beta
+
+xx=numpy.linspace(0,max(data),len(data))
+plt.plot(xx,fitted(xx,alpha1,beta1),'g')
+plt.plot(xx,fitted(xx,alpha2,beta2),'b')
+plt.plot(xx,fitted(xx,alpha3,beta3),'r')
+
+plt.show()
+</code> 
+
+ The problem I have is about the normalization process (<code>z=(x-a)/(b-a)</code>) where <code>a</code> and <code>b</code> are the min and max of the sample, respectively. 
+
+ When I don't do the normalization, everything works Ok, there are slight differences among different fitting methods, by reasonably good. 
+
+ But when I did the normalization, here is the result plot I got. 
+
+   
+
+ Only the moment method (green line) looks Ok. 
+
+ The scipy.stats.beta.fit() method (red line) is uniform always, no matter what parameters I use to generate the random numbers. 
+
+ And the MLE (blue line) fails. 
+
+ So it seems like the normalization is creating these issues. But I think it is legal to have <code>x=0</code> and <code>x=1</code> in the beta distribution. And if given a real world problem, isn't it the 1st step to normalize the sample observations to make it in between [0,1] ? In that case, how should I fit the curve? 

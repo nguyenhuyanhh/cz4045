@@ -1,0 +1,54 @@
+ Saw the following example to illustrate how to create NAN through DataFrame. 
+
+ <code>import pandas as pd
+import numpy as np
+import math
+import copy
+import QSTK.qstkutil.qsdateutil as du
+import datetime as dt
+import QSTK.qstkutil.DataAccess as da
+import QSTK.qstkutil.tsutil as tsu
+import QSTK.qstkstudy.EventProfiler as ep
+
+"""
+Accepts a list of symbols along with start and end date
+Returns the Event Matrix which is a pandas Datamatrix
+Event matrix has the following structure :
+    |IBM |GOOG|XOM |MSFT| GS | JP |
+(d1)|nan |nan | 1  |nan |nan | 1  |
+(d2)|nan | 1  |nan |nan |nan |nan |
+(d3)| 1  |nan | 1  |nan | 1  |nan |
+(d4)|nan |  1 |nan | 1  |nan |nan |
+...................................
+...................................
+Also, d1 = start date
+nan = no information about any event.
+1 = status bit(positively confirms the event occurence)
+"""
+
+def find_events(ls_symbols, d_data):
+    ''' Finding the event dataframe '''
+    df_close = d_data['actual_close']
+    ts_market = df_close['SPY']
+
+    print "Finding Events"
+
+    # Creating an empty dataframe
+    df_events = copy.deepcopy(df_close) # type &lt;class 'pandas.core.frame.DataFrame'&gt;
+    df_events = df_events * np.NAN # &lt;&lt; why it works here
+</code> 
+
+ Try to duplicate the method as follows: 
+
+ <code>import numpy as np
+import pandas as pd
+from pandas import Series, DataFrame
+
+data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada'],
+        'year': [2000, 2001, 2002, 2001, 2002],
+        'pop': [1.5, 1.7, 3.6, 2.4, 2.9]}
+frame = DataFrame(data)
+frame = frame * np.NAN # TypeError: can't multiply sequence by non-int of type 'float'
+</code> 
+
+ Q> Why it doesn't work here now? 

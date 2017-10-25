@@ -1,0 +1,49 @@
+ I am using django 1.8, and REST 3.0 with an angular frontend. 
+
+ I had set unique_together on the meta class for two fields on my model.
+It did not work well because it would not allow for multiple cases where field1 and field2 were null. 
+I need these fields to be both optional
+or if one has a value then the other must have a value as well.
+Together, they should be unique (unique_together) 
+
+ What I have so far is ridiculous and ugly. I do not know how to write it any better or more efficiently, but would love to learn how to do this in a more Pythonic way. 
+
+ <code>data = json.loads(request.body)
+#field1 and field2 are nested in an array that is only POSTed if it exists. 
+
+if 'key' in 'data':
+    field1 = data[key].get(field1,"")
+    field2 = data[key].get(field2,"")
+
+elif 'key' not in 'data':
+   field1 = "" 
+   field2 = ""
+
+if field1=="" and field2=="":
+   field1 = None
+   field2 = None
+
+elif (field1 == "") and (field2 != ""):
+   data.errors += 'You added field 2 but did not add field 1.'
+
+elif (field1 !="") and (field2 ==""):
+   data.errors += 'You added field 1 but did not add field 2.'
+
+elif (field1 = "") and (country_code!=""):
+   try:
+       field1Db = [model].objects.get(field1=field1)
+   except [model].DoesNotExist:
+       valid_field1 = True
+   else:
+       if field1Db and ((field1Db.field2)) == (field2):
+       data.errors += Field 1 + 'and' + Field 2 + 'should form a unique set if both are submitted.'
+else:
+   data.errors = False
+   data.success = True
+   return Response(data)
+</code> 
+
+ It seems to work, just ugly. 
+
+ After this, I send data to a serializer.
+Anyway, If anyone knows how to do this more effectively, I would really be appreciative to learn how. Thank you. 

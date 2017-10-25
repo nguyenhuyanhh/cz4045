@@ -1,0 +1,38 @@
+ Here is a benchmark showing that using  <code>str.lower</code>  is faster than the accepted answer's proposed method (<code>libc.strcasecmp</code>): 
+
+ <code>#/usr/bin/env python2.5
+import random
+import timeit
+
+from ctypes import *
+libc = CDLL("libc.dylib") # change to "libc.so.6" on linux
+
+words = [word.rstrip() for word in
+          open('/usr/share/dict/words', 'r').readlines()]
+random.shuffle(words)
+print '%i words in list' % len(words)
+
+setup = 'from __main__ import words, libc; gc.enable()'
+stmts = [
+    ("simple sort", "sorted(words)"),
+    ("sort with key=str.lower", "sorted(words, key=str.lower)"),
+    ("sort with cmp=libc.strcasecmp", "sorted(words, cmp=libc.strcasecmp)"),
+]
+
+for (comment, stmt) in stmts:
+    t = timeit.Timer(stmt=stmt, setup=setup)
+    print "%s: %.2f msec/pass" % (comment, (1000*t.timeit(10)/10))
+</code> 
+
+ typical times on my machine: 
+
+ <code>235886 words in list
+simple sort: 483.59 msec/pass
+sort with key=str.lower: 1064.70 msec/pass
+sort with cmp=libc.strcasecmp: 5487.86 msec/pass
+</code> 
+
+ So, the version with <code>str.lower</code> is not only the fastest by far, but also the most portable and pythonic of all the proposed solutions here.
+I have not profiled memory usage, but the original poster has still not given a compelling reason to worry about it. Also, who says that a call into the libc module doesn't duplicate any strings? 
+
+ NB: The <code>lower()</code> string method also has the advantage of being locale-dependent. Something you will probably not be getting right when writing your own "optimised" solution. Even so, due to bugs and missing features in Python, this kind of comparison may give you wrong results in a unicode context. 

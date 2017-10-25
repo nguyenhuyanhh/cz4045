@@ -1,0 +1,29 @@
+ I got a program running on my local machine which uses some files. I create the reference to the files by using: <code>os.path.join( tempfile.gettempdir(), 'filename.txt' )</code> 
+
+ After that I'm running a program which accepts some parameters <code>--log-file filepath</code> where filepath is one of the files I just explained above. 
+
+ On my machine python creates backslashes for the paths but not double backslashes and the program complains because it's considered an escape character and should be a double backslash. 
+
+ Is there any standard way of making sure that I get a working path with double backslashes in python? I could use regex but I would prefer something similar to what <code>os.</code> provides. Maybe I'm missing something. 
+
+ I'm calling the program using <code>subprocess.Popen</code>: 
+
+ <code>self._proc = subprocess.Popen( command.split( ' ' ) )</code> 
+
+ where <code>command</code> is something like <code>pcix.exe --log-file file_path</code> 
+
+ Also, running a test on my console shows that my python does not produce double backslash for paths: 
+
+ <code>&gt;&gt;&gt; print os.path.join(tempfile.gettempdir(), "test.txt")
+c:\users\manilo~1\appdata\local\temp\test.txt
+</code> 
+
+ Leaving out the print command produces the same path: 
+
+ <code>&gt;&gt;&gt; os.path.join(tempfile.gettempdir(), "test.txt")
+c:\users\manilo~1\appdata\local\temp\test.txt
+</code> 
+
+ Any idea why? 
+
+ P.S. The platform i'm running is <code>CPython</code> 
