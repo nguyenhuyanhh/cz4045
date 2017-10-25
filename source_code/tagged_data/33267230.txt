@@ -1,0 +1,19 @@
+ While there are suggestions above for "doing it the python way", if one wants to really have a logic based on EOF, then I suppose using exception handling is the way to do it --  
+
+ <code>try:
+    line = raw_input()
+    ... whatever needs to be done incase of no EOF ...
+except EOFError:
+    ... whatever needs to be done incase of EOF ...
+</code> 
+
+ Example: 
+
+ <code>$ echo test | python -c "while True: print raw_input()"
+test
+Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt; 
+EOFError: EOF when reading a line
+</code> 
+
+ Or press  Ctrl-Z  at a <code>raw_input()</code> prompt (Windows,  Ctrl-Z  Linux) 

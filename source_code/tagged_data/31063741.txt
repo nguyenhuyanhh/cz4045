@@ -1,0 +1,22 @@
+ I think you should drop the "analog=True" from your call to scipy.signal.butter and use the default digital filter. When I did this with your data, it worked pretty well. 
+
+ From the  docs : 
+
+ 
+   A scalar or length-2 sequence giving the critical frequencies. For a
+  Butterworth filter, this is the point at which the gain drops to
+  1/sqrt(2) that of the passband (the “-3 dB point”).  For digital
+  filters, Wn is normalized from 0 to 1, where 1 is the Nyquist
+  frequency, pi radians/sample. (Wn is thus in half-cycles / sample.)
+  For analog filters, Wn is an angular frequency (e.g. rad/s).  
+ 
+
+ Because you requested an analog filter, you shouldn't have normalized the start and stop frequencies to the nyquist rate. That's only appropriate for a digital filter. 
+
+ Is there a reason you want to use an analog filter here? I always use digital filters. 
+
+ Also, consider using <code>scipy.signal.filtfilt</code> instead of <code>scipy.signal.lfilter</code>. Refs: 
+
+  How To apply a filter to a signal in python  
+
+  https://dsp.stackexchange.com/questions/19084/applying-filter-in-scipy-signal-use-lfilter-or-filtfilt  

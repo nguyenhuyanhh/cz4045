@@ -1,0 +1,20 @@
+ Each <code>for</code> makes a loop; your code has two loops for years inside each other – it processes  all the years  with the first line of the file, then all the years for the second, etc. This is the error you're running into, but if you just go and fix it somehow, another one will pop up soon enough. 
+
+ 
+
+ Now, please do borrow a good Python book at the library and spend some time reading and doing the exercises. Or join a course. Get a knowledgeable friend to review your code for you. StackOverflow might help you to get through a specific problem, but sadly it can't teach you the concepts. You're on the wrong path; there's nothing but trouble ahead if you just continue like this. You should go back and learn the basics a bit better, it'll make it much easier in the long run. 
+
+ Computers are there to do tedious and repetitive tasks for you. You should  never  type out a giant list of numbers or numbered variables.
+Get familiar with lists (and lists of lists), and the  range  function. 
+
+ Use descriptive names for your variables, not abbreviations. This is Python, we like things clear. And put each statement on its own line; all those semicolons look ugly. These things are important if you want to share code, get help, or just organize your own thoughts on it. 
+
+ Study the documentation for the  csv module  and use its reader also, not just the writer. 
+
+ Get familiar with  list slicing , particularly the line[1::3] variety. 
+
+ Learn the  with  statement for files. 
+
+ If you do the same thing in each if/elif, move it out of there to a common place. 
+
+ Here's to you becoming a good programmer one day :) 

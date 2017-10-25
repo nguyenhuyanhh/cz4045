@@ -1,0 +1,1 @@
+ Install  Mozlab  in Firefox and enable the telnet server, then open a socket. 

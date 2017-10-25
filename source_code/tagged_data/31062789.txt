@@ -1,0 +1,1 @@
+ So I'd like to open chrome with its default profile using pythons webdriver. I've tried everything I could find but I still couldn't get it to work. Thanks for the help! 

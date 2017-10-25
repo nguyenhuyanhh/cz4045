@@ -1,0 +1,125 @@
+ I've visited the documenation at  https://docs.djangoproject.com/en/1.6/ref/templates/builtins/#std:templatetag-url  several times and i cant seem to get this syntax to work anywhere: 
+
+ <code>{% url 'view' obj.id %}
+</code> 
+
+ I have a view that takes one parameter so this should work but im only getting NoReverseMatch exception for some strange reason. 
+
+ When doing it like this: 
+
+ <code>{% url 'view' obj.id as test %}
+&lt;a href="{{ test }}"&gt;test&lt;/a&gt;
+</code> 
+
+ ..im getting the correct url returned back and the link address displays correctly, but when using the above mentioned syntax without setting is as a variable it doesnt work, when i for example use it directly in an element. 
+
+ When trying to do this which im trying to do: 
+
+ <code>{% url 'view' obj.id as test %}
+&lt;input type="hidden" value="{{ test }}"&gt;
+</code> 
+
+ im not getting any error but it doesnt seem like im getting any value in the value field because if there were a value in the field the code would do something, and when replacing the variable with a hard-coded string it does work. 
+
+ When doing this: 
+
+ <code>{% url 'view' obj.id as test %}
+{{ test }}
+</code> 
+
+ just to try to print the value it doesnt return anything which i find strange because when using it with the a element in html as shown at the first code line above it displays the correct url. 
+
+ So basically, im only getting the {% url 'view' obj.id %} syntax to work with the a element of html and only if i define it as a variable. 
+
+ I would like to use the {% url 'view' obj.id %} syntax in order to have a DRY code. According to the documenation this should work, does anyone have a clue about why this isnt working ? If you need more information then please let me know and i will update the question with the necessary information. 
+
+ UPDATE:
+I'm currently using django 1.6.
+The typo in the second snippet has been corrected.
+The exact line from urls.py is (im at this page, using the comment system at /comment/ which should do a reverse to the display_story view (it works without problems when hardcoding the value attribute of the input html tag but not with the url function): 
+
+ <code>url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story'),
+url(r'^comments/', include("django.contrib.comments.urls"))
+</code> 
+
+ I have also tried the url function just on the application i have created without going through the comments application but i get the same problem. 
+
+ This is the error message: 
+
+ <code>NoReverseMatch at /story/display/1/
+Reverse for 'display_story' with arguments '(1,)' and keyword arguments '{}' not found.
+</code> 
+
+ Even though i know that the view exists and takes one argument. 
+
+ This is the html code: 
+
+ <code>&lt;input type="hidden" name="next" value="{% url 'display_story' story_details.id %}"&gt;
+</code> 
+
+ I have named views with the name argument and i apply the namespace when necessary. 
+
+ The django docs says:
+exception NoReverseMatch
+The NoReverseMatch exception is raised by django.core.urlresolvers when a matching URL in your URLconf cannot be identified based on the parameters supplied. 
+
+ but that doesnt seem to be the case. 
+
+ This urls.py: 
+
+ <code>url(r'^story/display/(?P&lt;specific_story&gt;\d+)/$', 'base.views.display_story', name='display_story')
+</code> 
+
+ should match this view code: 
+
+ <code>def display_story(request, specific_story):
+    """ Display details for a specific story. """
+    story_details = Story.objects.get(id=specific_story)
+
+    return render(request, "base/story/display_story.html", {
+                    'story_details': story_details,
+        })
+</code> 
+
+ but for some reason django doesnt think the parameter sent is the the one the function receives when it clearly is stated so in the code. 
+
+ Update 2:
+When giving a keyword argument instead of a positional argument i get this error: 
+
+ <code>NoReverseMatch at /story/display/1/
+Reverse for 'display_story' with arguments '()' and keyword arguments '{u'specific_story': 1}' not found.
+</code> 
+
+ This code is used: 
+
+ <code>{% url 'display_story' specific_story=story_details.id %}
+</code> 
+
+ Update 3:
+I will update the question with the values of the local vars for the reverse function. 
+
+ To add some additional infor i ran some code in the python shell: 
+
+ <code>&gt;&gt;&gt; import base.views
+&gt;&gt;&gt; from django.core.urlresolvers import reverse
+&gt;&gt;&gt;
+&gt;&gt;&gt; test=1
+&gt;&gt;&gt; reverse("display_story", kwargs={'test': test})
+Traceback (most recent call last):
+  File "&lt;console&gt;", line 1, in &lt;module&gt;
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 496, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 416, in _reverse_with_prefix
+    "arguments '%s' not found." % (lookup_view_s, args, kwargs))
+NoReverseMatch: Reverse for 'display_story' with arguments '()' and keyword arguments '{'test': 1}' not found.
+&gt;&gt;&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; reverse("display_story", args=[1])
+Traceback (most recent call last):
+  File "&lt;console&gt;", line 1, in &lt;module&gt;
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 496, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/exceed/code/projects/python-2.7/lib/python2.7/site-packages/django/core/urlresolvers.py", line 416, in _reverse_with_prefix
+    "arguments '%s' not found." % (lookup_view_s, args, kwargs))
+NoReverseMatch: Reverse for 'display_story' with arguments '(1,)' and keyword arguments '{}' not found.
+</code> 

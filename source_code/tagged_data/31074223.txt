@@ -1,0 +1,63 @@
+ In  Dockerfile  I use: 
+
+ <code>EXPOSE 8888
+</code> 
+
+ So, I run the container: 
+
+ <code>docker run --name some-app --link some-redis:redis -d app
+</code> 
+
+ In output I have this string: 
+
+ <code>c980349b5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
+</code> 
+
+ Then I want to know the ip, that I can connect from browser: 
+
+ <code>docker inspect --format '{{ .NetworkSettings.IPAddress }}' c980349b
+5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
+</code> 
+
+ It returns  172.17.0.20  
+
+ I go to web-brouser and on page <code>http://172.17.0.20:8888</code>, but I have in Chrome  
+
+ <code>ERR_CONNECTION_TIMED_OUT
+</code> 
+
+ Whats the problem and how to fix that? 
+
+ Thanks! 
+
+  UPDATE  
+
+  Dockerfile:  
+
+ <code>FROM python:3.4.3-slim
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY app.py /usr/src/app/
+COPY requirements.txt /usr/src/app/
+RUN pip install -r requirements.txt
+CMD [ "python", "./app.py" ]
+EXPOSE 8888
+</code> 
+
+ When I use: 
+
+ <code>docker exec -it some-app bash
+netstat -tulnp | grep 8888
+</code> 
+
+ It returned: 
+
+ <code>bash: netstat: command not found
+</code> 
+
+ And 
+
+ <code>docker logs some-app
+</code> 
+
+ Returns nothing 

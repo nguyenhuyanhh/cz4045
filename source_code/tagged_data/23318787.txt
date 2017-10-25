@@ -1,0 +1,20 @@
+ I need to create a function without the use of <code>itertools</code> which will create a permutation list of tuples with a given set of anything. 
+
+ Example: 
+
+ <code>perm({1,2,3}, 2)</code> should return <code>[(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]</code>  
+
+ This is what i got: 
+
+ <code>def permutacion(conjunto, k):
+    a, b = list(), list()
+    for i in conjunto:
+        if len(b) &lt; k and i not in b:
+            b.append(i)
+
+    b = tuple(b)
+    a.append(b)
+    return a
+</code> 
+
+ I know this doesn't do anything, it will add the first combination and nothing else. 

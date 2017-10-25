@@ -1,0 +1,8 @@
+ Don't worry about that message -- that's not an error -- from the output above, it looks like Bulbs is installed. Start up Rexster and and then try it out... 
+
+ <code>&gt;&gt;&gt; from bulbs.rexster import Graph
+&gt;&gt;&gt; g = Graph()
+&gt;&gt;&gt; james = g.vertices.create(name="James")
+&gt;&gt;&gt; julie = g.vertices.create(name="Julie")
+&gt;&gt;&gt; g.edges.create(james, "knows", julie)
+</code> 

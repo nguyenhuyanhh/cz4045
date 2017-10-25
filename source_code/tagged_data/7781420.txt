@@ -1,0 +1,24 @@
+ I'm now making a web crawler. 
+
+ getting a link from HTML is easy part but acquiring a link from the result of javascript is not easy for me. 
+
+ Can I get the result of javascript so as to know where a link is referred to? 
+
+ for example. 
+
+ How can I retrieve the link to google.com from javascript code in Python? 
+
+ <code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body&gt;
+        &lt;a href="#" id="goog"&gt;to google&lt;/a&gt;
+    &lt;/body&gt;
+    &lt;script&gt;
+        document.getElementById('goog').onclick = function() {
+            window.location = "http://google.com";
+        };
+
+    &lt;/script&gt;
+&lt;/html&gt;
+</code> 

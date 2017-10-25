@@ -1,0 +1,16 @@
+ This is very much a database-specific issue. 
+
+ I know that PostgreSQL and MySQL have the ability to order by a random function, so you can use this in SQLAlchemy: 
+
+ <code>from  sqlalchemy.sql.expression import func, select
+
+select.order_by(func.random()) # for PostgreSQL, SQLite
+
+select.order_by(func.rand()) # for MySQL
+
+select.order_by('dbms_random.value') # For Oracle
+</code> 
+
+ Next, you need to limit the query by the number of records you need (for example using <code>.limit()</code>). 
+
+ Bear in mind that at least in PostgreSQL, selecting random record has severe perfomance issues;  here  is good article about it. 

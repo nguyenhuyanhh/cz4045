@@ -1,0 +1,50 @@
+ I have 2 tkinter programs. The main program will have button to open the second program. The problem is when i try to close the child program, the main program is closed instead. I close the second program with command <code>app.destroy()</code>.
+How to fix this? 
+Thanks in advance. 
+
+ All of the programs have this script 
+
+ <code>from Tkinter import *
+import Tkinter as tk
+import os
+
+class SeaofBTCapp(tk.Tk):
+
+    def __init__(self,*args,**kwargs):
+
+        tk.Tk.__init__(self)
+        container = tk.Frame(self, background="black")
+        container.pack(side="top", fill="both", expand = True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+
+
+        self.frames = {}
+
+        for F in (StartPage, PageCheck, PageUpdate, PageDigital, PageAnalog,
+                  PageResult, PageHasil):
+
+            frame = F(container, self)
+
+            self.frames[F] = frame
+
+            ##self.overrideredirect(1)
+
+            self.geometry("800x480")
+            self.title("IC Checker")
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, cont):
+
+        frame = self.frames[cont]
+        frame.tkraise()
+
+##frame class
+
+app = SeaofBTCapp()
+app.mainloop()
+</code> 

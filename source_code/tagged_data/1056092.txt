@@ -1,0 +1,3 @@
+ The question is super old, but hell:  http://code.google.com/p/formalchemy/  
+
+ Gives you basic crud out of the box, customizable to do even relatively complex things easily, and gives you a drop-in Pylons admin app too (written and customizable with the same api, no magic). 

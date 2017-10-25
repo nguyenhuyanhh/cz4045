@@ -1,0 +1,41 @@
+ I have been playing with various interpolation techniques - and particularly like the varieties shown in the youtube video 
+ https://www.youtube.com/watch?v=_cJLVhdj0j4  
+
+ However, the scatter module plots the points in the wrong location. I have transposed them below (Example 5) to make it work, but this does not work if the area of interest is not centred on the origin (Test_Rbf). 
+
+ Am I mis-understanding something fundamental, or is this a problem in the pylab scatter module? 
+
+ <code># Example 5 
+#
+# https://www.youtube.com/watch?v=_cJLVhdj0j4
+
+import numpy as np
+from scipy import interpolate
+import pylab as py
+
+def func(x,y):
+return (x+y)*np.cos(-5.0*x + 4.0*y)
+
+x = np.random.uniform(-1.0, 1.0,size=50)
+y = np.random.uniform(-1.0, 1.0,size=50)
+fvals = func(x,y)
+
+newfunc = interpolate.Rbf(x, y, fvals, function='multiquadric')
+xnew, ynew = np.mgrid[-1:1:100j, -1:1:100j]
+
+fnew = newfunc(xnew, ynew)
+true = func(xnew, ynew)
+
+py.figure()
+py.clf()
+py.imshow( fnew, extent=[-1,1,-1,1], cmap=py.cm.jet)
+# py.scatter( x, y, 30, fvals, cmap=py.cm.jet)
+py.scatter( y, -x, 30, fvals, cmap=py.cm.jet)
+
+py.show()
+
+from enthought.mayavi import mlab
+
+mlab.clf()
+mlab.surf(xnew, ynew, fnew*2)
+</code> 

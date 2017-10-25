@@ -1,0 +1,44 @@
+ Programming language: Python 3.4 
+
+ I have written a program for the Bioinformatics 1 course from Coursera. The program is working all right, but is  very slow for large datasets . I guess, it is because the loop is running for 4**k times, where k is the length of the sub-string that is passed into the function.
+Input: Strings  Text  and  Pattern  along with an integer  d .
+Output: All starting positions where  Pattern  appears as a substring of Text with at most  d  mismatches. 
+
+ This is my code: 
+
+ <code>def MotifCount(string1, substring, d):
+    k = 4 ** (len(substring))
+    codeArray = list(itertools.product(['A', 'C', 'G', 'T'], repeat=len(substring)))
+    for i in range(k):
+        codeArray2 = ''.join(list(codeArray[i]))
+        HammingValue = HammingDistance(codeArray2, substring)
+        if HammingValue &lt;= d:
+            for j in range(len(string1)):
+                if(string1.find(codeArray2, j) == j):
+                    print(j)
+
+
+
+def HammingDistance(string_1, string_2):
+    length_1 = len(string_1)
+    length_2 = len(string_2)
+    count = 0
+    for i in range(length_1):
+        if string_1[i] != string_2[i]:
+            count += 1
+    return count
+</code> 
+
+  Sample Input:  
+
+ <code>CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAAT
+ATTCTGGA
+3
+</code> 
+
+  Output:  
+
+ <code>6 7 26 27
+</code> 
+
+ I want to optimize this code for bigger data sets. Is there any way to reduce the run time of the code? 

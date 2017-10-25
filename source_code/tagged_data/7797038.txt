@@ -1,0 +1,1 @@
+ You are matching it with <code>\d{3}</code> so it will match only if it is a number with three digits ( including leading zeroes) 

@@ -1,0 +1,48 @@
+ This code is not tested, it is likely to include syntax errors. It's just for you to get an idea of how to get started. It's also not efficient because I don't know exactly what information you want to get. I'm iteration over the excel sheet multiple times, if you really want to get the information of all customers everytime, it would be more efficient to read all customers into memory before iterating over the excel sheet. 
+
+ First some modules we will use. 
+
+ <code>import re
+</code> 
+
+ You already managed to read the excel file so I will start with the loop that iterates over the customers. You can use the os.listdir function to do so. 
+
+ <code>customer_folder = "path/to/customer/folder"
+for file in os.listdir(customer_folder):
+</code> 
+
+ Now we have a loop that iterates over the customer files. Let's print which customer we are looking at at the momemnt and check if the file name is of the expected format. 
+
+ <code>    match = re.match("By_Customer_Id_([0-9]+)\.txt", file)
+    if match:
+        print("Looking at customer id '{0}':".format(match.group[1]))
+</code> 
+
+ Now we have to open the file, so we can make a list of all order id numbers of a customer. 
+
+ <code>        with open(os.path.join(customer_folder, file) as customer:
+            customer_idnos = [order.split(",")[0] for order in customer]
+</code> 
+
+ Let's iterate over the elements in the excel document so we can get information from them. We first create a dict where we save our informations later. 
+
+ <code>            sites = {}
+            for _, row in df.iterrows():
+                if row["order_idno"] in customer_idnos:
+</code> 
+
+ If the ordner id number we are looking at is in the order id numbers of the customer we are looking at we get our information. 
+
+ <code>                    if not row["sitename"] in sites:
+                        sites[row["sitename"]] = []
+                    sites[row["sitename"]].append(row["ts_placed"])
+</code> 
+
+ Let's print our informations. 
+
+ <code>            for site, weeks in sites:
+                print("    Site '{0}' visited {1} time(s):".format(
+                                 site,        len(weeks)))
+                for week in weeks:
+                    print("        In week {0}".format(week))
+</code> 

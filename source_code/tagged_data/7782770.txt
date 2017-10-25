@@ -1,0 +1,3 @@
+ A simple approach would be to pass in strings as stockQty containing the name of the member you want to modify (e.g. "qtyA"), and use <code>getattr(self, stockQty)</code> to read and <code>setattr(self, stockQty, newVal)</code> to change the value of this parameter. 
+
+ If you are not happy about passing in free form strings, you can define some class variables, e.g. <code>refQtyA = "qtyA"</code>, and use them as your parameters when you call your function: <code>buy(p.refQtyA, 10, 25)</code>. 

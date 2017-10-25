@@ -1,0 +1,22 @@
+ You will want to wire your URL to the Django  create_object generic view , and pass it either "model" (the model you want to create) or "form_class" (a customized  ModelForm  class).  There are a number of  other arguments  you can also pass to override default behaviors. 
+
+ Sample URLconf for the simplest case: 
+
+ <code>from django.conf.urls.defaults import *
+from django.views.generic.create_update import create_object
+
+from my_products_app.models import Product
+
+urlpatterns = patterns('',
+    url(r'^admin/products/add/$', create_object, {'model': Product}))
+</code> 
+
+ Your template will get the context variable "form", which you just need to wrap in a &lt;form> tag and add a submit button.  The simplest working template (by default should go in "my_products_app/product_form.html"): 
+
+ <code>&lt;form action="." method="POST"&gt;
+  {{ form }}
+  &lt;input type="submit" name="submit" value="add"&gt;
+&lt;/form&gt;
+</code> 
+
+ Note that your Product model must have a get_absolute_url method, or else you must pass in the post_save_redirect parameter to the view.  Otherwise it won't know where to redirect to after save. 

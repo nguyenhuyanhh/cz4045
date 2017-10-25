@@ -1,0 +1,8 @@
+ Tom's and Martin's response are definitely true (in just about any open source project, you'll find that most contributors are particularly interested in, well,  developing ; not so much in semi-related matters such as documentation), but I don't think your particular question at the end would fit well inside PyObjC documentation. 
+
+ <code>NSThread.detachNewThreadSelector_toTarget_withObject_("queryController", self, None)
+</code> 
+
+ <code>NSThread</code> is part of the Cocoa API, and as such  documented over at Apple , including the particular method <code>+ detachNewThreadSelector:toTarget:withObject:</code> (I'd link there, but apparently stackoverflow has bugs with parsing it). The CocoaDev wiki  also has an article . 
+
+ I don't think it would be a good idea for PyObjC to attempt to document Cocoa, other than a few basic examples of how to use it from within Python. Explaining selectors is also likely outside the scope of PyObjC, as those, too, are a feature of Objective-C, not PyObjC specifically. 

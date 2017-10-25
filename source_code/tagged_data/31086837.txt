@@ -1,0 +1,14 @@
+ Try to use different tags in Angular so that they don't conflict with those for Flask: 
+
+ <code>app.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('&lt;%');
+    $interpolateProvider.endSymbol('%&gt;');
+});
+</code> 
+
+ and then in template: 
+
+ <code>&lt;% Person.name %&gt; &lt;% Person.number %&gt;
+</code> 
+
+ Check  $interpolateProvider  for details. 

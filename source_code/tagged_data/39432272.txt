@@ -1,0 +1,8 @@
+ Have you try to use sudo and place the arch command inside task.arguments 
+
+ Like this :  
+
+ task.launchPath = "/usr/bin/sudo"
+    task.arguments = ["arch", "-x86_64", "/usr/bin/python", "/Users/tomas/Developement/N_news_reader/NReader1/ahoj.py"] 
+
+ It works for me as long as I change the visudo settings to avoid the "enter your password" step. 
