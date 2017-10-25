@@ -1,9 +1,9 @@
- You can use: 
+~You~can~use~:~
 
- <code>f, ((ax1, ax2, ax3),(ax4, ax5, ax6)) = plt.subplots(2, 3)
-</code> 
+~~f, ((ax1, ax2, ax3),(ax4, ax5, ax6)) = plt.subplots(2, 3)
+~~
 
- or: 
+~or~:~
 
- <code>f, axarray = plt.subplots(2, 3)
-</code> 
+~~f, axarray = plt.subplots(2, 3)
+~~

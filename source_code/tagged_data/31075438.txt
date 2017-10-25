@@ -1,21 +1,21 @@
- I want to run the following script from python: 
+~I~want~to~run~the~following~script~from~python~:~
 
- <code>temp=$(sky2xy image.fits 124.6456 -2.5517); arr=(${temp// / });
-</code> 
+~~temp=$(sky2xy image.fits 124.6456 -2.5517); arr=(${temp// / });
+~~
 
- For that I am using the <code>os.system()</code> module: 
+~For~that~I~am~using~the~~os.system()~~module~:~
 
- <code>import os
+~~import os
 os.system('temp=$(sky2xy image.fits 124.6456 -2.5517); arr=(${temp// / });')
-</code> 
+~~
 
- But I am getting an unexpected syntax error 
+~But~I~am~getting~an~unexpected~syntax~error~
 
- 
-   sh: 1: Syntax error: "(" unexpected
-  512 
- 
+~
+~~~sh~:~1~:~Syntax~error~:~"~(~"~unexpected
+~~512~
+~
 
- The error is due to the parenthesis used in <code>arr=(${temp// / })</code> 
+~The~error~is~due~to~the~parenthesis~used~in~~arr=(${temp// / })~~
 
- How should I get rid of this error? 
+~How~should~I~get~rid~of~this~error~?~

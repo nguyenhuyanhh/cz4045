@@ -1,11 +1,11 @@
- I have a pandas data frame with a column that represents dates as: 
+~I~have~a~pandas~data~frame~with~a~column~that~represents~dates~as~:~
 
- <code>Name: ts_placed, Length: 13631, dtype: datetime64[ns]
-</code> 
+~~Name: ts_placed, Length: 13631, dtype: datetime64[ns]
+~~
 
- It looks like this: 
+~It looks like this: 
 
- <code>0    2014-10-18 16:53:00
+~~0    2014-10-18 16:53:00
 1    2014-10-27 11:57:00
 2    2014-10-27 11:57:00
 3    2014-10-08 16:35:00
@@ -13,11 +13,11 @@
 5    2014-11-06 15:34:00
 6    2014-11-11 10:30:00
 ....
-</code> 
+~~
 
- I know how to group it in general using the function: 
+~I~know~how~to~group~it~in~general~using~the~function~:~
 
- <code>grouped = data.groupby('ts_placed')
-</code> 
+~~grouped = data.groupby('ts_placed')
+~~
 
- What I want to do is to use the same function but to group the rows by week. 
+~What~I~want~to~do~is~to~use~the~same~function~but~to~group~the~rows~by~week~.~

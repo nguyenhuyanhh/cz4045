@@ -1,8 +1,8 @@
- For echo Server : 
+~For~echo~Server~:~
 
- HTML : 
+~HTML~:~
 
- <code>&lt;html&gt;
+~~&lt;html&gt;
  &lt;head&gt;
 
  &lt;script&gt;
@@ -58,11 +58,11 @@ Confirm password:&lt;input type="text"  id="repassword"&gt;&lt;br&gt;
 &lt;span id="resultText"&gt;&lt;/span&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code> 
+~~
 
- CGI-SCRIPT: 
+~CGI-SCRIPT~:~
 
- <code>#!/usr/bin/python2.7
+~~#!/usr/bin/python2.7
 
 import cgi
 
@@ -72,12 +72,12 @@ print "Content-Type: text/html;charset=utf-8"
 print "Access-Control-Allow-Origin:*"
 print
 print form
-</code> 
+~~
 
- Replace input type <code>password</code> to <code>text</code> because got security bugs ! 
+~Replace~input~type~~password~~to~~text~~because~got~security~bugs~!~
 
- Yo got wrong answer on cgi script. Who know service is live ? So need some type, status, header, content.. 
+~Yo~got~wrong~answer~on~cgi~script~.~Who~know~service~is~live~?~So~need~some~type~,~status~,~header~,~content~.~.~
 
- Check post address : <code>..//</code> mean <code>currient_uri + new_path + target</code> 
+~Check~post~address~:~~..//~~mean~~currient_uri + new_path + target~~
 
- On javascript: Call by ID but where ID parameter ? 
+~On~javascript~:~Call~by~ID~but~where~ID~parameter~?~

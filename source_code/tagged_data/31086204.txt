@@ -1,12 +1,12 @@
- Programming language: Python 3.4 
+~Programming~language~:~Python~3~.~4~
 
- I have written a program for the Bioinformatics 1 course from Coursera. The program is working all right, but is  very slow for large datasets . I guess, it is because the loop is running for 4**k times, where k is the length of the sub-string that is passed into the function.
-Input: Strings  Text  and  Pattern  along with an integer  d .
-Output: All starting positions where  Pattern  appears as a substring of Text with at most  d  mismatches. 
+~I~have~written~a~program~for~the~Bioinformatics~1~course~from~Coursera~.~The~program~is~working~all~right~,~but~is~~very~slow~for~large~datasets~.~I~guess~,~it~is~because~the~loop~is~running~for~4~*~*~k~times~,~where~k~is~the~length~of~the~sub-string~that~is~passed~into~the~function~.~
+~Input~:~Strings~~Text~~and~~Pattern~~along~with~an~integer~~d~.~
+~Output~:~All~starting~positions~where~~Pattern~~appears~as~a~substring~of~Text~with~at~most~~d~~mismatches~.~
 
- This is my code: 
+~This~is~my~code~:~
 
- <code>def MotifCount(string1, substring, d):
+~~def MotifCount(string1, substring, d):
     k = 4 ** (len(substring))
     codeArray = list(itertools.product(['A', 'C', 'G', 'T'], repeat=len(substring)))
     for i in range(k):
@@ -27,18 +27,18 @@ def HammingDistance(string_1, string_2):
         if string_1[i] != string_2[i]:
             count += 1
     return count
-</code> 
+~~
 
-  Sample Input:  
+~~Sample~Input~:~~
 
- <code>CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAAT
+~~CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAAT
 ATTCTGGA
 3
-</code> 
+~~
 
-  Output:  
+~~Output~:~~
 
- <code>6 7 26 27
-</code> 
+~~6 7 26 27
+~~
 
- I want to optimize this code for bigger data sets. Is there any way to reduce the run time of the code? 
+~I~want~to~optimize~this~code~for~bigger~data~sets~.~Is~there~any~way~to~reduce~the~run~time~of~the~code~?~

@@ -1,10 +1,10 @@
- I have 2 tkinter programs. The main program will have button to open the second program. The problem is when i try to close the child program, the main program is closed instead. I close the second program with command <code>app.destroy()</code>.
-How to fix this? 
-Thanks in advance. 
+~I~have~2~tkinter~programs~.~The~main~program~will~have~button~to~open~the~second~program~.~The~problem~is~when~i~try~to~close~the~child~program~,~the~main~program~is~closed~instead~.~I~close~the~second~program~with~command~~app.destroy()~.~
+~How~to~fix~this~?~
+~Thanks~in~advance~.~
 
- All of the programs have this script 
+~All~of~the~programs~have~this~script~
 
- <code>from Tkinter import *
+~~from Tkinter import *
 import Tkinter as tk
 import os
 
@@ -47,4 +47,4 @@ class SeaofBTCapp(tk.Tk):
 
 app = SeaofBTCapp()
 app.mainloop()
-</code> 
+~~

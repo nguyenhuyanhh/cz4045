@@ -1,6 +1,6 @@
- You can take advantage of the <code>operator</code> module in Python and use a dictionary dispatch method, eg: 
+~You~can~take~advantage~of~the~~operator~~module~in~Python~and~use~a~dictionary~dispatch~method~,~eg~:~
 
- <code>import operator
+~~import operator
 from math import sqrt
 
 operations = {
@@ -18,4 +18,4 @@ for operation in iter(lambda: input('Operation: '), 'quit'):
         continue
     args = map(int, input('Enter values: ').split())
     print('Result is', operations[operation](*args))
-</code> 
+~~

@@ -1,38 +1,38 @@
- I did use <code>re.findall</code> 
+~I~did~use~~re.findall~~
 
- <code>x = re.findall(r'(?&lt;=x)\d+|\d+(?=x)', s)
-</code> 
+~~x = re.findall(r'(?&lt;=x)\d+|\d+(?=x)', s)
+~~
 
- Then get the first element by specifying the first index like <code>x[0]</code> . You won't get <code>None</code> value. 
+~Then~get~the~first~element~by~specifying~the~first~index~like~~x[0]~~.~You~wo~n't~get~~None~~value~.~
 
-  or  
+~~or~~
 
- You may also use <code>re.search</code> function without capturing groups. 
+~You~may~also~use~~re.search~~function~without~capturing~groups~.~
 
- <code>re.search(r'(?&lt;=x)\d+|\d+(?=x)', s).group()
-</code> 
+~~re.search(r'(?&lt;=x)\d+|\d+(?=x)', s).group()
+~~
 
- I think you want tjis, 
+~I~think~you~want~tjis~,~
 
- <code>&gt;&gt;&gt; import re
+~~&gt;&gt;&gt; import re
 &gt;&gt;&gt; s = "Boost LevDAX 3x Daily ETP"
 &gt;&gt;&gt; re.sub(r'\d+(?=x)|(?&lt;=x)\d+', r'+\g&lt;0&gt;00', s)
 'Boost LevDAX +300x Daily ETP'
-</code> 
+~~
 
-  OR  
+~~OR~~
 
- <code>&gt;&gt;&gt; s = "Boost LevDAX 3x Daily ETP"
+~~&gt;&gt;&gt; s = "Boost LevDAX 3x Daily ETP"
 &gt;&gt;&gt; re.sub(r'(\d+)x|x(\d+)', lambda m: '+'+m.group(1)+'00' if m.group(1) else '+' + m.group(2) + '00', s)
 'Boost LevDAX +300 Daily ETP'
 &gt;&gt;&gt; s = "ComStage LevDAX x2 UCITS ETF"
 &gt;&gt;&gt; re.sub(r'(\d+)x|x(\d+)', lambda m: '+'+m.group(1)+'00' if m.group(1) else '+' + m.group(2) + '00', s)
 'ComStage LevDAX +200 UCITS ETF'
-</code> 
+~~
 
- According to your comment, there is only one <code>nox</code> or <code>xno</code> present in your input strings. If yes, then you may try this, 
+~According~to~your~comment~,~there~is~only~one~~nox~~or~~xno~~present~in~your~input~strings~.~If~yes~,~then~you~may~try~this~,~
 
- <code>&gt;&gt;&gt; s = "ComStage LevDAX x2 UCITS ETF"
+~~&gt;&gt;&gt; s = "ComStage LevDAX x2 UCITS ETF"
 &gt;&gt;&gt; fundleverage = re.sub(r'.*(?:(\d+)x|x(\d+)).*', lambda m: '+'+m.group(1)+'00' if m.group(1) else '+' + m.group(2) + '00', s)
 &gt;&gt;&gt; print fundleverage
-</code> 
+~~

@@ -1,6 +1,6 @@
- I wrote a decorator which you can use on any method to make it so that all of the arguments passed in, or any defaults, are assigned to the instance. 
+~I~wrote~a~decorator~which~you~can~use~on~any~method~to~make~it~so~that~all~of~the~arguments~passed~in~,~or~any~defaults~,~are~assigned~to~the~instance~.~
 
- <code>def argumentsToAttributes(method):
+~~def argumentsToAttributes(method):
     argumentNames = method.func_code.co_varnames[1:]
 
     # Generate a dictionary of default values:
@@ -22,11 +22,11 @@
         method(self, *args, **kwargs)
 
     return newMethod
-</code> 
+~~
 
- A quick demonstration. Note that I use a positional argument <code>a</code>, use the default value for <code>b</code>, and a named argument <code>c</code>. I then print all 3 referencing <code>self</code>, to show that they've been properly assigned before the method is entered. 
+~A~quick~demonstration~.~Note~that~I~use~a~positional~argument~~a~,~use~the~default~value~for~~b~,~and~a~named~argument~~c~.~I~then~print~all~3~referencing~~self~,~to~show~that~they~'ve~been~properly~assigned~before~the~method~is~entered~.~
 
- <code>class A(object):
+~~class A(object):
     @argumentsToAttributes
     def __init__(self, a, b = 'Invisible', c = 'Hello'):
         print(self.a)
@@ -34,6 +34,6 @@
         print(self.c)
 
 A('Why', c = 'Nothing')
-</code> 
+~~
 
- Note that my decorator should work with any method, not just <code>__init__</code>. 
+~Note~that~my~decorator~should~work~with~any~method~,~not~just~~__init__~.~

@@ -1,6 +1,6 @@
- If you want to list part of your attributes, override <code>__dict__</code>: 
+~If~you~want~to~list~part~of~your~attributes~,~override~~__dict__~:~
 
- <code>def __dict__(self):
+~~def __dict__(self):
     d = {
     'attr_1' : self.attr_1,
     ...
@@ -9,6 +9,6 @@
 
 # Call __dict__
 d = instance.__dict__()
-</code> 
+~~
 
- This helps a lot if your <code>instance</code> get some large block data and you want to push <code>d</code> to Redis like message queue.  
+~This~helps~a~lot~if~your~~instance~~get~some~large~block~data~and~you~want~to~push~~d~~to~Redis~like~message~queue~.~~
