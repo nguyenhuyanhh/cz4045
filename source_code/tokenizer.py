@@ -52,7 +52,7 @@ def evaluate(tokens, truth):
             if tokens_new[i] == truth_new[j]:
                 lcs_arr[i][j] = lcs_arr[i - 1][j - 1] + 1
             else:
-                lcs_arr[i][j] = max(lcs_arr[i, j - 1], lcs_arr[i - 1, j])
+                lcs_arr[i][j] = max(lcs_arr[i][j - 1], lcs_arr[i - 1][j])
     # evaluation stats
     accr_len = start_end_sim_cnt + \
         lcs_arr[len(tokens_new) - 1][len(truth_new) - 1]
@@ -69,6 +69,7 @@ if __name__ == '__main__':
     tokenize(test_string, TAG_REG, CODE_REG, URL_REG, TOK_REG)
     tokenize(test_string_2, TAG_REG, CODE_REG, URL_REG, TOK_REG)
 
-    tokens = ['1', '3', 'a', 'hdytuiwegduig', '<code></code>']
-    truth = ['1', '3', 'ahdytuiwegduig', '<code></code>']
-    evaluate(tokens, truth)
+    tok = ['1', '3', 'a', 'hdytuiwegduig',
+           '<code></code>', 'hello', 'x', 'b']
+    tru = ['1', '3', 'ahdytuiwegduig', '<code></code>', 'hello', 'a']
+    evaluate(tok, tru)
