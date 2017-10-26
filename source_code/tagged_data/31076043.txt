@@ -1,8 +1,8 @@
- There are at least two key things you can rely on: the container box with <code>id="lclbox"</code> and elements with <code>class="intrlu"</code> corresponding to each result item. 
+~There~are~at~least~two~key~things~you~can~rely~on~:~the~container~box~with~~id="lclbox"~~and~elements~with~~class="intrlu"~~corresponding~to~each~result~item~.~
 
- How to extract the address and a phone number from each result item can vary, here is one option (definitely, not beautiful) involving locating the phone number via regex check of each <code>span</code> element text: 
+~How~to~extract~the~address~and~a~phone~number~from~each~result~item~can~vary~,~here~is~one~option~(~definitely~,~not~beautiful~)~involving~locating~the~phone~number~via~regex~check~of~each~~span~~element~text~:~
 
- <code>import re
+~~import re
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -26,11 +26,11 @@ for result in box.find_elements_by_class_name("intrlu"):
             print parent.text
             break
     print "-----"
-</code> 
+~~
 
- I'm pretty sure it can be improved, but hope it would give you a starting point. Prints: 
+~I~'m~pretty~sure~it~can~be~improved~,~but~hope~it~would~give~you~a~starting~point~.~Prints~:~
 
- <code>Houston, TX
+~~Houston, TX
 (713) 812-7070
 -----
 Houston, TX
@@ -55,4 +55,4 @@ Houston, TX
 Houston, TX
 (713) 385-0349
 -----
-</code> 
+~~

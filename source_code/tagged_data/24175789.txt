@@ -1,5 +1,1 @@
- You should not use SSL to a <code>localhost</code> hostname connection. SSL + HTTPS use a certificate with your domain name, and use this to provide authentication. 
-
- Since you are connecting to <code>localhost</code>, your hostname (localhost) will not match the hostname on the certificate and you will receive a certificate error. 
-
- There are some ways to hack around this, but I would just non-SSL (regular HTTP) on your local machine, and then when you push to your server (with your proper domain name), you can enable SSL. 
+~You~should~not~use~SSL~to~a~localhost~hostname~connection~.~SSL~+~HTTPS~use~a~certificate~with~your~domain~name~,~and~use~this~to~provide~authentication~.~~Since~you~are~connecting~to~localhost~,~your~hostname~(~localhost~)~will~not~match~the~hostname~on~the~certificate~and~you~will~receive~a~certificate~error~.~~There~are~some~ways~to~hack~around~this~,~but~I~would~just~non-SSL~(~regular~HTTP~)~on~your~local~machine~,~and~then~when~you~push~to~your~server~(~with~your~proper~domain~name~)~,~you~can~enable~SSL~.~

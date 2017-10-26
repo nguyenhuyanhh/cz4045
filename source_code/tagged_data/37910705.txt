@@ -1,19 +1,19 @@
- I can suggest you to use the  plibsys  C library. It is very simple, lightweight and cross-platform. Released under the LGPL. It provides: 
+~I~can~suggest~you~to~use~the~~plibsys~~C~library~.~It~is~very~simple~,~lightweight~and~cross-platform~.~Released~under~the~LGPL.~It~provides~:~
 
- 
- named system-wide shared memory regions (System V, POSIX and Windows implementations); 
- named system-wide semaphores for access synchronization (System V, POSIX and Windows implementations); 
- named system-wide shared buffer implementation based on the shared memory and semaphore; 
- sockets (TCP, UDP, SCTP) with IPv4 and IPv6 support (UNIX and Windows implementations). 
- 
+~
+~named~system-wide~shared~memory~regions~(~System~V~,~POSIX~and~Windows~implementations~)~;~
+~named~system-wide~semaphores~for~access~synchronization~(~System~V~,~POSIX~and~Windows~implementations~)~;~
+~named~system-wide~shared~buffer~implementation~based~on~the~shared~memory~and~semaphore~;~
+~sockets~(~TCP~,~UDP~,~SCTP~)~with~IPv4~and~IPv6~support~(~UNIX~and~Windows~implementations~)~.~
+~
 
- It is easy to use library with quite a good documentation. As it is written in C you can easily make bindings from scripting languages. 
+~It~is~easy~to~use~library~with~quite~a~good~documentation~.~As~it~is~written~in~C~you~can~easily~make~bindings~from~scripting~languages~.~
 
- If you need to pass large data sets between processes (especially if speed is essential) it is better to use shared memory to pass the data itself and sockets to notify a process that the data is ready. You can make it as following: 
+~If~you~need~to~pass~large~data~sets~between~processes~(~especially~if~speed~is~essential~)~it~is~better~to~use~shared~memory~to~pass~the~data~itself~and~sockets~to~notify~a~process~that~the~data~is~ready~.~You~can~make~it~as~following~:~
 
- 
- a process puts the data into a shared memory segment and sends a notification via a socket to another process; as a notification usually is very small the time overhead is minimal; 
- another process receives the notification and reads the data from the shared memory segment; after that it sends a notification that the data was read back to the first process so it can feed more data. 
- 
+~
+~a~process~puts~the~data~into~a~shared~memory~segment~and~sends~a~notification~via~a~socket~to~another~process~;~as~a~notification~usually~is~very~small~the~time~overhead~is~minimal~;~
+~another~process~receives~the~notification~and~reads~the~data~from~the~shared~memory~segment~;~after~that~it~sends~a~notification~that~the~data~was~read~back~to~the~first~process~so~it~can~feed~more~data~.~
+~
 
- This approach can be implemented in a cross-platform fashion. 
+~This~approach~can~be~implemented~in~a~cross-platform~fashion~.~

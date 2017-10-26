@@ -1,11 +1,9 @@
- I am trying to get a correct way of fitting a beta distribution. It's not a real world problem i am just testing the effects of a few different methods, and in doing this something is puzzling me. 
-
- Here is the python code I am working on, in which I tested 3 different approaches:
-1>: fit using moments (sample mean and variance).
-2>: fit by minimizing the negative log-likelihood (by using scipy.optimize.fmin()).
-3>: simply call scipy.stats.beta.fit() 
-
- <code>from scipy.optimize import fmin
+~I~am~trying~to~get~a~correct~way~of~fitting~a~beta~distribution~.~It~'s~not~a~real~world~problem~i~am~just~testing~the~effects~of~a~few~different~methods~,~and~in~doing~this~something~is~puzzling~me~.~
+~Here~is~the~python~code~I~am~working~on~,~in~which~I~tested~3~different~approaches~:~
+~1~>~:~fit~using~moments~(~sample~mean~and~variance~)~.~
+~2~>~:~fit~by~minimizing~the~negative~log-likelihood~(~by~using~scipy.optimize.fmin()~)~.~
+~3~>~:~simply~call~scipy.stats.beta.fit()~ 
+~from scipy.optimize import fmin
 from scipy.stats import beta
 from scipy.special import gamma as gammaf
 import matplotlib.pyplot as plt
@@ -62,20 +60,10 @@ plt.plot(xx,fitted(xx,alpha2,beta2),'b')
 plt.plot(xx,fitted(xx,alpha3,beta3),'r')
 
 plt.show()
-</code> 
-
- The problem I have is about the normalization process (<code>z=(x-a)/(b-a)</code>) where <code>a</code> and <code>b</code> are the min and max of the sample, respectively. 
-
- When I don't do the normalization, everything works Ok, there are slight differences among different fitting methods, by reasonably good. 
-
- But when I did the normalization, here is the result plot I got. 
-
-   
-
- Only the moment method (green line) looks Ok. 
-
- The scipy.stats.beta.fit() method (red line) is uniform always, no matter what parameters I use to generate the random numbers. 
-
- And the MLE (blue line) fails. 
-
- So it seems like the normalization is creating these issues. But I think it is legal to have <code>x=0</code> and <code>x=1</code> in the beta distribution. And if given a real world problem, isn't it the 1st step to normalize the sample observations to make it in between [0,1] ? In that case, how should I fit the curve? 
+~The~problem~I~have~is~about~the~normalization~process~(~z=(x-a)/(b-a)~)~where~a~and~b~are~the~min~and~max~of~the~sample~,~respectively~.~ 
+~When~I~do~n't~do~the~normalization~,~everything~works~Ok~,~there~are~slight~differences~among~different~fitting~methods~,~by~reasonably~good~.~
+~But~when~I~did~the~normalization~,~here~is~the~result~plot~I~got~.~
+~Only~the~moment~method~(~green~line~)~looks~Ok~.~
+~The~scipy.stats.beta.fit()~method~(~red~line~)~is~uniform~always~,~no~matter~what~parameters~I~use~to~generate~the~random~numbers~.~ 
+~And~the~MLE~(~blue~line~)~fails~.~
+~So~it~seems~like~the~normalization~is~creating~these~issues~.~But~I~think~it~is~legal~to~have~x=0and~x=1~in~the~beta~distribution~.~And~if~given~a~real~world~problem~,~is~n't~it~the~1st~step~to~normalize~the~sample~observations~to~make~it~in~between~[0,1]~?~In~that~case~,~how~should~I~fit~the~curve~?~ 

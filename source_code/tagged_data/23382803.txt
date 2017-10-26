@@ -1,14 +1,1 @@
- Thanks to Brian's comment, I solved my issue.
-My call was rejected directly by Apache when the slash was encoded. 
-
- I've added  AllowEncodedSlashes  Directive in my apache conf: 
-
- <code>AllowEncodedSlashes NoDecode
-</code> 
-
- With the key encoded with : 
-
- <code>encodeURIComponent(key)
-</code> 
-
- It works. 
+~Thanks~to~Brian~'s~comment~,~I~solved~my~issue~.~~My~call~was~rejected~directly~by~Apache~when~the~slash~was~encoded~.~~I~'ve~added~AllowEncodedSlashes~Directive~in~my~apache~conf~:~~AllowEncodedSlashes NoDecode~~With~the~key~encoded~with~:~~encodeURIComponent(key)~~It~works~.~

@@ -1,2 +1,2 @@
- In Python and Ruby it is only possible to use multiple cores, is to spawn new (heavyweight) processes.
-The Java counterparts inherit the possibilities of the Java platform. You could imply use Java threads. That is for example a reason why sometimes (often) Java Application Server like Glassfish are used for Ruby on Rails applications. 
+~In~Python~and~Ruby~it~is~only~possible~to~use~multiple~cores~,~is~to~spawn~new~(~heavyweight~)~processes~.~
+~The~Java~counterparts~inherit~the~possibilities~of~the~Java~platform~.~You~could~imply~use~Java~threads~.~That~is~for~example~a~reason~why~sometimes~(~often~)~Java~Application~Server~like~Glassfish~are~used~for~Ruby~on~Rails~applications~.~ 

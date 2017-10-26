@@ -1,4 +1,4 @@
- <code>value = 0x7fffffff
-</code> 
+~~value = 0x7fffffff
+~~
 
- Set the value using the code above 
+~Set~the~value~using~the~code~above~

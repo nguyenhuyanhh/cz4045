@@ -1,18 +1,10 @@
- 
-   I thought that f_dot would be slower since it had to create the temporary array denominator, and I assumed that this step was skipped by f_no_dot. 
- 
-
- For what it's worth, creating the temporary array  is  skipped, which is why <code>f_no_dot</code> is slower (but uses less memory). 
-
- Element-wise operations on arrays of the same size are faster, because numpy doesn't have to worry about the striding (dimensions, size, etc) of the arrays. 
-
- Operations that use broadcasting will generally be a bit slower than operations that don't have to. 
-
- If you have the memory to spare, creating a temporary copy can give you a speedup, but will use more memory. 
-
- For example, comparing these three functions: 
-
- <code>import numpy as np
+;I;thought;that;f_dot;would;be;slower;since;it;had;to;create;the;temporary;array;denominator;,;and;I;assumed;that;this;step;was;skipped;by;f_no_dot;.; 
+;For;what;it;'s;worth;,;creating;the;temporary;array;is;skipped;,;which;is;why;f_no_dot;is slower;(;but;uses;less;memory;);.;
+;Element-wise;operations;on;arrays;of;the;same;size;are;faster;,;because;numpy;does;n't;have;to;worry;about;the;striding;(;dimensions;,;size;,;etc;);of;the;arrays;.; 
+;Operations;that;use;broadcasting;will;generally;be;a;bit;slower;than;operations;that;do;n't;have;to;.;
+;If;you;have;the;memory;to;spare;,;creating;a;temporary;copy;can;give;you;a;speedup;,;but;will;use;more;memory;.;
+;For;example;,;comparing;these;three;functions;:;
+;import numpy as np
 import timeit
 
 def f_no_dot(x, y):
@@ -36,39 +28,25 @@ for func in ['f_dot', 'f_no_dot', 'f_in_place']:
             setup='from __main__ import x,y,f_dot, f_no_dot, f_in_place')
     print func, 'time...'
     print t / 100.0
-</code> 
-
- This yields similar timings to your results: 
-
- <code>f_dot time...
+;This;yields;similar;timings;to;your;results;:;
+;f_dot time...
 0.184361531734
 f_no_dot time...
 0.619203259945
 f_in_place time...
 0.585789341927
-</code> 
-
- However, if we compare the memory usage, things become a bit clearer... 
-
- The combined size of our <code>x</code> and <code>y</code> arrays is about 27.5 + 55 MB, or 82 MB (for 64-bit ints).  There's an additional ~11 MB of overhead in import numpy, etc. 
-
- Returning <code>x / y</code> as a new array (i.e. not doing <code>x /= y</code>) will require another 55 MB array. 
-
-  100 runs of <code>f_dot</code>: 
-We're creating a temporary array here, so we'd expect to see 11 + 82 + 55 + 55 MB or ~203 MB of memory usage.  And, that's what we see...
+;However;,;if;we;compare;the;memory;usage;,;things;become;a;bit;clearer;.;.;.; 
+;The;combined;size;of;our;x;and;y;arrays;is;about;27.5;+;55;MB;,;or;82;MB;(;for;64-bit;ints;);.;There;'s;an;additional;~;11;MB;of;overhead;in;import;numpy;,;etc;.;
+;Returning;x / y;as;a;new;array;(;i.e;.;not;doing;x /= y;);will;require;another;55;MB;array;.; 
+;100;runs;of;f_dot;:; 
+We;'re;creating;a;temporary;array;here;,;so;we;'d;expect;to;see;11;+;82;+;55;+;55;MB;or;~;203;MB;of;memory;usage;.;;And;,;that;'s;what;we;see;.;.;.;
   
 
-  100 runs of <code>f_no_dot</code>: 
-If no temporary array is created, we'd expect a peak memory usage of 11 + 82 + 55 MB, or 148 MB... 
- 
-...which is exactly what we see.  
-
- So, <code>x / y</code> is  not  creating an additional <code>num x 2</code> temporary array to do the division. 
-
- Thus, the division takes a quite a bit longer than it would if it were operating on two arrays of the same size. 
-
-  100 runs of <code>f_in_place</code>: 
-If we can modify <code>x</code> in-place, we can save even more memory, if that's the main concern.
-  
-
- Basically, numpy tries to conserve memory at the expense of speed, in some cases. 
+;100;runs;of;f_no_dot;:;
+If;no;temporary;array;is;created;,;we;'d;expect;a;peak;memory;usage;of;11;+;82;+;55;MB,;or;148;MB;.;.;.;
+;.;.;.;which;is;exactly;what;we;see;.;  
+;So;,;x / y;is;not;creating;an;additional;num x 2;temporary;array;to;do;the;division;.; 
+;Thus;,;the;division;takes;a;quite;a;bit;longer;than;it;would;if;it;were;operating;on;two;arrays;of;the;same;size;.; 
+;100;runs;of;f_in_place;:; 
+;If;we;can;modify;x;in-place;,;we;can;save;even;more;memory;,;if;that;'s;the;main;concern;.;
+;Basically;,;numpy;tries;to;conserve;memory;at;the;expense;of;speed;,;in;some;cases;.; 

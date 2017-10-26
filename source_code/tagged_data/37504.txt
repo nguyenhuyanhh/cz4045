@@ -1,13 +1,1 @@
- You might need something more complicated than a regular expression. Web pages often have angle brackets that aren't part of a tag, like this: 
-
- <code> &lt;div&gt;5 &lt; 7&lt;/div&gt;
-</code> 
-
- Stripping the tags with regex will return the string "5 " and treat 
-
- <code> &lt; 7&lt;/div&gt;
-</code> 
-
- as a single tag and strip it out. 
-
- I suggest looking for already-written code that does this for you. I did a search and found this:  http://zesty.ca/python/scrape.html  It also can resolve HTML entities. 
+~You~might~need~something~more~complicated~than~a~regular~expression~.~Web~pages~often~have~angle~brackets~that~are~n't~part~of~a~tag~,~like~this~:~~&lt;div&gt;5 &lt; 7&lt;/div&gt;~Stripping~the~tags~with~regex~will~return~the~string~"~5~"~and~treat~~ &lt; 7&lt;/div&gt;~as~a~single~tag~and~strip~it~out~.~~I~suggest~looking~for~already-written~code~that~does~this~for~you~.~I~did~a~search~and~found~this~:~http://zesty.ca/python/scrape.html~It~also~can~resolve~HTML~entities~.~

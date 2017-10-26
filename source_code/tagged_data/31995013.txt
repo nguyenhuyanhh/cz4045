@@ -1,4 +1,4 @@
- <code># simple case alternative
+~~# simple case alternative
 
 some_value = 5.0
 
@@ -20,4 +20,4 @@ while True:
     # else case 3
     print ( 'Must be less than 5')
     break
-</code> 
+~~

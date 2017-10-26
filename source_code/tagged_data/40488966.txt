@@ -1,6 +1,6 @@
- I don't see this answer here, so I figure I'll add it since I'm leaning Python right now and just discovered it. The  Python tutorial  (Python 2 in this case) gives the following simple and effective example: 
+~I~do~n't~see~this~answer~here~,~so~I~figure~I~'ll~add~it~since~I~'m~leaning~Python~right~now~and~just~discovered~it~.~The~~Python~tutorial~~(~Python~2~in~this~case~)~gives~the~following~simple~and~effective~example~:~
 
- <code>class Employee:
+~~class Employee:
     pass
 
 john = Employee()  # Create an empty employee record
@@ -9,19 +9,19 @@ john = Employee()  # Create an empty employee record
 john.name = 'John Doe'
 john.dept = 'computer lab'
 john.salary = 1000
-</code> 
+~~
 
- That is, an empty class object is created, then instantiated, and the fields are added dynamically. 
+~That~is~,~an~empty~class~object~is~created~,~then~instantiated~,~and~the~fields~are~added~dynamically~.~
 
- The up-side to this is its really simple. The downside is it isn't particularly self-documenting (the intended members aren't listed anywhere in the class "definition"), and unset fields can cause problems when accessed. Those two problems can be solved by: 
+~The~up-side~to~this~is~its~really~simple~.~The~downside~is~it~is~n't~particularly~self-documenting~(~the~intended~members~are~n't~listed~anywhere~in~the~class~"~definition~"~)~,~and~unset~fields~can~cause~problems~when~accessed~.~Those~two~problems~can~be~solved~by~:~
 
- <code>class Employee:
+~~class Employee:
     def __init__ (self):
         self.name = None # or whatever
         self.dept = None
         self.salary = None
-</code> 
+~~
 
- Now at a glance you can at least see what fields the program will be expecting. 
+~Now~at~a~glance~you~can~at~least~see~what~fields~the~program~will~be~expecting~.~
 
- Both are prone to typos, <code>john.slarly = 1000</code> will succeed. Still, it works. 
+~Both~are~prone~to~typos~,~~john.slarly = 1000~~will~succeed~.~Still~,~it~works~.~

@@ -1,13 +1,1 @@
- Provided you have the name in a variable, you could do the following: 
-
- <code>#defining a name ...
-name = 'Bill Joe'
-if name.isalpha():
-    #do what you want ...
-else:
-    #return or print an error ...
-</code> 
-
- You should look through  
-
-  https://docs.python.org/3/library/stdtypes.html?highlight=isalpha#str.isalpha  
+~Provided~you~have~the~name~in~a~variable~,~you~could~do~the~following~:~~#defining a name ...name = 'Bill Joe'if name.isalpha():    #do what you want ...else:    #return or print an error ...~~You~should~look~through~~https://docs.python.org/3/library/stdtypes.html?highlight=isalpha#str.isalpha~

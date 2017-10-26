@@ -1,8 +1,6 @@
- My python files are fun by fcgi without a problem, but my static content is producing 404 errors. 
-
- My fastcgi.conf: 
-
- <code>server.modules += ( "mod_fastcgi" )
+~My~python~files~are~fun~by~fcgi~without~a~problem~,~but~my~static~content~is~producing~404~errors~.~
+~My~fastcgi.conf~:~ 
+~server.modules += ( "mod_fastcgi" )
 fastcgi.server = ("/" =&gt;
     ((  
         "socket" =&gt; "/tmp/webxyz-fcgi.sock",
@@ -21,20 +19,13 @@ url.rewrite-once = (
     "^(/static.*)$" =&gt; "$1",
     "^(/.*)$" =&gt; "/webxyz.fcgi$1"
 )
-</code> 
-
- I have some debugging turned on: 
-
- <code>debug.log-request-handling        = "enable"
+~I~have~some~debugging~turned~on~:~
+~debug.log-request-handling        = "enable"
 debug.log-request-header-on-error = "enable"
 debug.log-file-not-found          = "enable"
-</code> 
-
- (though oddly file not found doesn't seem to do anything...) 
-
- Here's what I see in the error.log for one of the static files - all the others produce similar output (the ellipses below are a bunch more uninformative condition blocks that vary only in line number): 
-
- <code>2014-04-27 15:20:24: (response.c.340) Request-URI     :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
+~(~though~oddly~file~not~found~does~n't~seem~to~do~anything~.~.~.~)~ 
+~Here~'s~what~I~see~in~the~error.log~for~one~of~the~static~files~-~all~the~others~produce~similar~output~(~the~ellipses~below~are~a~bunch~more~uninformative~condition~blocks~that~vary~only~in~line~number~)~:~ 
+~2014-04-27 15:20:24: (response.c.340) Request-URI     :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
 2014-04-27 15:20:24: (response.c.341) URI-scheme      :  http 
 2014-04-27 15:20:24: (response.c.342) URI-authority   :  75.101.102.25:8080 
 2014-04-27 15:20:24: (response.c.343) URI-path (raw)  :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
@@ -90,15 +81,8 @@ debug.log-file-not-found          = "enable"
 2014-04-27 15:20:24: (configfile-glue.c.579) === start of condition block === 
 2014-04-27 15:20:24: (configfile-glue.c.273) 2 global/HTTPurl=~\.pdf$ nej 
 ...
-</code> 
-
- The last path it's looking at, /opt/local/www/xyz/app/static is my static directory, and contains bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js  
-
- I'm not sure why it's not being found - the permissions are fine: 
-
- <code>sudo -u www cat /opt/local/www/xyz/app/static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js
-</code> 
-
- works as expected. 
-
- Any guidance or suggestions appreciated. 
+~The~last~path~it~'s~looking~at~,~/opt/local/www/xyz/app/static~is~my~static~directory~,~and~contains~bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js~  
+~I~'m~not~sure~why~it~'s~not~being~found~-~the~permissions~are~fine~:~ 
+~sudo -u www cat /opt/local/www/xyz/app/static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js
+~works~as~expected~.~
+~Any~guidance~or~suggestions~appreciated~.~ 
