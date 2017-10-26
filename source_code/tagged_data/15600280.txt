@@ -1,4 +1,4 @@
- <code>while True:
+~while True:
     p = []
     q = []
     H = []
@@ -14,17 +14,13 @@
     elif r &gt; g[1][1]:
         r == g[1][1]
     print r
-</code> 
-
- For the problem of the coding above, I want to explain it in a simpler manner. 
-
- <code>i = [3,5]
+~For~the~problem~of~the~coding~above~,~I~want~to~explain~it~in~a~simpler~manner~.~ 
+~i = [3,5]
 
 r = [5,6]
 
 if i[0] &lt; r[0]:
     i[0] == r[0]
     print i
-</code> 
-
- However, i could not get <code>[5,5]</code> in this example, why? the output is still <code>[3,5]</code> 
+~
+~However~,~i~could~not~get~[5,5]~in~this~example~,~why~?~the~output~is~still~[3,5]~ 

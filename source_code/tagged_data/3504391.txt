@@ -1,3 +1,2 @@
- Class methods provide a "semantic sugar" (don't know if this term is widely used) - or "semantic convenience". 
-
- Example: you got a set of classes representing objects. You might want to have the class method <code>all()</code> or <code>find()</code> to write <code>User.all()</code> or <code>User.find(firstname='Guido')</code>. That could be done using module level functions of course... 
+~Class~methods~provide~a~"~semantic~sugar~"~(~do~n't~know~if~this~term~is~widely~used~)~-~or~"~semantic~convenience~"~.~
+~Example:~you~got~a~set~of~classes~representing~objects.~You~might~want~to~have~the~class~method~all()~or~find()~to~write~User.all()~or~User.find(firstname='Guido')~.~That~could~be~done~using~module~level~functions~of~course~.~.~.~ 

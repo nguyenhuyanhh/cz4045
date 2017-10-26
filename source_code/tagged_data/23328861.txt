@@ -1,8 +1,6 @@
- I am making a small program in Python (PyGTK) that prints out a calendar (Gregorian) for a year the user inputs. 
-
- Here is my code: 
-
- <code>#!/usr/bin/env python
+~I~am~making~a~small~program~in~Python~(~PyGTK~)~that~prints~out~a~calendar~(~Gregorian~)~for~a~year~the~user~inputs~.~
+~Here~is~my~code~:~
+~#!/usr/bin/env python
 
 import pygtk, gtk, subprocess
 pygtk.require("2.0")
@@ -45,22 +43,14 @@ class Base:
 if __name__ == "__main__":
     base = Base()
     base.main()
-</code> 
-
- It's not working when actually printing the command <code>cal -y %s | lpr % (text)</code>. I have made it so it replaces the textbox's text with the final command it should get and it changes to what I want it to be <code>cal -y 2015 | lpr</code>. I tried just putting that into terminal and it worked as usual, it's confusing me a lot! 
-
- I ran the program in terminal and this is the message I recieve when it tries to print: 
-
- <code>Usage: cal [general options] [-hjy] [[month] year]
+~It~'s~not~working~when~actually~printing~the~command~cal -y %s | lpr % (text)~.~I~have~made~it~so~it~replaces~the~textbox~'s~text~with~the~final~command~it~should~get~and~it~changes~to~what~I~want~it~to~be~cal -y 2015 | lpr~.~I~tried~just~putting~that~into~terminal~and~it~worked~as~usual~,~it~'s~confusing~me~a~lot~!~ 
+~I~ran~the~program~in~terminal~and~this~is~the~message~I~recieve~when~it~tries~to~print~:~
+~Usage: cal [general options] [-hjy] [[month] year]
    cal [general options] [-hj] [-m month] [year]
    ncal [general options] [-bhJjpwySM] [-s country_code] [[month] year]
    ncal [general options] [-bhJeoSM] [year]
 General options: [-NC3] [-A months] [-B months]
 For debug the highlighting: [-H yyyy-mm-dd] [-d yyyy-mm]
-</code> 
-
- If anyone understands why this is happening I would be extremely grateful! Thank you in advance =D 
-
- 
- Harry 
+~If~anyone~understands~why~this~is~happening~I~would~be~extremely~grateful~!~Thank~you~in~advance~=~D~ 
+~Harry~
  

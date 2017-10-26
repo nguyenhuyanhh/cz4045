@@ -1,22 +1,12 @@
- The solutions I use:  
-
- A combination of 2 of the solutions posted here, which is relatively easy to read and supports defaults. 
-
- <code>result = {
+~The~solutions~I~use~:~ 
+~A~combination~of~2~of~the~solutions~posted~here~,~which~is~relatively~easy~to~read~and~supports~defaults~.~ 
+~result = {
   'a': lambda x: x * 5,
   'b': lambda x: x + 7,
   'c': lambda x: x - 2
 }.get(whatToUse, lambda x: x - 22)(value)
-</code> 
-
- where 
-
- <code>.get('c', lambda x: x - 22)(23)
-</code> 
-
- looks up <code>"lambda x: x - 2"</code> in the dict and uses it with <code>x=23</code>  
-
- <code>.get('xxx', lambda x: x - 22)(44)
-</code> 
-
- doesn't find it in the dict and uses the default <code>"lambda x: x - 22"</code> with <code>x=44</code>. 
+~where~ 
+~.get('c', lambda x: x - 22)(23)
+~looks~up~"lambda x: x - 2"~in~the~dict~and~uses~it~with~x=23~  
+~.get('xxx', lambda x: x - 22)(44)
+~does~n't~find~it~in~the~dict~and~uses~the~default~"lambda x: x - 22"~with~x=44~.~ 

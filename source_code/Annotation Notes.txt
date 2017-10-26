@@ -1,0 +1,9 @@
+List of ambiguous tokens and where to find them
+1612654 - 'get()', 'pop()'
+3504391 - '...'
+7771342 - '...', 'i.e.', '~' ! use ';' as delimiter
+7797269 - ':)', '...'
+15575832 - 'P.S.'
+17796582 - '/var/www/'
+23329331 - various 'func()'
+23330014 - '...'
