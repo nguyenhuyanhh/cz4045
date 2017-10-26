@@ -1,1 +1,1 @@
- Python looks for local variables in functions at compile time. There is only one scope per function. So <code>global_var2</code> is local, because it is defined as local variable in the last line of the function. 
+~Python~looks~for~local~variables~in~functions~at~compile~time~.~There~is~only~one~scope~per~function~.~So~~global_var2~~is~local~,~because~it~is~defined~as~local~variable~in~the~last~line~of~the~function~.~

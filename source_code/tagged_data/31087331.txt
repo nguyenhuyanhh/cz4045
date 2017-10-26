@@ -1,19 +1,19 @@
- Let's say that I have a code like: 
+~Let~'s~say~that~I~have~a~code~like~:~
 
- <code>{% for x in posts %}
+~~{% for x in posts %}
    &lt;p&gt;We are in item: {{ x }}&lt;/&gt;
 {% else %}
-</code> 
+~~
 
- And I want to get the current index of the for loop to run an if loop, something like(logically): 
+~And~I~want~to~get~the~current~index~of~the~for~loop~to~run~an~if~loop~,~something~like~(~logically~)~:~
 
- <code>{% for x in posts %}
+~~{% for x in posts %}
  {% if x.index = 0 %}
    &lt;p&gt;We are in the first item!&lt;/p&gt;
  {% else %}
    &lt;p&gt;We are in item: {{ x }}&lt;/&gt;
  {% endif %}
 {% endfor %}
-</code> 
+~~
 
- How to do it inside jijna2? (I use Python with Flask). 
+~How~to~do~it~inside~jijna2~?~(~I~use~Python~with~Flask~)~.~

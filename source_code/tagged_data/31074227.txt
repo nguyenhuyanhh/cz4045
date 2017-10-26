@@ -1,11 +1,11 @@
- I have been playing with various interpolation techniques - and particularly like the varieties shown in the youtube video 
- https://www.youtube.com/watch?v=_cJLVhdj0j4  
+~I~have~been~playing~with~various~interpolation~techniques~-~and~particularly~like~the~varieties~shown~in~the~youtube~video~
+~https://www.youtube.com/watch?v=_cJLVhdj0j4~~
 
- However, the scatter module plots the points in the wrong location. I have transposed them below (Example 5) to make it work, but this does not work if the area of interest is not centred on the origin (Test_Rbf). 
+~However~,~the~scatter~module~plots~the~points~in~the~wrong~location~.~I~have~transposed~them~below~(~Example~5~)~to~make~it~work~,~but~this~does~not~work~if~the~area~of~interest~is~not~centred~on~the~origin~(~Test_Rbf~)~.~
 
- Am I mis-understanding something fundamental, or is this a problem in the pylab scatter module? 
+~Am~I~mis-understanding~something~fundamental~,~or~is~this~a~problem~in~the~pylab~scatter~module~?~
 
- <code># Example 5 
+~~# Example 5 
 #
 # https://www.youtube.com/watch?v=_cJLVhdj0j4
 
@@ -38,4 +38,4 @@ from enthought.mayavi import mlab
 
 mlab.clf()
 mlab.surf(xnew, ynew, fnew*2)
-</code> 
+~~

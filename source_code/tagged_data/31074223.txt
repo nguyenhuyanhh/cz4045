@@ -1,40 +1,40 @@
- In  Dockerfile  I use: 
+~In~~Dockerfile~~I~use~:~
 
- <code>EXPOSE 8888
-</code> 
+~~EXPOSE 8888
+~~
 
- So, I run the container: 
+~So~,~I~run~the~container~:~
 
- <code>docker run --name some-app --link some-redis:redis -d app
-</code> 
+~~docker run --name some-app --link some-redis:redis -d app
+~~
 
- In output I have this string: 
+~In~output~I~have~this~string~:~
 
- <code>c980349b5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
-</code> 
+~~c980349b5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
+~~
 
- Then I want to know the ip, that I can connect from browser: 
+~Then~I~want~to~know~the~ip~,~that~I~can~connect~from~browser~:~
 
- <code>docker inspect --format '{{ .NetworkSettings.IPAddress }}' c980349b
+~~docker inspect --format '{{ .NetworkSettings.IPAddress }}' c980349b
 5b2120064fc197b00a1aaf94aa16c788b66cb148da7826bb5488d0db
-</code> 
+~~
 
- It returns  172.17.0.20  
+~It~returns~~172~.~17~.~0~.~20~~
 
- I go to web-brouser and on page <code>http://172.17.0.20:8888</code>, but I have in Chrome  
+~I~go~to~web-brouser~and~on~page~~http://172.17.0.20:8888~,~but~I~have~in~Chrome~~
 
- <code>ERR_CONNECTION_TIMED_OUT
-</code> 
+~~ERR_CONNECTION_TIMED_OUT
+~~
 
- Whats the problem and how to fix that? 
+~Whats~the~problem~and~how~to~fix~that~?~
 
- Thanks! 
+~Thanks~!~ 
 
-  UPDATE  
+~~UPDATE~~
 
-  Dockerfile:  
+~~Dockerfile~:~~
 
- <code>FROM python:3.4.3-slim
+~~FROM python:3.4.3-slim
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY app.py /usr/src/app/
@@ -42,22 +42,22 @@ COPY requirements.txt /usr/src/app/
 RUN pip install -r requirements.txt
 CMD [ "python", "./app.py" ]
 EXPOSE 8888
-</code> 
+~~
 
- When I use: 
+~When~I~use~:~
 
- <code>docker exec -it some-app bash
+~~docker exec -it some-app bash
 netstat -tulnp | grep 8888
-</code> 
+~~
 
- It returned: 
+~It~returned~:~
 
- <code>bash: netstat: command not found
-</code> 
+~~bash: netstat: command not found
+~~
 
- And 
+~And~
 
- <code>docker logs some-app
-</code> 
+~~docker logs some-app
+~~
 
- Returns nothing 
+~Returns~nothing~

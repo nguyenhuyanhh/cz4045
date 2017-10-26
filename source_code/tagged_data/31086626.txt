@@ -1,8 +1,8 @@
- Try to read the info thrown by the python interpreter: 
+~Try~to~read~the~info~thrown~by~the~python~interpreter~:~
 
- <code>Traceback (most recent call last):
+~~Traceback (most recent call last):
   File "prog.py", line 17, in &lt;module&gt;
 NameError: name 'i' is not defined
-</code> 
+~~
 
- The line number where the error happens (17) and the type of error ('i' is not defined) appears clearly i the traceback. 
+~The~line~number~where~the~error~happens~(~17~)~and~the~type~of~error~(~'~i~'~is~not~defined~)~appears~clearly~i~the~traceback~.~

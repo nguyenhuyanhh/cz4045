@@ -1,8 +1,8 @@
- Consider a sum of <code>n</code> squared iid normal random variables <code>S = sum (Z^2(mu, sig^2))</code>.  According to  this question , <code>S / sig^2</code> has a  noncentral chi-squared distribution  with degrees of freedom = <code>n</code> and non-centrality parameter = <code>n*mu^2</code>. 
+~Consider~a~sum~of~~n~~squared~iid~normal~random~variables~~S = sum (Z^2(mu, sig^2))~.~~According~to~~this~question~,~~S / sig^2~~has~a~~noncentral~chi-squared~distribution~~with~degrees~of~freedom~=~~n~~and~non-centrality~parameter~=~~n*mu^2~.~
 
- However, compare generating <code>N</code> of these variables <code>S</code> by summing squared normals with generating <code>N</code> noncentral chi-squared random variables directly using <code>scipy.ncx2</code>: 
+~However~,~compare~generating~~N~~of~these~variables~~S~~by~summing~squared~normals~with~generating~~N~~noncentral~chi-squared~random~variables~directly~using~~scipy.ncx2~:~
 
- <code>import numpy as np
+~~import numpy as np
 from scipy.stats import ncx2, chi2
 import matplotlib.pyplot as plt
 
@@ -28,10 +28,10 @@ ax.hist(S, bins=50, label='S')
 ax.hist(NCX2, bins=50, label='NCX2', alpha=0.7)
 ax.legend()
 plt.show()
-</code> 
+~~
 
- This results in the histograms
-    
+~This~results~in~the~histograms~
+~~~~
 
- I believe the mathematics is correct; could the discrepancy be a bug in the <code>ncx2</code> implementation?  Setting <code>mu = 0</code> and using <code>scipy.chi2</code> looks much better:
-    
+~I~believe~the~mathematics~is~correct~;~could~the~discrepancy~be~a~bug~in~the~~ncx2~~implementation~?~~Setting~~mu = 0~~and~using~~scipy.chi2~~looks~much~better~:~
+~~~~

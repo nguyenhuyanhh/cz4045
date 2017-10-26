@@ -1,8 +1,8 @@
- I don't think there's any way of avoiding having to explictly convert the byte strings into unicode strings with the <code>csv</code> module in Python 3. In Python 2, they're implicitly converted to ASCII.  
+~I~do~n't~think~there~'s~any~way~of~avoiding~having~to~explictly~convert~the~byte~strings~into~unicode~strings~with~the~~csv~~module~in~Python~3~.~In~Python~2~,~they~'re~implicitly~converted~to~ASCII~.~~
 
- To make this easier you could effectively subclass <code>csv.writer</code> (or wrap) objects as shown below, which will make the process more convenient. 
+~To~make~this~easier~you~could~effectively~subclass~~csv.writer~~(~or~wrap~)~objects~as~shown~below~,~which~will~make~the~process~more~convenient~.~
 
- <code>import csv
+~~import csv
 
 class MyCsvWriter(object):
     def __init__(self, *args, **kwrds):
@@ -22,4 +22,4 @@ class MyCsvWriter(object):
 with open('bytes_test.csv', 'w', newline='') as file:
     writer = MyCsvWriter(file)
     writer.writerow([u'hello', b'world'])
-</code> 
+~~

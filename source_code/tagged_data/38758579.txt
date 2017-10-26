@@ -1,1 +1,1 @@
- If you need them to be in separate threads then a Timer object or as a commenter pointed out APScheduler. If you want to do the threading manually you could also use sched. They added support for threads in version 3.3.  Docs  
+~If~you~need~them~to~be~in~separate~threads~then~a~Timer~object~or~as~a~commenter~pointed~out~APScheduler~.~If~you~want~to~do~the~threading~manually~you~could~also~use~sched~.~They~added~support~for~threads~in~version~3~.~3~.~~Docs~~

@@ -1,6 +1,1 @@
- I was asking myself the same question few times. And even though the guys here tried hard to explain it, IMHO the best answer (and simplest) answer I have found is the  description  of the Class method in the Python Documentation. 
-
- There is also reference to the Static method. And in case someone already know instance methods (which I assume), this answer might be the final piece to put it all together... 
-
- Further and deeper elaboration on this topic can be found also in the documentation:
- The standard type hierarchy  (scroll down to  Instance methods  section) 
+~I~was~asking~myself~the~same~question~few~times~.~And~even~though~the~guys~here~tried~hard~to~explain~it~,~IMHO~the~best~answer~(~and~simplest~)~answer~I~have~found~is~the~description~of~the~Class~method~in~the~Python~Documentation~.~~There~is~also~reference~to~the~Static~method~.~And~in~case~someone~already~know~instance~methods~(~which~I~assume~)~,~this~answer~might~be~the~final~piece~to~put~it~all~together~.~.~.~~Further~and~deeper~elaboration~on~this~topic~can~be~found~also~in~the~documentation~:~~The~standard~type~hierarchy~(~scroll~down~to~Instance~methods~section~)~

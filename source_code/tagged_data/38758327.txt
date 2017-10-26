@@ -1,7 +1,7 @@
- Life is too short, just use <code>pandas</code> 
+~Life~is~too~short~,~just~use~~pandas~~
 
- <code>import pandas as pd
+~~import pandas as pd
 df.to_csv('output.csv', sep='|')
-</code> 
+~~
 
- By default, the delimiator is <code>','</code>, that is why it is called Commasv. But by changing the <code>sep</code> to <code>'|'</code>, you could simply achieve what you want. 
+~By~default~,~the~delimiator~is~~','~,~that~is~why~it~is~called~Commasv~.~But~by~changing~the~~sep~~to~~'|'~,~you~could~simply~achieve~what~you~want~.~
