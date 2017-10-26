@@ -14,9 +14,9 @@ URL_REG = re.compile(
 FILE_REG = re.compile(
     r'(?:(?:/[A-z0-9\_\-\.]+)+)|(?:(?:[A-z]:)?(?:\\[A-z0-9\.]+)+)')
 EXCEPTION_REG = re.compile(
-    r'(?:[A-z0-9]+-[A-z0-9]+)|(?:\[.*?\])|(?:\{.*?\})|(?:i\.e\.?)|(?:e\.g\.?)|(?:(?:\w[\S]*?\.)?\w+\([\S]*?\))|(?:(?:\w[\S]*?\.)?\w+[\S]*?)|(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|(?:\$[A-z][A-z0-9]+)')
+    r'(?:[A-z0-9]+-[A-z0-9]+)|(?:\[.*?\])|(?:\{.*?\})|(?:i\.e\.?)|(?:e\.g\.?)|(?:(?:\w[\S]*?\.)?\w+\([\S]*?\))|(?:[A-z][A-z0-9]*\.[A-z][A-z0-9]*)|(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|(?:\$[A-z][A-z0-9]+)')
 TOK_REG = re.compile(
-    r'(?:\d+\.\d+)|(?:\w+)(?:n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w]+)|(?:\w+)|(?:\w+\.\w+)')
+    r'(?:\d+\.\d+)|(?:\w+)(?=n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w]+)|(?:\w+)|(?:\w+\.\w+)')
 
 
 def tokenize(in_string):
@@ -128,10 +128,10 @@ def evaluate(tokens, truth):
 
 if __name__ == '__main__':
     test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
-    test_string_2 = "<blockquote> 3<a and b>5 </a></blockquote> /public \\file\\name\\test.txt /nfs/an/disks/jj/home/dir/file.txt C:\\Users\\Deon\\SchoolWork hello \n world <h1></h1>"
+    test_string_2 = "<blockquote> 3<a and b>5 </a></blockquote> don't php's /public \\file\\name\\test.txt /nfs/an/disks/jj/home/dir/file.txt C:\\Users\\Deon\\SchoolWork hello \n world <h1></h1>"
     assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
     print(tokenize_v2(test_string))
-
+    print(tokenize_v2(test_string_2))
     tok = ['1', '3', 'a', 'hdytuiwegduig',
            '<code></code>', 'hello', 'x', 'b']
     tru = ['1', '3', 'ahdytuiwegduig', '<code></code>', 'hello', 'a']
