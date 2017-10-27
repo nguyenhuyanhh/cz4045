@@ -37,7 +37,7 @@ def tokenize(in_string):
             exception_tokens + word_tokens)
 
 
-def tokenize_op(in_string, reg_obj, pos_list=None, tokens=None):
+def tokenize_op(in_string, reg_obj, pos_list, tokens):
     """An atom tokenization operation, using a single regex.
 
     Arguments:
@@ -49,12 +49,7 @@ def tokenize_op(in_string, reg_obj, pos_list=None, tokens=None):
         ret_pos_list: list of start/end indexes of non-matches
         tokens - tokens dictionary
     """
-    # init returns and None-type arguments
     ret_pos_list = []
-    if not tokens:
-        tokens = {}
-    if not pos_list:
-        pos_list = [[0, len(in_string)]]
 
     for index in pos_list:
         # init start and end index to search
@@ -78,14 +73,13 @@ def tokenize_v2(in_string):
     in_string = TAG_REG.sub(' ', in_string)
 
     # init
-    tokens = None
-    ret_pos_list = None
+    tokens = {}
+    pos_list = [[0, len(in_string)]]
     regexes = [CODE_REG, FILE_REG, URL_REG, EXCEPTION_REG, TOK_REG]
 
     # operations, one-by-one in that order
     for reg in regexes:
-        ret_pos_list, tokens = tokenize_op(
-            in_string, reg, ret_pos_list, tokens)
+        pos_list, tokens = tokenize_op(in_string, reg, pos_list, tokens)
     return [tokens[k] for k in sorted(tokens)]
 
 
@@ -138,8 +132,9 @@ def evaluate(tokens, truth):
 
 
 if __name__ == '__main__':
-    test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
-    test_string_2 = "<blockquote> 3<a and b>5 </a></blockquote> don't php's /public \\file\\name\\test.txt /nfs/an/disks/jj/home/dir/file.txt C:\\Users\\Deon\\SchoolWork hello \n world <h1></h1>"
-    assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
-    print(tokenize_v2(test_string))
-    print(tokenize_v2(test_string_2))
+    # test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
+    # test_string_2 = "<blockquote> 3<a and b>5 </a></blockquote> don't php's /public \\file\\name\\test.txt /nfs/an/disks/jj/home/dir/file.txt C:\\Users\\Deon\\SchoolWork hello \n world <h1></h1>"
+    # assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
+    # print(tokenize_v2(test_string))
+    # print(tokenize_v2(test_string_2))
+    print(tokenize_v2('<code></code>'))
