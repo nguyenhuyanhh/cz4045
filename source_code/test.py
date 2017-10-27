@@ -67,6 +67,17 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2('/home/nhanh/hello.txt'),
                          ['/home/nhanh/hello.txt'])
 
+    def test_file_path_unix_dir(self):
+        """Test for Unix folder paths."""
+        self.assertEqual(tokenize_v2('/home/nhanh/'), ['/home/nhanh/'])
+
+    def test_file_path_unix_dots(self):
+        """Test for Uniz file paths using . or .."""
+        self.assertEqual(tokenize_v2('..'), ['..'])
+        self.assertEqual(tokenize_v2('../..'), ['../..'])
+        self.assertEqual(tokenize_v2('./..'), ['./..'])
+        self.assertEqual(tokenize_v2('./hello.txt'), ['./hello.txt'])
+
     def test_file_path_windows(self):
         """Test for recognizing Windows file paths."""
         self.assertEqual(tokenize_v2('C:\\WINDOWS\\Hello\\txt.exe'),
