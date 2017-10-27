@@ -59,8 +59,8 @@ class TokenizerTest(unittest.TestCase):
 
     def test_code_block_tokens(self):
         """Test for recognizing code blocks with surrounding tokens."""
-        self.assertEqual(tokenize_v2('code<code>eval()</code>'),
-                         ['code', '<code>eval()</code>'])
+        self.assertEqual(tokenize_v2('code<code>eval()</code>more'),
+                         ['code', '<code>eval()</code>', 'more'])
 
     def test_file_path_unix(self):
         """Test for recognizing Unix file paths."""
@@ -72,11 +72,30 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2('/home/nhanh/'), ['/home/nhanh/'])
 
     def test_file_path_unix_dots(self):
-        """Test for Uniz file paths using . or .."""
-        self.assertEqual(tokenize_v2('..'), ['..'])
-        self.assertEqual(tokenize_v2('../..'), ['../..'])
-        self.assertEqual(tokenize_v2('./..'), ['./..'])
+        """Test for Unix file paths using ."""
+        self.assertEqual(tokenize_v2('.'), ['.'])
+        self.assertEqual(tokenize_v2('./'), ['./'])
+        self.assertEqual(tokenize_v2('./.'), ['./.'])
+        self.assertEqual(tokenize_v2('/dev/.'), ['/dev/.'])
         self.assertEqual(tokenize_v2('./hello.txt'), ['./hello.txt'])
+
+    def test_file_path_unix_double_dots(self):
+        """Test for Unix file paths using .."""
+        self.assertEqual(tokenize_v2('..'), ['..'])
+        self.assertEqual(tokenize_v2('../'), ['../'])
+        self.assertEqual(tokenize_v2('../..'), ['../..'])
+        self.assertEqual(tokenize_v2('/dev/..'), ['/dev/..'])
+        self.assertEqual(tokenize_v2('../hello.txt'), ['../hello.txt'])
+
+    def test_file_path_unix_mixed_dots(self):
+        """Test for Unix file paths using both . and .."""
+        self.assertEqual(tokenize_v2('./..'), ['./..'])
+        self.assertEqual(tokenize_v2('../.'), ['../.'])
+
+    def test_file_path_unix_sent(self):
+        """Test for recognizing Unix paths in a sentence."""
+        self.assertEqual(tokenize_v2('open /dev/sda1 and write'),
+                         ['open', '/dev/sda1', 'and', 'write'])
 
     def test_file_path_windows(self):
         """Test for recognizing Windows file paths."""
@@ -87,6 +106,11 @@ class TokenizerTest(unittest.TestCase):
         """Test for recognizing Windows file paths with spaces."""
         self.assertEqual(tokenize_v2('C:\\Program Files\\Hello\\txt.exe'),
                          ['C:\\Program Files\\Hello\\txt.exe'])
+
+    def test_file_path_windows_sent(self):
+        """Test for recognizing Windows file paths in a sentence."""
+        self.assertEqual(tokenize_v2('open file: C:\\Program Files\\Hello\\txt.exe and do'), [
+            'open', 'file', ':', 'C:\\Program Files\\Hello\\txt.exe', 'and', 'do'])
 
     def test_url(self):
         """Test for recognizing URLs."""
@@ -103,6 +127,11 @@ class TokenizerTest(unittest.TestCase):
         """Test for recognizing URLs with #, ?, &."""
         self.assertEqual(tokenize_v2(
             'google.com/query#div?q=hello&a=test'), ['google.com/query#div?q=hello&a=test'])
+
+    def test_url_sent(self):
+        """Test for recognizing URLs in a sentence."""
+        self.assertEqual(tokenize_v2('browse https://google.com for news'),
+                         ['browse', 'https://google.com', 'for', 'news'])
 
     def test_round_brackets(self):
         """Test for ()."""
@@ -184,6 +213,14 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2('eval()'), ['eval()'])
         self.assertEqual(tokenize_v2('str.replace()'), ['str.replace()'])
 
+    def test_function_private(self):
+        """Test for private functions."""
+        self.assertEqual(tokenize_v2('_hello_world()'), ['_hello_world()'])
+
+    def test_function_magic(self):
+        """Test for magic functions."""
+        self.assertEqual(tokenize_v2('__str__()'), ['__str__()'])
+
     def test_function_params_str(self):
         """Test for functions with string params."""
         self.assertEqual(tokenize_v2("str.replace('hello')"),
@@ -207,6 +244,14 @@ class TokenizerTest(unittest.TestCase):
     def test_function_params_keyword(self):
         """Test for functions with keyword params."""
         self.assertEqual(tokenize_v2('eval(key=1)'), ['eval(key=1)'])
+
+    def test_class(self):
+        """Test for classes."""
+        self.assertEqual(tokenize_v2('TokenizerClass()'), ['TokenizerClass()'])
+        self.assertEqual(tokenize_v2('TokenizerClass(object)'), [
+            'TokenizerClass(object)'])
+        self.assertEqual(tokenize_v2('TokenizerClass(object.Object)'), [
+            'TokenizerClass(object.Object)'])
 
 
 class EvaluateTest(unittest.TestCase):
