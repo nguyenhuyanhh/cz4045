@@ -16,11 +16,11 @@ URL_REG = re.compile(
 #FILE_REG = re.compile(
     #r'(?:(/[\w.]))|(?:[a-zA-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*)')
 FILE_REG = re.compile(
-    r'(?:(?:\.?\.)?(/(?:(?:\.\.)|[\w][\w\.-_]*))+)|(?:[a-zA-Z]:\\(?:(?:(?![<>:"/\\|?*]).)+(?:(?<![ .])\\)?)*)')
+    r'(?:(?:\.?\.)?(/(?:(?:\.\.)|[\w][\w\.-_]*))+)|(?:\.{2,3})|(?:[a-zA-Z]:\\(?:(?:(?![<>:"/\\|?*]).)+(?:(?<![ .])\\)?)*)')
 EXCEPTION_REG = re.compile(
     r'(?:[A-z0-9]+-[A-z0-9]+)|(?:\[.*?\])|(?:\{.*?\})|(?:i\.e\.?)|(?:e\.g\.?)|(?:(?:\w[\S]*?\.)?\w+\([\S]*?\))|(?:[A-z][A-z0-9]*\.[A-z][A-z0-9]*)|(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|(?:\$[A-z][A-z0-9]+)')
 TOK_REG = re.compile(
-    r'(?:\d+\.\d+)|(?:\w+)(?=n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w]+)|(?:\w+)|(?:\w+\.\w+)')
+    r'(?:\d+\.\d+)|(?:\w+)(?=n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w])|(?:\w+)|(?:\w+\.\w+)')
 
 
 def tokenize(in_string):
@@ -137,7 +137,7 @@ def evaluate(tokens, truth):
 
 if __name__ == '__main__':
     test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
-    test_string_2 = "cd . ... ../ ../../ ./helloworld/test /dev/test.here/filetest.txt ../../.. ../../here/text.txt ..  C:\\Users\\Program Files (x86)\\SchoolWork"
+    test_string_2 = "\"Hello, world!\" cd . ... ../ ../../ ./helloworld/test /dev/test.here/filetest.txt ../../.. ../../here/text.txt ..  C:\\Users\\Program Files (x86)\\SchoolWork"
     assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
     #print(tokenize_v2(test_string))
     print(tokenize_v2(test_string_2))
