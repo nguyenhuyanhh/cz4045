@@ -1,5 +1,7 @@
 \documentclass[sigconf]{acmart}
 
+\usepackage{tabu}
+\tabulinesep=^4pt_4pt
 \usepackage{booktabs} % For formal tables
 \graphicspath{ {images/} }
 
@@ -17,7 +19,7 @@ collect data from Stack Overflow and build a pipeline of NLP task on the data.
 % Removes ACM stuff
 \settopmatter{printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
-% \pagestyle{plain}
+\pagestyle{plain}
 
 \maketitle
 
