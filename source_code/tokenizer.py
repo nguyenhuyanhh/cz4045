@@ -9,14 +9,18 @@ import re
 TAG_REG = re.compile(
     r'</?(?!code)(?:[a-zA-Z]+[1-6]?)\s*(?:\w+?="[\W\w]+?")?\s*>')
 CODE_REG = re.compile(r'<code>[\W\w]*?</code>')
-URL_REG = re.compile(
-    r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()')
-FILE_REG = re.compile(
-    r'(?:(?:/[\w\-\.]+)+)|(?:(?:[A-z]:)?(?:\\[A-z0-9\.]+)+)')
+#URL_REG = re.compile(
+   # r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()')
+#FILE_REG = re.compile(
+   # r'(?:(?:[A-z]:)?(?:\\[ A-z0-9\.]+)+)')
+#FILE_REG = re.compile(
+    #r'(?:(/[\w.]))|(?:[a-zA-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*)')
+URL_FILE_REG = re.compile(
+    r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()|(?:(?:\.?\.)?((?<!:/)/(?:(?:\.\.)|[\w][\w\.-_]*))+)|(?:\.{2,3})|(?:[a-zA-Z]:\\(?:(?:(?![<>:"/\\|?*]).)+(?:(?<![ .])\\)?)*)')
 EXCEPTION_REG = re.compile(
     r'(?:[A-z0-9]+-[A-z0-9]+)|(?:\[.*?\])|(?:\{.*?\})|(?:i\.e\.?)|(?:e\.g\.?)|(?:(?:\w[\S]*?\.)?\w+\([\S]*?\))|(?:[A-z][A-z0-9]*\.[A-z][A-z0-9]*)|(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|(?:\$[A-z][A-z0-9]+)')
 TOK_REG = re.compile(
-    r'(?:\d+\.\d+)|(?:\w+)(?=n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w]+)|(?:\w+)|(?:\w+\.\w+)')
+    r'(?:\d+\.\d+)|(?:\w+)(?=n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w])|(?:\w+)|(?:\w+\.\w+)')
 
 
 def tokenize(in_string):
@@ -75,7 +79,7 @@ def tokenize_v2(in_string):
     # init
     tokens = {}
     pos_list = [[0, len(in_string)]]
-    regexes = [CODE_REG, FILE_REG, URL_REG, EXCEPTION_REG, TOK_REG]
+    regexes = [CODE_REG, URL_FILE_REG, EXCEPTION_REG, TOK_REG]
 
     # operations, one-by-one in that order
     for reg in regexes:
@@ -133,7 +137,7 @@ def evaluate(tokens, truth):
 
 if __name__ == '__main__':
     test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
-    test_string_2 = "<blockquote> 3<a and b>5 </a></blockquote> don't php's /public \\file\\name\\test.txt /nfs/an/disks/jj/home/dir/file.txt C:\\Users\\Deon\\SchoolWork hello \n world <h1></h1>"
-    assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
-    print(tokenize_v2(test_string))
+    test_string_2 = "C:\\WINDOWS\\Hello\\txt.exe /dev/test ../.. ../../test /../test http://google.com https://googl.com https://google.com/query#div?q=hello&a=test http://google.com/query#div?q=hello&a=test google.com/query#div?q=hello&a=test"
+    #assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
+    #print(tokenize_v2(test_string))
     print(tokenize_v2(test_string_2))
