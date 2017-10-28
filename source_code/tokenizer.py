@@ -115,3 +115,6 @@ def evaluate(tokens, truth):
     recall = accr_cnt / len(truth)
     f1_score = 2 * precision * recall / (precision + recall)
     return accr_cnt, precision, recall, f1_score
+
+testing_string = "_test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf"
+print(tokenize_v2(testing_string))
