@@ -364,7 +364,7 @@ class TokenizerTest(unittest.TestCase):
         """Mixed test case 7 (a weird one)."""
         in_string = 'C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe testing c: d: 0: c:\\ 0:\\'
         res = ['C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe',
-               'testing', 'c:', 'd:', '0:', 'c:\\', '0:\\']
+               'testing', 'c', ':', 'd', ':', '0', ':', 'c:\\', '0', ':', '\\']
         self.assertEqual(tokenize_v2(in_string), res)
 
     def test_mixed_8(self):
