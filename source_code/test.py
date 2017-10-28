@@ -137,13 +137,39 @@ class TokenizerTest(unittest.TestCase):
         """Test for ()."""
         self.assertEqual(tokenize_v2('(hello)'), ['(', 'hello', ')'])
 
+    def test_round_brackets_sent(self):
+        """Test for () in a sentence."""
+        self.assertEqual(tokenize_v2('his stuff is in (a bowl).'), [
+            'his', 'stuff', 'is', 'in', '(', 'a', 'bowl', ')', '.'])
+
     def test_square_brackets(self):
         """Test for []."""
         self.assertEqual(tokenize_v2('[hello]'), ['[hello]'])
 
+    def test_square_brackets_empty(self):
+        """Test for empty []."""
+        self.assertEqual(tokenize_v2('[]'), ['[]'])
+
+    def test_square_brackets_sent(self):
+        """Test for [] in a sentence."""
+        self.assertEqual(tokenize_v2('declare a list [3,4]:'), [
+            'declare', 'a', 'list', '[3,4]', ':'])
+
     def test_curly_brackets(self):
         """Test for {}."""
         self.assertEqual(tokenize_v2('{hello}'), ['{hello}'])
+
+    def test_curly_brackets_sent(self):
+        """Test for {} in a sentence."""
+        self.assertEqual(tokenize_v2('declare a dict {3:4}:'), [
+            'declare', 'a', 'dict', '{3:4}', ':'])
+
+    def test_mixed_brackets(self):
+        """Test for mixed brackets."""
+        self.assertEqual(tokenize_v2('{3: [4,5]}'), ['{3: [4,5]}'])
+        self.assertEqual(tokenize_v2('[4,{3:5}]'), ['[4,{3:5}]'])
+        self.assertEqual(tokenize_v2('([4,5])'), ['(', '[4,5]', ')'])
+        self.assertEqual(tokenize_v2('[(4,5)]'), ['[(4,5)]'])
 
     def test_word_tokens(self):
         """Test for normal word tokens."""
@@ -175,14 +201,34 @@ class TokenizerTest(unittest.TestCase):
         """Test for numerical tokens."""
         self.assertEqual(tokenize_v2('123 123.15'), ['123', '123.15'])
 
+    def test_number_sent(self):
+        """Test for numerical tokens inside a sentence."""
+        self.assertEqual(tokenize_v2('we have 3 chickens'),
+                         ['we', 'have', '3', 'chickens'])
+
     def test_currency(self):
         """Test for currency tokens."""
         self.assertEqual(tokenize_v2('$1.00'), ['$', '1.00'])
         self.assertEqual(tokenize_v2('$100'), ['$', '100'])
 
+    def test_currency_sent(self):
+        """Test for currency tokens in a sentence."""
+        self.assertEqual(tokenize_v2('his salary is $10000 without commission'), [
+            'his', 'salary', 'is', '$', '10000', 'without', 'commission'])
+
+    def test_number_currency_sent(self):
+        """Test for number and currency tokens in a sentence."""
+        self.assertEqual(tokenize_v2('his 3 chickens cost $5 in total'), [
+            'his', '3', 'chickens', 'cost', '$', '5', 'in', 'total'])
+
     def test_dollar_expr(self):
         """Test for $-expr that are not currencies (e.g. Bash variables)."""
         self.assertEqual(tokenize_v2('$test'), ['$test'])
+
+    def test_dollar_expr_sent(self):
+        """Test for $-expr in a sentence."""
+        self.assertEqual(tokenize_v2('declare $test with a value of 3'), [
+            'declare', '$test', 'with', 'a', 'value', 'of', '3'])
 
     def test_eg_ie(self):
         """Test for e.g. and i.e."""
@@ -190,6 +236,11 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2('i.e'), ['i.e'])
         self.assertEqual(tokenize_v2('e.g.'), ['e.g.'])
         self.assertEqual(tokenize_v2('e.g'), ['e.g'])
+
+    def test_eg_ie_sent(self):
+        """Test for e.g. and i.e. in a sentence."""
+        self.assertEqual(tokenize_v2('nouns e.g. Python i.e. the language'), [
+                         'nouns', 'e.g.', 'Python', 'i.e.', 'the', 'language'])
 
     def test_underscore(self):
         """Test for multi-word names with underscore."""
@@ -207,6 +258,11 @@ class TokenizerTest(unittest.TestCase):
         """Test for names with underscore everywhere."""
         self.assertEqual(tokenize_v2('_hello_world_'), ['_hello_world_'])
         self.assertEqual(tokenize_v2('__main__'), ['__main__'])
+
+    def test_underscore_sent(self):
+        """Test for underscore names in a sentence."""
+        self.assertEqual(tokenize_v2('declare variable hello_world of type string'), [
+            'declare', 'variable', 'hello_world', 'of', 'type', 'string'])
 
     def test_function_simple(self):
         """Test for codes that live outside of <code> blocks."""
@@ -245,6 +301,11 @@ class TokenizerTest(unittest.TestCase):
         """Test for functions with keyword params."""
         self.assertEqual(tokenize_v2('eval(key=1)'), ['eval(key=1)'])
 
+    def test_function_sent(self):
+        """Test for functions in a sentence."""
+        self.assertEqual(tokenize_v2('declare functions fun1() and fun2() to'), [
+            'declare', 'functions', 'fun1()', 'and', 'fun2()', 'to'])
+
     def test_class(self):
         """Test for classes."""
         self.assertEqual(tokenize_v2('TokenizerClass()'), ['TokenizerClass()'])
@@ -252,6 +313,11 @@ class TokenizerTest(unittest.TestCase):
             'TokenizerClass(object)'])
         self.assertEqual(tokenize_v2('TokenizerClass(object.Object)'), [
             'TokenizerClass(object.Object)'])
+
+    def test_class_sent(self):
+        """Test for classes in a sentence."""
+        self.assertEqual(tokenize_v2('create class Token() to store tokens'), [
+            'create', 'class', 'Token()', 'to', 'store', 'tokens'])
 
 
 class EvaluateTest(unittest.TestCase):
