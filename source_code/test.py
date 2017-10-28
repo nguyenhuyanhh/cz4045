@@ -240,7 +240,7 @@ class TokenizerTest(unittest.TestCase):
     def test_eg_ie_sent(self):
         """Test for e.g. and i.e. in a sentence."""
         self.assertEqual(tokenize_v2('nouns e.g. Python i.e. the language'), [
-                         'nouns', 'e.g.', 'Python', 'i.e.', 'the', 'language'])
+            'nouns', 'e.g.', 'Python', 'i.e.', 'the', 'language'])
 
     def test_underscore(self):
         """Test for multi-word names with underscore."""
@@ -376,14 +376,16 @@ class TokenizerTest(unittest.TestCase):
 
     def test_mixed_9(self):
         """Mixed test case 9."""
-        in_string = 'C:\\WINDOWS\\Hello\\txt.exe testing /dev/test ../.. ../../test /../test http://google.com https://googl.com'
+        in_string = 'C:\\WINDOWS\\Hello\\txt.exe testing /dev/test ../..' + \
+            ' ../../test /../test http://google.com https://googl.com'
         res = ['C:\\WINDOWS\\Hello\\txt.exe', 'testing', '/dev/test', '../..',
                '../../test', '/../test', 'http://google.com', 'https://googl.com']
         self.assertEqual(tokenize_v2(in_string), res)
 
     def test_mixed_10(self):
         """Mixed test case 10."""
-        in_string = 'https://google.com/query#div?q=hello&a=test http://google.com/query#div?q=hello&a=test google.com/query#div?q=hello&a=test'
+        in_string = 'https://google.com/query#div?q=hello&a=test' + \
+            ' http://google.com/query#div?q=hello&a=test google.com/query#div?q=hello&a=test'
         res = ['https://google.com/query#div?q=hello&a=test',
                'http://google.com/query#div?q=hello&a=test', 'google.com/query#div?q=hello&a=test']
         self.assertEqual(tokenize_v2(in_string), res)
