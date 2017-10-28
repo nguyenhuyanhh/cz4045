@@ -5,41 +5,22 @@ from __future__ import print_function, division
 import re
 
 # regexes
-# TAG_REG = re.compile(r'(<\/?(a|p|pre|h[1-6]).*?>)')
 TAG_REG = re.compile(
     r'</?(?!code)(?:[a-zA-Z]+[1-6]?)\s*(?:\w+?="[\W\w]+?")?\s*>')
 CODE_REG = re.compile(r'<code>[\W\w]*?</code>')
-#URL_REG = re.compile(
-   # r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()')
-#URL_FILE_REG = re.compile(
-    #r'(?:(?:[A-z]:)(?:\\[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*\\(?:[^<>\:"/\\\|\?\*]+(?: [^<>\:"/\\\|\?\* ]+)*\.[\w]+\b))')
-    #(?:(?:[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*(?:\.[\w]+)?)?)')
-#FILE_REG = re.compile(
-   # r'(?:(/[\w.]))|(?:[a-zA-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*)')
+# URL_REG = re.compile(
+# r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()')
+# URL_FILE_REG = re.compile(
+# r'(?:(?:[A-z]:)(?:\\[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*\\(?:[^<>\:"/\\\|\?\*]+(?: [^<>\:"/\\\|\?\* ]+)*\.[\w]+\b))')
+#(?:(?:[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*(?:\.[\w]+)?)?)')
+# FILE_REG = re.compile(
+# r'(?:(/[\w.]))|(?:[a-zA-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*)')
 URL_FILE_REG = re.compile(
     r'(?:\.{3})|(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()|(?:(?:\.?\.)?(/(?:(?:\.\.?)|[\w][\w\.-_]*))+)|(?:\.\./?)|(?:\.{1,2}/\.{0,2})|(?:(?:[A-z]:)(?:\\[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*\\(?:[^<>\:"/\\\|\?\*]+(?: [^<>\:"/\\\|\?\* ]+)*\.[\w]+\b))')
 EXCEPTION_REG = re.compile(
     r'(?:[A-z0-9]+-[A-z0-9]+)|(?:\[.*?\])|(?:\{.*?\})|(?:i\.e\.?)|(?:e\.g\.?)|(?:(?:\w[\S]*?\.)?\w+\([\S]*?\))|(?:[A-z][A-z0-9]*\.[A-z][A-z0-9]*)|(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|(?:\$[A-z][A-z0-9]+)')
 TOK_REG = re.compile(
     r'(?:\d+\.\d+)|(?:\w+)(?=n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w])|(?:\w+)|(?:\w+\.\w+)')
-
-
-def tokenize(in_string):
-    """Tokenize a string using our rules."""
-    no_tags = TAG_REG.sub(' ', in_string)               # remove html tags
-    # take out the code snippets
-    code_snippets = CODE_REG.findall(no_tags)
-    no_code = CODE_REG.sub(' ', no_tags)                # remove code snippet
-    file_token = FILE_REG.findall(no_code)              # extract paths
-    no_file = FILE_REG.sub(' ', no_code)                 # remove paths
-    url_tokens = URL_REG.findall(no_file)               # take out urls
-    no_url = URL_REG.sub(' ', no_file)                  # remove urls
-    exception_tokens = EXCEPTION_REG.findall(no_url)    # take out exceptions
-    no_exception = EXCEPTION_REG.sub(" ", no_url)       # remove exceptions
-    word_tokens = TOK_REG.findall(no_exception)         # tokenize! :)
-
-    return (code_snippets + url_tokens + file_token +
-            exception_tokens + word_tokens)
 
 
 def tokenize_op(in_string, reg_obj, pos_list, tokens):
@@ -134,11 +115,3 @@ def evaluate(tokens, truth):
     recall = accr_cnt / len(truth)
     f1_score = 2 * precision * recall / (precision + recall)
     return accr_cnt, precision, recall, f1_score
-
-
-if __name__ == '__main__':
-    test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
-    test_string_2 = "C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe testing c: d: 0: c:\\ 0:\\ C:\\.WINDOWS\\Hello world\\-txt.exe testing ... .. ../.. ../. ./.. . ./. ../ C:\\WINDOWS\\Hello\\txt.exe testing /dev/test ../.. ../../test /../test http://google.com https://googl.com https://google.com/query#div?q=hello&a=test http://google.com/query#div?q=hello&a=test google.com/query#div?q=hello&a=test"
-    #assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
-    #print(tokenize_v2(test_string))
-    print(tokenize_v2(test_string_2))

@@ -319,6 +319,75 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2('create class Token() to store tokens'), [
             'create', 'class', 'Token()', 'to', 'store', 'tokens'])
 
+    def test_mixed_1(self):
+        """Mixed test case 1."""
+        in_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function()'
+        res = ['my', 'string', '.',
+               '<code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code>', 'function()']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_2(self):
+        """Mixed test case 2."""
+        in_string = 'length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt'
+        res = ['length-2', '_test',
+               '/nfs/an/disks/jj/home/dir/file.txt', '/dev/test/file.txt']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_3(self):
+        """Mixed test case 3."""
+        in_string = '_test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf'
+        res = ['_test_test', '$', '1.00', '_test_',
+               'test_test', '$interpolateProvider' 'ash6.sad34sdf']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_4(self):
+        """Mixed test case 4."""
+        in_string = '555 obj.func() func(arg) oodp.method(arg) [hello] {world}'
+        res = ['555', 'obj.func()', 'func(arg)', 'oodp.method(arg)',
+               '[hello]', '{world}']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_5(self):
+        """Mixed test case 5."""
+        in_string = '[{testingdfig}] [e.g.] e.g i.e i.e. http://google.com google.com'
+        res = ['[{testingdfig}]', '[e.g.]', 'e.g', 'i.e',
+               'i.e.', 'http://google.com', 'google.com']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_6(self):
+        """Mixed test case 6."""
+        in_string = 'test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
+        res = ['test.com', 'fdsfg', '<code> 2nd code</code>', 'fdsfsdfdsf']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_7(self):
+        """Mixed test case 7 (a weird one)."""
+        in_string = 'C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe testing c: d: 0: c:\\ 0:\\'
+        res = ['C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe',
+               'testing', 'c:', 'd:', '0:', 'c:\\', '0:\\']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_8(self):
+        """Mixed test case 8 (another weird one)."""
+        in_string = 'C:\\.WINDOWS\\Hello world\\-txt.exe testing ... .. ../.. ../. ./.. . ./. ../'
+        res = ['C:\\.WINDOWS\\Hello world\\-txt.exe', 'testing',
+               '...', '..', '../..', '../.', './..', '.', './.', '../']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_9(self):
+        """Mixed test case 9."""
+        in_string = 'C:\\WINDOWS\\Hello\\txt.exe testing /dev/test ../.. ../../test /../test http://google.com https://googl.com'
+        res = ['C:\\WINDOWS\\Hello\\txt.exe', 'testing', '/dev/test', '../..',
+               '../../test', '/../test', 'http://google.com', 'https://googl.com']
+        self.assertEqual(tokenize_v2(in_string), res)
+
+    def test_mixed_10(self):
+        """Mixed test case 10."""
+        in_string = 'https://google.com/query#div?q=hello&a=test http://google.com/query#div?q=hello&a=test google.com/query#div?q=hello&a=test'
+        res = ['https://google.com/query#div?q=hello&a=test',
+               'http://google.com/query#div?q=hello&a=test', 'google.com/query#div?q=hello&a=test']
+        self.assertEqual(tokenize_v2(in_string), res)
+
 
 class EvaluateTest(unittest.TestCase):
     """Test cases for evaluation function."""
