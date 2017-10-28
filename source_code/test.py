@@ -337,7 +337,7 @@ class TokenizerTest(unittest.TestCase):
         """Mixed test case 3."""
         in_string = '_test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf'
         res = ['_test_test', '$', '1.00', '_test_',
-               'test_test', '$interpolateProvider' 'ash6.sad34sdf']
+               'test_test', '$interpolateProvider', 'ash6.sad34sdf']
         self.assertEqual(tokenize_v2(in_string), res)
 
     def test_mixed_4(self):
@@ -364,7 +364,7 @@ class TokenizerTest(unittest.TestCase):
         """Mixed test case 7 (a weird one)."""
         in_string = 'C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe testing c: d: 0: c:\\ 0:\\'
         res = ['C:\\WINDOWS\\$Hello world\\-txt hahaha lol.exe',
-               'testing', 'c:', 'd:', '0:', 'c:\\', '0:\\']
+               'testing', 'c', ':', 'd', ':', '0', ':', 'c:\\', '0', ':', '\\']
         self.assertEqual(tokenize_v2(in_string), res)
 
     def test_mixed_8(self):
