@@ -39,7 +39,7 @@ TOK_REG = re.compile(
     r'(?:\d+\.?\d+)|' +      #recognise numbers such as 100, 100.00
     r'(?:\w+)(?=n\'t)|' +   #taking words with "n't" at the end without the "n't"
     r'(?:n\'t)|' +          #taking out the "n't" seperately
-    r'(?:\'s)|' +           #"'s"
+    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)))|' +           #contractions in english language
     r'(?:[^\s\w])|' +       #punctuations
     r'(?:\w+)')             #normal words
 
@@ -136,3 +136,4 @@ def evaluate(tokens, truth):
     recall = accr_cnt / len(truth)
     f1_score = 2 * precision * recall / (precision + recall)
     return accr_cnt, precision, recall, f1_score
+print(tokenize_v2("i've he'd"))
