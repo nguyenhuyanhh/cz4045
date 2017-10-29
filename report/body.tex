@@ -29,15 +29,82 @@ per question. The distribution of answers is shown in Figure~\ref{ans-dist}.
 
 \subsection{Stemming}
 
-We used NLTK~\cite{nltk} to process the dataset.
+We used NLTK's~\cite{nltk} \texttt{PorterStemmer} to stem the dataset.
+Prior to stemming, HTML tags and punctuations were removed, and stopwords
+such as ``a'', ``of'' and ``the'' were also excluded from data, using the
+stopwords corpus available in NLTK\@; this ensures that we are getting the
+most meaningful words from the dataset. The top 20 words before and after
+stemming are in Table~\ref{stem}.
+
+\begin{table}
+\caption{Top 20 words before and after stemming}\label{stem}
+\begin{tabu}{X[0.5,c]X[4,l]|X[4,l]X[8,l]}
+    \textbf{} & \textbf{Before stemming} &
+    \textbf{After stemming} & \textbf{Original words} \\
+    \midrule
+    1 & I & I & I \\
+    2 & Python & use &
+    used, using, use, Use, useful, uses, Using, Usings \\
+    3 & import & python &
+    Python, Pythons, python, Pythonic, pythonic, pythons, pythonicity \\
+    4 & use & import &
+    import, imports, important, imported, Imported, importing, Import \\
+    5 & 1 & 1 & 1 \\
+    6 & def & def & def \\
+    7 & You & return & 
+    return, returns, returning, Returning, Returns, returned \\
+    8 & return & file &
+    files, file, File \\
+    9 & using & tri &
+    trying, tried, try, Try, tries, Trying, Tried \\
+    10 & print & print &
+    print, prints, printing, printed, Prints \\
+    11 & like & you & You \\
+    12 & code & like & 
+    like, likes, likely, liked, Like \\
+    13 & gtgtgt & code &
+    code, coding, CODE, Code, Codes \\
+    14 & class & list &
+    list, Lists, lists, LIST, listing, List, listed \\
+    15 & python & class &
+    class, Class, classes, Classes \\
+    16 & 2 & gtgtgt &
+    gtgtgt, gtgtgts \\
+    17 & list & function &
+    function, functions, functionality, functional, Function \\
+    18 & 3 & want &
+    want, wanting, wants, wanted \\
+    19 & want & valu &
+    values, value, Values, Value \\
+    20 & x & 2 & 2 \\
+\end{tabu} 
+\end{table}
+
+Using Porter Stemming algorithm, majority of the words retained their
+semantic meaning after stemming. However, there were some irregularities
+which caused the stemming to be incorrect.
+
+Firstly in row 4, the word ``important'' was stemmed to the word ``import''.
+This is an example of derivational suffix which not only changes the word class,
+but also changes the semantic meaning of the word. Porter Stemming algorithm was
+not able to capture the irregularity in this scenario. 
+
+Looking at row 9, original words were variations of the word ``try''. After
+stemming, all of them were stemmed to a single word, ``tri''. This word had a
+meaning of ``three'' which was clearly different from ``try''. Porter Stemming
+algorithm had mistakenly treated all variations of ``try'' as ``tri''.
+
+Lastly, at row 19, variations of ``value'' were stemmed to the word ``valu''.
+The word ``valu'' is not a proper English word. Porter Stemming algorithm had
+generated a word that does not exist in the English dictionary.
 
 \subsection{POS Tagging}
 
 We picked 10 sentences at random and applied POS tagging, using NLTK\@.
-The results are as follows:
+The results are in Table~\ref{pos}.
 
 \begin{table}
-\caption{POS Tagging}
+\caption{POS Tagging}\label{pos}
 \begin{tabu}{X[1.15,l]X[2,l]}
     \textbf{Sentence} & \textbf{POS Tagging} \\
     \midrule
