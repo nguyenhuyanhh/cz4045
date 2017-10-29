@@ -337,7 +337,7 @@ class TokenizerTest(unittest.TestCase):
         """Mixed test case 3."""
         in_string = '_test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf'
         res = ['_test_test', '$', '1.00', '_test_',
-               'test_test', '$interpolateProvider' 'ash6.sad34sdf']
+               'test_test', '$interpolateProvider', 'ash6.sad34sdf']
         self.assertEqual(tokenize_v2(in_string), res)
 
     def test_mixed_4(self):
