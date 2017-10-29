@@ -39,7 +39,7 @@ TOK_REG = re.compile(
     r'(?:\d+\.?\d+)|' +      #recognise numbers such as 100, 100.00
     r'(?:\w+)(?=n\'t)|' +   #taking words with "n't" at the end without the "n't"
     r'(?:n\'t)|' +          #taking out the "n't" seperately
-    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)))|' +           #contractions in english language
+    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)|(?:ll)))|' +           #contractions in english language
     r'(?:[^\s\w])|' +       #punctuations
     r'(?:\w+)')             #normal words
 
