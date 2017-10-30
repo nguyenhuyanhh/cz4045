@@ -192,6 +192,18 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2("he's"), ['he', "'s"])
         self.assertEqual(tokenize_v2("she's"), ['she', "'s"])
         self.assertEqual(tokenize_v2("it's"), ['it', "'s"])
+        self.assertEqual(tokenize_v2("could've"), ['could', "'ve"])
+        self.assertEqual(tokenize_v2("may've"), ['may', "'ve"])
+        self.assertEqual(tokenize_v2("must've"), ['must', "'ve"])
+        self.assertEqual(tokenize_v2("he'd"), ['he', "'d"])
+        self.assertEqual(tokenize_v2("that'd"), ['that', "'d"])
+        self.assertEqual(tokenize_v2("it'd"), ['it', "'d"])
+        self.assertEqual(tokenize_v2("we're"), ['we', "'re"])
+        self.assertEqual(tokenize_v2("they're"), ['they', "'re"])
+        self.assertEqual(tokenize_v2("what're"), ['what', "'re"])
+        self.assertEqual(tokenize_v2("he'll"), ['he', "'ll"])
+        self.assertEqual(tokenize_v2("she'll"), ['she', "'ll"])
+        self.assertEqual(tokenize_v2("it'll"), ['it', "'ll"])
 
     def test_possesive(self):
         """Test for possessive 's."""
