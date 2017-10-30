@@ -35,16 +35,16 @@ f_no_dot time...
 0.619203259945
 f_in_place time...
 0.585789341927
-;However;,;if;we;compare;the;memory;usage;,;things;become;a;bit;clearer;.;.;.; 
+;However;,;if;we;compare;the;memory;usage;,;things;become;a;bit;clearer;...; 
 ;The;combined;size;of;our;x;and;y;arrays;is;about;27.5;+;55;MB;,;or;82;MB;(;for;64-bit;ints;);.;There;'s;an;additional;~;11;MB;of;overhead;in;import;numpy;,;etc;.;
 ;Returning;x / y;as;a;new;array;(;i.e;.;not;doing;x /= y;);will;require;another;55;MB;array;.; 
 ;100;runs;of;f_dot;:; 
-We;'re;creating;a;temporary;array;here;,;so;we;'d;expect;to;see;11;+;82;+;55;+;55;MB;or;~;203;MB;of;memory;usage;.;;And;,;that;'s;what;we;see;.;.;.;
+We;'re;creating;a;temporary;array;here;,;so;we;'d;expect;to;see;11;+;82;+;55;+;55;MB;or;~;203;MB;of;memory;usage;.;;And;,;that;'s;what;we;see;...;
   
 
 ;100;runs;of;f_no_dot;:;
-If;no;temporary;array;is;created;,;we;'d;expect;a;peak;memory;usage;of;11;+;82;+;55;MB,;or;148;MB;.;.;.;
-;.;.;.;which;is;exactly;what;we;see;.;  
+If;no;temporary;array;is;created;,;we;'d;expect;a;peak;memory;usage;of;11;+;82;+;55;MB,;or;148;MB;...;
+;...;which;is;exactly;what;we;see;.;  
 ;So;,;x / y;is;not;creating;an;additional;num x 2;temporary;array;to;do;the;division;.; 
 ;Thus;,;the;division;takes;a;quite;a;bit;longer;than;it;would;if;it;were;operating;on;two;arrays;of;the;same;size;.; 
 ;100;runs;of;f_in_place;:; 

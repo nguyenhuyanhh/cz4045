@@ -1,6 +1,6 @@
 ~I~need~to~access~the~process~'~environment~block~in~a~platform-independent~manner~.~
 ~The~python~os~module~docs~do~n't~specify~anything~about~case-sensitivity~of~the~os.environ~/~os.getenv~.~Experimenting~on~my~ubuntu~and~win7~dev~box~'s~,~I~see~that~os.environ~is~case~sensitive~on~linux~but~not~on~windows~(~This~mirrors~the~behavior~of~set~on~both~platforms~)~
-~Since~dict~'s~are~obviously~case-senstive~for~string~keys~,~it~appears~that~the~value~returned~by~os.environ~is~only~duck-typed~as~a~dict~.~.~.~ 
+~Since~dict~'s~are~obviously~case-senstive~for~string~keys~,~it~appears~that~the~value~returned~by~os.environ~is~only~duck-typed~as~a~dict~...~ 
 ~Question~:~
 ~Where~/~How~should~I~be~able~to~find~the~definitive~answer~on~this~behavior~?~I~would~rather~have~a~real~answer~than~just~empirically~determine~it~:~)~
 ~Alternatively~,~is~os.getenv~(~.~.~.~)~a~better~api~to~use~?~why~?~
