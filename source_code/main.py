@@ -9,6 +9,7 @@ import sys
 import pandas as pd
 
 from dataset import get_truths, report
+from stem_and_pos import stem_and_pos
 from tokenizer import evaluate, tokenize_v2
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -54,6 +55,9 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'report':
         # report dataset stats
         report()
+    elif sys.argv[1] == 'stempos':
+        # stemming and POS tagging on dataset
+        stem_and_pos()
     elif sys.argv[1] == 'tokenize':
         # tokenize and evaluate
         tokenize_and_eval()
