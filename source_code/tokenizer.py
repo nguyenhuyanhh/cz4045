@@ -4,40 +4,53 @@ from __future__ import print_function, division
 
 import re
 
-# regexes
-# TAG_REG = re.compile(r'(<\/?(a|p|pre|h[1-6]).*?>)')
+# HTML Tag filtering regex
 TAG_REG = re.compile(
-    r'(</?(?!code)(?:[a-zA-Z]+[1-6]?)\s*(?:\w+?="[\W\w]+?")?\s*>)')
+    r'</?(?!code)(?:[a-zA-Z]+[1-6]?)\s*(?:\w+?="[\W\w]+?")?\s*>')
+
+# Code block regex
 CODE_REG = re.compile(r'<code>[\W\w]*?</code>')
-URL_REG = re.compile(
-    r'(?:https?://)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&//=]*)(?!\()')
-FILE_REG = re.compile(
-    r'(?:(?:/[A-z0-9\_\-\.]+)+)|(?:(?:[A-z]:)?(?:\\[A-z0-9\.]+)+)')
+
+# Regex to recognise URL patterns, file paths for both linux and windows
+URL_FILE_REG = re.compile(
+    # recognise "..." here, else it will be treated as linux command ".." and "."
+    r'(?:\.{3})|' +
+    # URL extractor
+    r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()|' +
+    r'(?:(?:\.?\.)?(/(?:(?:\.\.?)|[\w][\w\.-_]*))+)|' +  # Linux paths
+    # combinations of .. and . and /.. and /.
+    r'(?:\.(?:(?:\./?)|(?:/\.?\.?)))|' +
+    # windows path recognizer
+    r'(?:(?:[A-z]:)(?:\\[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*\\(?:[^<>\:"/\\\|\?\*]+(?: [^<>\:"/\\\|\?\* ]+)*\.[\w]+\b))|' +
+    r'(?:[A-z]:\\)')  # windows path which only contains drive, e.g C:\
+
+# Regex to recognise exceptions
 EXCEPTION_REG = re.compile(
-    r'(?:[A-z0-9]+-[A-z0-9]+)|(?:\[.*?\])|(?:\{.*?\})|(?:i\.e\.?)|(?:e\.g\.?)|(?:(?:\w[\S]*?\.)?\w+\([\S]*?\))|(?:(?:\w[\S]*?\.)?\w+[\S]*?)|(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|(?:\$[A-z][A-z0-9]+)')
+    r'(?:[A-z0-9]+-[A-z0-9]+)|' +  # tokens such as "h3ll0-w0rld"
+    r'(?:\[.*?\])|' +  # tokens such as [{(this is a token)}]
+    r'(?:\{.*?\})|' +  # tokens such as {[(this is a token)]}
+    r'(?:i\.e\.?)|' +  # i.e(.)
+    r'(?:e\.g\.?)|' +  # e.g(.)
+    # function calls such as "hello.world(args)", "world()"
+    r'(?:(?:\w[\S]*?\.)?\w+\([ \S]*?\))|' +
+    # attributes of objects such as "string.length"
+    r'(?:[A-z0-9]+\.[A-z0-9]+)|' +
+    # words with underscore at the start, between or at the end
+    r'(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|' +
+    r'(?:\$[A-z][A-z0-9]+)')  # Words such as $interpolatorTest
+
+# Regex to recognise common language words
 TOK_REG = re.compile(
-    r'(?:\d+\.\d+)|(?:\w+)(?:n\'t)|(?:n\'t)|(?:\'s)|(?:[^\s\w]+)|(?:\w+)|(?:\w+\.\w+)')
+    r'(?:\d+\.?\d+)|' +  # recognise numbers such as 100, 100.00
+    r'(?:\w+)(?=n\'t)|' +  # taking words with "n't" at the end without the "n't"
+    r'(?:n\'t)|' +  # taking out the "n't" seperately
+    # contractions in english language
+    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)|(?:ll)))|' +
+    r'(?:[^\s\w])|' +  # punctuations
+    r'(?:\w+)')  # normal words
 
 
-def tokenize(in_string):
-    """Tokenize a string using our rules."""
-    no_tags = TAG_REG.sub(' ', in_string)               # remove html tags
-    # take out the code snippets
-    code_snippets = CODE_REG.findall(no_tags)
-    no_code = CODE_REG.sub(' ', no_tags)                # remove code snippet
-    file_token = FILE_REG.findall(no_code)              # extract paths
-    no_file = FILE_REG.sub(' ', no_code)                 # remove paths
-    url_tokens = URL_REG.findall(no_file)               # take out urls
-    no_url = URL_REG.sub(' ', no_file)                  # remove urls
-    exception_tokens = EXCEPTION_REG.findall(no_url)    # take out exceptions
-    no_exception = EXCEPTION_REG.sub(" ", no_url)       # remove exceptions
-    word_tokens = TOK_REG.findall(no_exception)         # tokenize! :)
-
-    return (code_snippets + url_tokens + file_token +
-            exception_tokens + word_tokens)
-
-
-def tokenize_op(in_string, reg_obj, pos_list=None, tokens=None):
+def tokenize_op(in_string, reg_obj, pos_list, tokens):
     """An atom tokenization operation, using a single regex.
 
     Arguments:
@@ -49,12 +62,7 @@ def tokenize_op(in_string, reg_obj, pos_list=None, tokens=None):
         ret_pos_list: list of start/end indexes of non-matches
         tokens - tokens dictionary
     """
-    # init returns and None-type arguments
     ret_pos_list = []
-    if not tokens:
-        tokens = {}
-    if not pos_list:
-        pos_list = [[0, len(in_string)]]
 
     for index in pos_list:
         # init start and end index to search
@@ -78,19 +86,27 @@ def tokenize_v2(in_string):
     in_string = TAG_REG.sub(' ', in_string)
 
     # init
-    tokens = None
-    ret_pos_list = None
-    regexes = [CODE_REG, FILE_REG, URL_REG, EXCEPTION_REG, TOK_REG]
+    tokens = {}
+    pos_list = [[0, len(in_string)]]
+    regexes = [CODE_REG, URL_FILE_REG, EXCEPTION_REG, TOK_REG]
 
     # operations, one-by-one in that order
     for reg in regexes:
-        ret_pos_list, tokens = tokenize_op(
-            in_string, reg, ret_pos_list, tokens)
+        pos_list, tokens = tokenize_op(in_string, reg, pos_list, tokens)
     return [tokens[k] for k in sorted(tokens)]
 
 
 def evaluate(tokens, truth):
-    """Evaluate the tokenization based on a truth, using precision-recall-f1."""
+    """Evaluate the tokenization based on a truth, using precision-recall-f1.
+
+    Arguments:
+        tokens: list(str) - list of tokens generated by tokenizer
+        truth: list(str) - the gold standard
+
+    Returns:
+        accr_cnt: int - number of accurate tokens
+        precision, recall, f1_score: float - metrics
+    """
     # calculate length of longest common subsequence
     start = 0
     start_end_sim_cnt = 0
@@ -108,31 +124,21 @@ def evaluate(tokens, truth):
     # find the LCS length of the middle
     tokens_new = tokens[start:tok_end]
     truth_new = truth[start:truth_end]
-    lcs_arr = [[0 for j in range(len(truth_new))]
-               for i in range(len(tokens_new))]
-    for i in range(1, len(tokens_new)):
-        for j in range(1, len(truth_new)):
-            if tokens_new[i] == truth_new[j]:
-                lcs_arr[i][j] = lcs_arr[i - 1][j - 1] + 1
-            else:
-                lcs_arr[i][j] = max(lcs_arr[i][j - 1], lcs_arr[i - 1][j])
+    if not tokens_new or not truth_new:
+        lcs_len = 0
+    else:
+        lcs_arr = [[0 for j in range(len(truth_new))]
+                   for i in range(len(tokens_new))]
+        for i in range(1, len(tokens_new)):
+            for j in range(1, len(truth_new)):
+                if tokens_new[i] == truth_new[j]:
+                    lcs_arr[i][j] = lcs_arr[i - 1][j - 1] + 1
+                else:
+                    lcs_arr[i][j] = max(lcs_arr[i][j - 1], lcs_arr[i - 1][j])
+        lcs_len = lcs_arr[len(tokens_new) - 1][len(truth_new) - 1]
     # evaluation stats
-    accr_len = start_end_sim_cnt + \
-        lcs_arr[len(tokens_new) - 1][len(truth_new) - 1]
-    precision = accr_len / len(tokens)
-    recall = accr_len / len(truth)
+    accr_cnt = start_end_sim_cnt + lcs_len
+    precision = accr_cnt / len(tokens)
+    recall = accr_cnt / len(truth)
     f1_score = 2 * precision * recall / (precision + recall)
-    print('precision: {:.3f}, recall: {:.3f}, f1: {:.3f}'.format(
-        precision, recall, f1_score))
-
-
-if __name__ == '__main__':
-    test_string = '<p>my string.</p><code>sfdsfdsfds\n\n\n\n\n\n(sdfdsfd)</code> function() length-2 _test /nfs/an/disks/jj/home/dir/file.txt /dev/test/file.txt _test_test $1.00 _test_ test_test $interpolateProvider ash6.sad34sdf 555 obj.func() func(arg) oodp.method(arg) [hello] {world} [{testingdfig}] [e.g.] e.g i.e i.e. http:google.com google.com test.com fdsfg <code> 2nd code</code><a href="sdgdsfdsfds">fdsfsdfdsf</a>'
-    test_string_2 = "<blockquote> 3<a and b>5 </a></blockquote> /public \\file\\name\\test.txt /nfs/an/disks/jj/home/dir/file.txt C:\\Users\\Deon\\SchoolWork hello \n world <h1></h1>"
-    assert set(tokenize(test_string)) == set(tokenize_v2(test_string))
-    print(tokenize_v2(test_string))
-
-    tok = ['1', '3', 'a', 'hdytuiwegduig',
-           '<code></code>', 'hello', 'x', 'b']
-    tru = ['1', '3', 'ahdytuiwegduig', '<code></code>', 'hello', 'a']
-    evaluate(tok, tru)
+    return accr_cnt, precision, recall, f1_score
