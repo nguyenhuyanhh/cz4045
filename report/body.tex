@@ -203,6 +203,38 @@ The results are in Table~\ref{pos}.
 
 \section{Tokenizer}
 
+We make use of multiple regular expressions (regexes) to tokenize our Stack
+Overflow dataset. Five different regexes --- TAG\_REG, CODE\_REG, URL\_FILE\_REG,
+EXCEPTION\_REG and TOK\_REG --- are utilised; Figure~\ref{img:tok} outlines the
+tokenizer implementation given a string of text.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\linewidth]{tokenizer}
+\caption{Tokenizer implementation}\label{img:tok}
+\end{figure}
+
+The implementation is given in \texttt{source\_code/tokenizer.py} under function
+\texttt{tokenize\_v2\,()}.
+TAG\_REG removes the html tags in the string, while CODE\_REG takes an entire code
+block as a token. URL\_FILE\_REG then identifies the URLs and file paths (both Unix
+and Windows) from the string. EXCEPTION\_REG identifies the tokens which are not
+found in the English language (some examples are in Table~\ref{tok}). Finally,
+TOK\_REG tokenizes the conventional English language words.
+
+We have also written another function, \texttt{evaluate\,()} to evaluate
+a tokenizer output against its ground truth, and output precision, recall and
+F1 score.
+
+To verify the correctness of our tokenizer, a testing script is written
+(\texttt{source\_code/test.py}). This
+script asserts the tokenizer for given test strings against expected tokenizer
+outputs, allowing us to identify wrong cases to iteratively improve the tokenizer.
+At the end of testing, the number of errors will be returned; the current
+implementation is expected to pass all tests.
+
+On the 100-post annotated dataset, the tokenizer achieves a precision of 96.8\%,
+a recall of 97.4\% and an F1 score of 97.1\%.
+
 \section{Further Analysis and Annotation}
 
 \section{Application}
