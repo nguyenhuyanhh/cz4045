@@ -38,7 +38,7 @@ stemming are in Table~\ref{stem}.
 
 \begin{table}
 \caption{Top 20 words before and after stemming}\label{stem}
-\begin{tabu}{X[0.5,c]X[4,l]|X[4,l]X[8,l]}
+\begin{tabu}{X[1,l]X[4,l]|X[4,l]X[10,l]}
     \textbf{} & \textbf{Before stemming} &
     \textbf{After stemming} & \textbf{Original words} \\
     \midrule
@@ -76,7 +76,7 @@ stemming are in Table~\ref{stem}.
     want, wanting, wants, wanted \\
     19 & want & valu &
     values, value, Values, Value \\
-    20 & x & 2 & 2 \\
+    20 & x & 2 & 2
 \end{tabu} 
 \end{table}
 
@@ -146,6 +146,62 @@ The results are in Table~\ref{pos}.
 \end{table}
 
 \subsection{Token Definition and Annotation}
+
+\onecolumn
+% \begin{table}
+\begin{longtabu}{X[4,l]X[4]X[1]}
+    \textbf{Phrase} & \textbf{Tokens} &
+    \textbf{No of tokens} \\
+    \midrule
+    \endhead{}
+    <p></p> && 0 \\
+    <code>This is a token</code> &
+    ``<code>This is a token</code>'' & 1 \\
+    <a href=``https://abcxyz.com/we\_love\_nlp.py''>hello world!</a> &
+    ``Hello'', ``world'', ``!'' & 3 \\
+    https://abcxyz.com/we\_love\_nlp.py &
+    ``https://abcxyz.com/we\_love\_nlp.py'' & 1 \\
+    ``This is not a token'' &
+    \``, ``This'', ``is'', ``not'', ``a'', ``token'', \'' & 7 \\
+    Don't & ``Do'', ``n't'' & 2 \\
+    I've & ``I'', ``\'ve'' & 2 \\
+    we're & ``We'', ``\'re'' & 2 \\
+    he'll & ``He'', ``\'ll'' & 2 \\
+    I'd & ``I'', ``\'d'' & 2 \\
+    PHP's & ``PHP'', ``\'s'' & 2 \\
+    one1 & ``one1'' & 1 \\
+    \{\% url `view' obj.id \%\} &
+    ``\{\% url `view' obj.id \%\}'' & 1 \\
+    {[}\% url `view' obj.id \%{]} &
+    ``[\% url `view' obj.id \%]'' & 1 \\
+    (how are you) &
+    ``('', ``how'', ``are'', ``you'', ``)'' & 5 \\
+    length-2 & ``length-2'' & 1 \\
+    1/sqrt & ``1'', ``/'', ``sqrt'' & 3 \\
+    Test\_Rbf & ``Test\_Rbf'' & 1 \\
+    \ldots & ``.'', ``.'', ``.'' & 3 \\
+    \$interpolateProvider & ``\$interpolateProvider'' & 1 \\
+    \_test & ``\_test'' & 1 \\
+    test\_test & ``test\_test'' & 1 \\
+    test\_test\_ & ``test\_test\_'' & 1 \\
+    techniques --- and & ``techniques'', ``-'', ``and'' & 3 \\
+    get\,() & ``get\,()'' & 1 \\
+    object.method\,(arg) & ``object.method\,(arg)'' & 1 \\
+    object.attribute & ``object.attribute'' & 1 \\
+    /unixfile/path/file.txt & ``/unixfile/path/file.txt'' & 1 \\
+    /.. & ``/..'' & 1 \\
+    /. & ``/.'' & 1 \\
+    .. & ``..'' & 1 \\
+    . & ``.'' & 1 \\
+    C:\textbackslash{}Program Files (x86)\textbackslash{}IE\textbackslash{}
+    & ``C:\textbackslash{}Program Files (x86)\textbackslash{}IE\textbackslash{}''
+    & 1 \\
+    D:\textbackslash{} & ``D:\textbackslash{}'' & 1 \\
+    C\@: & ``C'', ``:'' & 2 \\
+    \caption{Some special tokenizations}\label{tok}
+\end{longtabu}
+% \end{table}
+\twocolumn
 
 \section{Tokenizer}
 
