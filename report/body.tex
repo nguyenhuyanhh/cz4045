@@ -1,9 +1,9 @@
 \section{Dataset Collection}
 
-We use the Stack Exchange Data
+We use Stack Exchange Data
 Explorer\footnote{\texttt{https://data.stackexchange.com/stackoverflow/query/new}}
 and construct a custom SQL query on the Stack Overflow data. The query could be
-found under \texttt{source\_code/query.sql}.
+found under \texttt{source\_code/raw\_data/query.sql}.
 
 The query satisfies the three requirements:
 
@@ -101,58 +101,109 @@ generated a word that does not exist in the English dictionary.
 \subsection{POS Tagging}
 
 We picked 10 sentences at random and applied POS tagging, using NLTK\@.
-The results are in Table~\ref{pos}.
+The results are in Table~\ref{pos}; the following discussion would be
+focusing on the wrongly tagged tokens and the ability to handle some
+tokens with different classes.
+
+The word ``rough'' could be tagged under three classes --- verb, noun,
+adjective. In the second sentence, it was tagged as noun. However, looking at
+the sentence as a whole, the word was used to modify the word ``definition''.
+It should be tagged as an adjective (JJ), similar to the word ``succinct''.
+
+In the third sentence, the token ``\,`\,'' was a mistake by author of the post. It
+should have been ``\,'s\,''. The tagger was able to identify this error and
+correctly tagged it as possessive ending (POS). In addition, ``\,'s\,'' in sentence
+4 has a different meaning from possessive ending; it is meant to be a short
+form for ``is'' and thus, should be tagged as a verb (VBZ). The tagger is also
+able to handle this difference.
+
+Looking at the fifth sentence, due to the tokenizer,
+``{[}\textbackslash{}u0000-\textbackslash{}uFFFF{]}'' was splitted into
+three tokens: ``['',
+``\textbackslash{}u0000-\textbackslash{}uFFFF'', ``]'', causing each token to
+be tagged separately and incorrectly. It would make more sense to think of
+``{[}\textbackslash{}u0000-\textbackslash{}uFFFF{]}'' as a single noun.
+The tagger was applied again on the sentence after manually forcing
+``{[}\textbackslash{}u0000-\textbackslash{}uFFFF{]}'' to be a single token,
+resulting in the correct tagging of noun (NN). This shows the importance of a
+good tokenizer.
+
+The words ``mod\_wsgi'' and ``apache'' in the seventh sentence were tagged as
+noun (NN). The actual tag should be noun (NNP). However, in many cases, the
+tagging of an NNP to an NN should not affect the application adversely. Thus,
+this type of error was generally acceptable.
 
 \begin{table}
 \caption{POS Tagging}\label{pos}
-\begin{tabu}{X[1.15,l]X[2,l]}
-    \textbf{Sentence} & \textbf{POS Tagging} \\
+\begin{tabu}{X[0.1,c]X[1,l]X[2,l]}
+    & \textbf{Sentence} & \textbf{POS Tagging} \\
     \midrule
-    You are being tricked by Python's representation of the result string.&
+    1 & You are being tricked by Python's representation of the result
+    string. &
     (You,PRP), (are,VBP), (being,VBG), (tricked,VBN), (by,IN), (Python,NNP),
     ('s,POS), (representation,NN), (of,IN), (the,DT), (result,NN), 
     (string,NN), (.,.) \\
-    I like this rough, succinct definition: A function that can refer to 
-    environments that are no longer active.&
+    2 & I like this rough, succinct definition: A function that can refer to 
+    environments that are no longer active. &
     (I,PRP), (like,VBP), (this,DT), (rough,NN), (,,,), (succinct,JJ),
     (definition,NN), (:,:), (A,DT), (function,NN), (that,WDT), (can,MD),
     (refer,VB), (to,TO), (environments,NNS), (that,WDT), (are,VBP), (no,DT),
     (longer,RBR), (active,JJ), (.,.) \\
-    Isn't that what Anders' second example does? &
+    3 & Isn't that what Anders' second example does? &
     (Is,VBZ), (n't,RB), (that,IN), (what,WP), (Anders,NNP), (',POS),
     (second,JJ), (example,NN), (does,VBZ), (?,.) \\
-    There's nothing that will automatically do what you want. & 
+    4 & There's nothing that will automatically do what you want. & 
     (There,EX), ('s,VBZ), (nothing,NN), (that,WDT), (will,MD),
     (automatically,RB), (do,VB), (what,WP), (you,PRP), (want,VBP), (.,.) \\
-    Use a subrange of [\textbackslash{}u0000-\textbackslash{}uFFFF] for what
-    you want. &
+    5 & Use a subrange of [\textbackslash{}u0000-\textbackslash{}uFFFF] for
+    what you want. & 
     (Use,VB), (a,DT), (subrange,NN), (of,IN), ([,JJ),
     (\textbackslash{}u0000-\textbackslash{}uFFFF,JJ), (],NN),
     (for,IN), (what,WP), (you,PRP), (want,VBP), (.,.) \\
-    Tom says it all really. &
+    6 & Tom says it all really. &
     (Tom,NNP), (says,VBZ), (it,PRP), (all,DT), (really,RB), (.,.) \\
-    I have been sold on mod\_wsgi and apache rather than in mod\_python. &
+    7 & I have been sold on mod\_wsgi and apache rather than in mod\_python. &
     (I,PRP), (have,VBP), (been,VBN), (sold,VBN), (on,IN), (mod\_wsgi,NN),
     (and,CC), (apache,NN), (rather,RB), (than,IN), (mod\_python,NNS), (.,.) \\
-    This topic is covered in Django tutorials. &
+    8 & This topic is covered in Django tutorials. &
     (This,DT), (topic,NN), (is,VBZ), (covered,VBN), (in,IN), (Django,NNP),
     (tutorials,NNS), (.,.) \\
-    The single * means that there can be any number of extra positional
+    9 & The single * means that there can be any number of extra positional
     arguments. &
     (The,DT), (single,JJ), (*,NN), (means,VBZ), (that,IN), (there,EX), (can,MD),
     (be,VB), (any,DT), (number,NN), (of,IN), (extra,JJ), (positional,JJ),
     (arguments,NNS), (.,.) \\
+    10 & I found Learning Python really good. &
+    (I,PRP), (found,VBD), (Learning,NNP), (Python,NNP), (really,RB), (good,JJ),
+    (.,.) \\    
 \end{tabu} 
 \end{table}
 
 \subsection{Token Definition and Annotation}
 
+From the 1754 posts we have extracted from Stack Overflow, 100 posts were
+chosen at random and manually annotated to indicate individual tokens. The
+``random'' selection of posts uses a pseudo-random algorithm with a fixed seed
+(implemented in \texttt{source\_code/\\dataset.py} at function
+\texttt{choose\_random\,()}) so it can be reproduced exactly each time,
+given that the seed used is the same.
+
+In the context of this project, ``token'' refers to phrases, words or
+characters which can be considered as a single unit of semantic information.
+Tokens cannot and should not be split further, as it would result in the loss
+and/or the distortion of the information they carry. For example, we have
+defined file paths and URLs as a single token, as they will lose their meaning
+when split up into individual parts by more conventional tokenizers.
+Table~\ref{tok} shows examples taken from the 100 tagged posts which illustrate
+the rules we have used to define our tokens.
+
 \onecolumn
-\begin{longtabu}{X[4,l]X[4]X[1]}
+\begin{table}
+\caption{Some special tokenizations}\label{tok}
+\begin{tabu}{X[5,l]X[5,l]X[2,l]}
     \textbf{Phrase} & \textbf{Tokens} &
-    \textbf{No of tokens} \\
+    \textbf{Number of tokens} \\
     \midrule
-    \endhead{}
     <p></p> && 0 \\
     <code>This is a token</code> &
     ``<code>This is a token</code>'' & 1 \\
@@ -161,13 +212,13 @@ The results are in Table~\ref{pos}.
     https://abcxyz.com/we\_love\_nlp.py &
     ``https://abcxyz.com/we\_love\_nlp.py'' & 1 \\
     ``This is not a token'' &
-    ````'', ``This'', ``is'', ``not'', ``a'', ``token'', ``'''' & 7 \\
+    ``\,``\,'', ``This'', ``is'', ``not'', ``a'', ``token'', ``\,''\,'' & 7 \\
     Don't & ``Do'', ``n't'' & 2 \\
-    I've & ``I'', ``'ve'' & 2 \\
-    we're & ``We'', ``'re'' & 2 \\
-    he'll & ``He'', ``'ll'' & 2 \\
-    I'd & ``I'', ``'d'' & 2 \\
-    PHP's & ``PHP'', ``'s'' & 2 \\
+    I've & ``I'', ``\,'ve\,'' & 2 \\
+    we're & ``We'', ``\,'re\,'' & 2 \\
+    he'll & ``He'', ``\,'ll\,'' & 2 \\
+    I'd & ``I'', ``\,'d\,'' & 2 \\
+    PHP's & ``PHP'', ``\,'s\,'' & 2 \\
     one1 & ``one1'' & 1 \\
     \{\% url `view' obj.id \%\} &
     ``\{\% url `view' obj.id \%\}'' & 1 \\
@@ -197,8 +248,8 @@ The results are in Table~\ref{pos}.
     D:\textbackslash{} & ``D:\textbackslash{}'' & 1 \\
     C\@: & ``C'', ``:'' & 2 \\
     \ldots & ``\ldots'' & 1 \\
-    \caption{Some special tokenizations}\label{tok}
-\end{longtabu}
+\end{tabu}
+\end{table}
 \twocolumn
 
 \section{Tokenizer}
