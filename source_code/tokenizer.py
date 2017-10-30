@@ -4,44 +4,50 @@ from __future__ import print_function, division
 
 import re
 
-# regexes
-
-#HTML Tag filtering regex
+# HTML Tag filtering regex
 TAG_REG = re.compile(
     r'</?(?!code)(?:[a-zA-Z]+[1-6]?)\s*(?:\w+?="[\W\w]+?")?\s*>')
 
-#Code block regex
+# Code block regex
 CODE_REG = re.compile(r'<code>[\W\w]*?</code>')
 
-#Regex to recognise URL patterns, file paths for both linux and windows
+# Regex to recognise URL patterns, file paths for both linux and windows
 URL_FILE_REG = re.compile(
-    r'(?:\.{3})|' + #recognise "..." here, else it will be treated as linux command ".." and "."
-    r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()|' + #URL extractor
-    r'(?:(?:\.?\.)?(/(?:(?:\.\.?)|[\w][\w\.-_]*))+)|' + #Linux paths
-    r'(?:\.(?:(?:\./?)|(?:/\.?\.?)))|' + # combinations of .. and . and /.. and /.
-    r'(?:(?:[A-z]:)(?:\\[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*\\(?:[^<>\:"/\\\|\?\*]+(?: [^<>\:"/\\\|\?\* ]+)*\.[\w]+\b))|' +    #windows path recognizer
-    r'(?:[A-z]:\\)')    #windows path which only contains drive, e.g C:\
+    # recognise "..." here, else it will be treated as linux command ".." and "."
+    r'(?:\.{3})|' +
+    # URL extractor
+    r'(?:https?://)?[-@:%.\+~#=\w]{2,256}\.[a-z]{2,6}\b(?:[-@:%\+\w.~#?&/=]*)(?!\()|' +
+    r'(?:(?:\.?\.)?(/(?:(?:\.\.?)|[\w][\w\.-_]*))+)|' +  # Linux paths
+    # combinations of .. and . and /.. and /.
+    r'(?:\.(?:(?:\./?)|(?:/\.?\.?)))|' +
+    # windows path recognizer
+    r'(?:(?:[A-z]:)(?:\\[^<>\:"/\\\|\?\*]+ ?[^<>\:"/\\\|\?\* ]+)*\\(?:[^<>\:"/\\\|\?\*]+(?: [^<>\:"/\\\|\?\* ]+)*\.[\w]+\b))|' +
+    r'(?:[A-z]:\\)')  # windows path which only contains drive, e.g C:\
 
-#Regex to recognise exceptions
+# Regex to recognise exceptions
 EXCEPTION_REG = re.compile(
-    r'(?:[A-z0-9]+-[A-z0-9]+)|' +   #tokens such as "h3ll0-w0rld"
-    r'(?:\[.*?\])|' +   #tokens such as [{(this is a token)}]
-    r'(?:\{.*?\})|' +   #tokens such as {[(this is a token)]}
-    r'(?:i\.e\.?)|' +   #i.e(.)
-    r'(?:e\.g\.?)|' +   #e.g(.)
-    r'(?:(?:\w[\S]*?\.)?\w+\([ \S]*?\))|' +  #function calls such as "hello.world(args)", "world()"
-    r'(?:[A-z0-9]+\.[A-z0-9]+)|' +    #attributes of objects such as "string.length"
-    r'(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|' +    #words with underscore at the start, between or at the end
-    r'(?:\$[A-z][A-z0-9]+)')    #Words such as $interpolatorTest
+    r'(?:[A-z0-9]+-[A-z0-9]+)|' +  # tokens such as "h3ll0-w0rld"
+    r'(?:\[.*?\])|' +  # tokens such as [{(this is a token)}]
+    r'(?:\{.*?\})|' +  # tokens such as {[(this is a token)]}
+    r'(?:i\.e\.?)|' +  # i.e(.)
+    r'(?:e\.g\.?)|' +  # e.g(.)
+    # function calls such as "hello.world(args)", "world()"
+    r'(?:(?:\w[\S]*?\.)?\w+\([ \S]*?\))|' +
+    # attributes of objects such as "string.length"
+    r'(?:[A-z0-9]+\.[A-z0-9]+)|' +
+    # words with underscore at the start, between or at the end
+    r'(?:_+[A-z0-9]+(?:_[A-z0-9]*)+)|' +
+    r'(?:\$[A-z][A-z0-9]+)')  # Words such as $interpolatorTest
 
-#Regex to recognise common language words
+# Regex to recognise common language words
 TOK_REG = re.compile(
-    r'(?:\d+\.?\d+)|' +      #recognise numbers such as 100, 100.00
-    r'(?:\w+)(?=n\'t)|' +   #taking words with "n't" at the end without the "n't"
-    r'(?:n\'t)|' +          #taking out the "n't" seperately
-    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)|(?:ll)))|' +           #contractions in english language
-    r'(?:[^\s\w])|' +       #punctuations
-    r'(?:\w+)')             #normal words
+    r'(?:\d+\.?\d+)|' +  # recognise numbers such as 100, 100.00
+    r'(?:\w+)(?=n\'t)|' +  # taking words with "n't" at the end without the "n't"
+    r'(?:n\'t)|' +  # taking out the "n't" seperately
+    # contractions in english language
+    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)|(?:ll)))|' +
+    r'(?:[^\s\w])|' +  # punctuations
+    r'(?:\w+)')  # normal words
 
 
 def tokenize_op(in_string, reg_obj, pos_list, tokens):
@@ -136,4 +142,3 @@ def evaluate(tokens, truth):
     recall = accr_cnt / len(truth)
     f1_score = 2 * precision * recall / (precision + recall)
     return accr_cnt, precision, recall, f1_score
-print(tokenize_v2("i've he'd"))

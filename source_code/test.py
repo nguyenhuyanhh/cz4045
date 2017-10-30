@@ -192,19 +192,15 @@ class TokenizerTest(unittest.TestCase):
         self.assertEqual(tokenize_v2("he's"), ['he', "'s"])
         self.assertEqual(tokenize_v2("she's"), ['she', "'s"])
         self.assertEqual(tokenize_v2("it's"), ['it', "'s"])
-        """Test for 've contracttions."""
         self.assertEqual(tokenize_v2("could've"), ['could', "'ve"])
         self.assertEqual(tokenize_v2("may've"), ['may', "'ve"])
         self.assertEqual(tokenize_v2("must've"), ['must', "'ve"])
-        """Test for 'd contracttions."""
         self.assertEqual(tokenize_v2("he'd"), ['he', "'d"])
         self.assertEqual(tokenize_v2("that'd"), ['that', "'d"])
         self.assertEqual(tokenize_v2("it'd"), ['it', "'d"])
-        """Test for 're contracttions."""
         self.assertEqual(tokenize_v2("we're"), ['we', "'re"])
         self.assertEqual(tokenize_v2("they're"), ['they', "'re"])
         self.assertEqual(tokenize_v2("what're"), ['what', "'re"])
-        """Test for 'll contracttions."""
         self.assertEqual(tokenize_v2("he'll"), ['he', "'ll"])
         self.assertEqual(tokenize_v2("she'll"), ['she', "'ll"])
         self.assertEqual(tokenize_v2("it'll"), ['it', "'ll"])
