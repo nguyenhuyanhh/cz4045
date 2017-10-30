@@ -23,7 +23,7 @@ url.rewrite-once = (
 ~debug.log-request-handling        = "enable"
 debug.log-request-header-on-error = "enable"
 debug.log-file-not-found          = "enable"
-~(~though~oddly~file~not~found~does~n't~seem~to~do~anything~.~.~.~)~ 
+~(~though~oddly~file~not~found~does~n't~seem~to~do~anything~...~)~ 
 ~Here~'s~what~I~see~in~the~error.log~for~one~of~the~static~files~-~all~the~others~produce~similar~output~(~the~ellipses~below~are~a~bunch~more~uninformative~condition~blocks~that~vary~only~in~line~number~)~:~ 
 ~2014-04-27 15:20:24: (response.c.340) Request-URI     :  /static/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js 
 2014-04-27 15:20:24: (response.c.341) URI-scheme      :  http 
