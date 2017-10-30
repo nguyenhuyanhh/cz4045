@@ -148,7 +148,6 @@ The results are in Table~\ref{pos}.
 \subsection{Token Definition and Annotation}
 
 \onecolumn
-% \begin{table}
 \begin{longtabu}{X[4,l]X[4]X[1]}
     \textbf{Phrase} & \textbf{Tokens} &
     \textbf{No of tokens} \\
@@ -162,13 +161,13 @@ The results are in Table~\ref{pos}.
     https://abcxyz.com/we\_love\_nlp.py &
     ``https://abcxyz.com/we\_love\_nlp.py'' & 1 \\
     ``This is not a token'' &
-    \``, ``This'', ``is'', ``not'', ``a'', ``token'', \'' & 7 \\
+    ````'', ``This'', ``is'', ``not'', ``a'', ``token'', ``'''' & 7 \\
     Don't & ``Do'', ``n't'' & 2 \\
-    I've & ``I'', ``\'ve'' & 2 \\
-    we're & ``We'', ``\'re'' & 2 \\
-    he'll & ``He'', ``\'ll'' & 2 \\
-    I'd & ``I'', ``\'d'' & 2 \\
-    PHP's & ``PHP'', ``\'s'' & 2 \\
+    I've & ``I'', ``'ve'' & 2 \\
+    we're & ``We'', ``'re'' & 2 \\
+    he'll & ``He'', ``'ll'' & 2 \\
+    I'd & ``I'', ``'d'' & 2 \\
+    PHP's & ``PHP'', ``'s'' & 2 \\
     one1 & ``one1'' & 1 \\
     \{\% url `view' obj.id \%\} &
     ``\{\% url `view' obj.id \%\}'' & 1 \\
@@ -179,7 +178,6 @@ The results are in Table~\ref{pos}.
     length-2 & ``length-2'' & 1 \\
     1/sqrt & ``1'', ``/'', ``sqrt'' & 3 \\
     Test\_Rbf & ``Test\_Rbf'' & 1 \\
-    \ldots & ``.'', ``.'', ``.'' & 3 \\
     \$interpolateProvider & ``\$interpolateProvider'' & 1 \\
     \_test & ``\_test'' & 1 \\
     test\_test & ``test\_test'' & 1 \\
@@ -198,9 +196,9 @@ The results are in Table~\ref{pos}.
     & 1 \\
     D:\textbackslash{} & ``D:\textbackslash{}'' & 1 \\
     C\@: & ``C'', ``:'' & 2 \\
+    \ldots & ``\ldots'' & 1 \\
     \caption{Some special tokenizations}\label{tok}
 \end{longtabu}
-% \end{table}
 \twocolumn
 
 \section{Tokenizer}
