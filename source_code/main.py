@@ -23,8 +23,8 @@ if not os.path.exists(DATA_DIR):
 def get_english_words():
     """Get a set of English words, utilising different means."""
     try:
-        if sys.platform in ['linux', 'linux2']:
-            # linux has this wonderful builtin dictionary
+        if sys.platform in ['linux', 'linux2', 'darwin']:
+            # unix has this wonderful builtin dictionary
             # at /usr/share/dict/words
             with open('/usr/share/dict/words', 'r') as dict_:
                 words = [x.strip() for x in dict_.readlines()]
