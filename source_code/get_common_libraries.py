@@ -12,8 +12,11 @@ from tokenizer import tokenize_get_code
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 RAW_DIR = os.path.join(CUR_DIR, 'raw_data')
 
-LIB_REG = re.compile(
+IMPORT_REG = re.compile(
     r'((?:from [^\s]+ import)|(?:import [^\s]+))')
+
+LIB_REG = re.compile(
+    r'((?<=from )(?:[^\s]+)(?= import)|(?<=import )(?:[^\s]+))')
 
 def get_libraries(num):
     library_list = []
@@ -24,9 +27,9 @@ def get_libraries(num):
             for i in range(0,len(cur)):
                 temp = cur[i]
                 if temp.find("import ") >= 0:
-                    temp = LIB_REG.findall(temp)
+                    temp = IMPORT_REG.findall(temp)
                     for x in temp:
-                        library_list += re.findall(r'((?<=from )(?:[^\s]+)(?= import)|(?<=import )(?:[^\s]+))', x)
+                        library_list += LIB_REG.findall(x)
     library_list = Counter(library_list)
     return library_list.most_common(num)
 
