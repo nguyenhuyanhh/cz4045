@@ -20,10 +20,25 @@ if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
 
+def get_english_words():
+    """Get a set of English words, utilising different means."""
+    try:
+        if sys.platform in ['linux', 'linux2']:
+            # linux has this wonderful builtin dictionary
+            # at /usr/share/dict/words
+            with open('/usr/share/dict/words', 'r') as dict_:
+                words = [x.strip() for x in dict_.readlines()]
+                return set(words)
+        else:
+            raise OSError
+    except BaseException:
+        from nltk.corpus import brown
+        return set(brown.words())
+
+
 def tokenize_dataset():
     """Tokenize the whole dataset and print out most common tokens."""
     from collections import Counter
-    from nltk.corpus import brown
 
     # tokenize whole dataset
     data = pd.read_csv(os.path.join(RAW_DIR, 'QueryResults.csv'))
@@ -37,12 +52,12 @@ def tokenize_dataset():
     # print out top non-english, non-digit/punctuation tokens
     counter = Counter(ovr_tokens)
     keys = counter.keys()
-    english_words = set(brown.words())
+    english_words = get_english_words()
     for key in keys:
         # drop english, punctuation and digits-only keys
         if re.match(r"^[\W\d]+$", key) or key.lower() in english_words:
             counter.pop(key)
-    print(counter.most_common(50))
+    print(counter.most_common(100))
 
 
 def tokenize_eval():
@@ -97,8 +112,7 @@ if __name__ == '__main__':
         # testing
         import unittest
         import test
-        suite = unittest.TestLoader().loadTestsFromModule(test)
-        unittest.TextTestRunner().run(suite)
+        unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromModule(test))
     elif sys.argv[1] == 'tokenize':
         # tokenize the dataset
         tokenize_dataset()
