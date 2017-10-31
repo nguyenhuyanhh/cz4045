@@ -24,7 +24,6 @@ def get_libraries(num):
             for i in range(0,len(cur)):
                 temp = cur[i]
                 if temp.find("import ") >= 0:
-                    temp = re.sub(r'</?code>', '', temp)
                     temp = LIB_REG.findall(temp)
                     for x in temp:
                         library_list += re.findall(r'((?<=from )(?:[^\s]+)(?= import)|(?<=import )(?:[^\s]+))', x)
