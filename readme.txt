@@ -19,6 +19,17 @@ below.
 https://github.com/nguyenhuyanhh/cz4045/releases/download/release/source_code_data.zip
 ***********************************************************
 
+- Installation guide
+
+Setup Python and NLTK if you haven't done so.
+Then, extract the zip download/ clone the repository:
+
+***********************************************************
+$ git clone https://github.com/nguyenhuyanhh/cz4045.git
+***********************************************************
+
+Then download the dataset and place into the appropriate location
+as mentioned above.
 
 1. Project Structure and Documentation
 
