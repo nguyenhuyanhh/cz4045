@@ -21,7 +21,7 @@ The dataset contains 500 questions and 1254 answers, an average of 2.508 answers
 per question. The distribution of answers is shown in Figure~\ref{ans-dist}.
 
 \begin{figure}[htp]
-\includegraphics[width=0.9\linewidth]{no_ans_per_qn}
+\includegraphics[width=0.85\linewidth]{no_ans_per_qn}
 \caption{Distribution of answers}\label{ans-dist}
 \end{figure}
 
@@ -29,12 +29,15 @@ per question. The distribution of answers is shown in Figure~\ref{ans-dist}.
 
 \subsection{Stemming}
 
-We used NLTK's~\cite{nltk} \texttt{PorterStemmer} to stem the dataset.
-Prior to stemming, HTML tags and punctuations were removed, and stopwords
-such as ``a'', ``of'' and ``the'' were also excluded from data, using the
-stopwords corpus available in NLTK\@; this ensures that we are getting the
-most meaningful words from the dataset. The top 20 words before and after
-stemming are in Table~\ref{stem}.
+We use NLTK~\cite{nltk} to stem the dataset; the implementation is in
+\texttt{source\_code/stem\_and\_pos.py}.
+Prior to stemming, HTML tags and punctuations are removed using regular
+expressions, and stopwords such as ``a'', ``of'' and ``the'' are also
+excluded, using the stopwords corpus available in NLTK
+(\texttt{nltk.corpus.stopwords.words\\('english')}); this ensures that we are
+getting the most meaningful words from the dataset. A Porter stemmer is 
+used (\texttt{nltk.stem.\\PorterStemmer().stem()}; the top 20 words before
+and after stemming are in Table~\ref{stem}.
 
 \begin{table}[htp]
 \caption{Top 20 words before and after stemming}\label{stem}
@@ -100,7 +103,9 @@ generated a word that does not exist in the English dictionary.
 
 \subsection{POS Tagging}
 
-We picked 10 sentences at random and applied POS tagging, using NLTK\@.
+We picked 10 sentences at random and applied POS tagging, using NLTK 
+(\texttt{nltk.pos\_tag\_sents(tokenized\_data)}, the implementation is
+also in \texttt{source\_code/stem\_and\_pos.py}).
 The results are in Table~\ref{pos}; the following discussion would be
 focusing on the wrongly tagged tokens and the ability to handle some
 tokens with different classes.
@@ -135,7 +140,7 @@ this type of error was generally acceptable.
 
 \begin{table}[htp]
 \caption{POS Tagging}\label{pos}
-\begin{tabu}{X[0.1,l]X[1,l]X[2,l]}
+\begin{tabu}{X[0.12,l]X[1,l]X[2,l]}
     & \textbf{Sentence} & \textbf{POS Tagging} \\
     \midrule
     1 & You are being tricked by Python's representation of the result
@@ -218,6 +223,7 @@ the rules we have used to define our tokens.
     we're & ``We'', ``\,'re\,'' & 2 \\
     he'll & ``He'', ``\,'ll\,'' & 2 \\
     I'd & ``I'', ``\,'d\,'' & 2 \\
+    I'm & ``I'', ``\,'m\,'' & 2 \\
     PHP's & ``PHP'', ``\,'s\,'' & 2 \\
     one1 & ``one1'' & 1 \\
     \{\% url `view' obj.id \%\} &
@@ -272,14 +278,15 @@ and Windows) from the string. EXCEPTION\_REG identifies the tokens which are not
 found in the English language (some examples are in Table~\ref{tok}). Finally,
 TOK\_REG tokenizes the conventional English language words.
 
-We have also written another function, \texttt{evaluate\,()} to evaluate
-a tokenizer output against its ground truth, and output precision, recall and
-F1 score.
+We have also written another function, \texttt{evaluate\,()} to evaluate a
+tokenizer output against its ground truth (by calculating the length of the
+longest common subsequence between the two lists), and output precision, recall
+and F1 score.
 
 To verify the correctness of our tokenizer, a testing script is written
-(\texttt{source\_code/test.py}). This
-script asserts the tokenizer for given test strings against expected tokenizer
-outputs, allowing us to identify wrong cases to iteratively improve the tokenizer.
+(\texttt{source\_code/test.py}). This script asserts the tokenizer for given
+test strings against expected tokenizer outputs (for instance,
+\texttt{tokenize\_v2(`hello world')} against \texttt{[`hello', `world']}), allowing us to identify wrong cases to iteratively improve the tokenizer.
 At the end of testing, the number of errors will be returned; the current
 implementation is expected to pass all tests.
 
@@ -333,6 +340,7 @@ through our own tokenizer. The results are in Table~\ref{irre}.
 \caption{POS Tagging of sentences with irregular tokens}\label{irre}
 \begin{tabu}{X[0.2,l]X[1,l]X[2,l]}
     & \textbf{Sentence} & \textbf{POS Tagging} \\
+    \midrule
     1 &
     I'm using Google App Engine and Django templates. &
     (I,PRP), ('m,VBP), (using,VBG), (Google,NNP), (App,NNP),
@@ -421,3 +429,137 @@ libraries. The application flow is shown in Figure~\ref{img:app}.
 The top 10 most common libraries in the dataset are \texttt{numpy}, \texttt{re},
 \texttt{sys}, \texttt{random}, \texttt{os}, \texttt{collections}, \texttt{time},
 \texttt{pandas}, \texttt{csv} and \texttt{math}.
+
+\section*{Appendix}
+
+\subsection*{Individual Contributions}
+
+The five members contribute \textbf{equally} to this project.
+
+\subsection*{Project Structure and Documentation}
+
+The file structure of this project is as follows:
+
+\begin{lstlisting}
+source_code/
+    raw_data/
+        query.sql               # SQL query
+        QueryResults.csv        # raw data
+                                  (1754 posts)
+        TokenTagRaw.csv         # raw annotation data
+                                  (100 posts)
+        IrregularTokenSent.csv  # irregular tokens
+                                  sentences (10)
+    tagged_data/
+        [100 tagged files]
+        Annotation Notes.txt    # some annotation notes
+    dataset.py
+    stem_and_pos.py
+    tokenizer.py
+    test.py
+    main.py                     # main calling script
+report/
+    [report materials]
+\end{lstlisting}
+
+Calling just the main script (by running \texttt{python source\_code\\/main.py})
+would print out this command-line usage:
+
+\begin{lstlisting}
+$ python source_code/main.py
+Invalid arguments! Exiting...
+usage: main.py [report|stempos|test|eval|tokenize|
+                irregular|commonX]
+            report          report dataset stats
+            stempos         stemming and POS tagging
+                            on dataset
+            test            test the tokenizer
+            eval            evaluate the tokenizer
+                            on annotated dataset
+            tokenize        tokenize the dataset,
+                            output irregular tokens
+            irregular       POS tagging on sentences
+                            with irregular tokens
+            commonX         get the most common X
+                            libraries from the dataset
+\end{lstlisting}
+
+\subsection*{Sample Project Runs}
+
+Reporting of dataset statistics:
+
+\begin{lstlisting}
+$ python source_code/main.py report
+Number of questions: 500
+Number of answers: 1254
+Average number of answers per questions: 2.508
+Questions with 1 answer: 259
+Questions with 2 answers: 107
+Questions with 3 or more answers: 134
+\end{lstlisting}
+
+Stemming and POS tagging on the dataset (there are four separate print outputs
+--- 10 random sentences, top 20 words before stemming, top 20 words after
+stemming, the original words):
+
+\begin{lstlisting}
+$ python source_code/main.py stempos
+[[('You', 'PRP'), ('are', 'VBP'), ('being', 'VBG'),
+('tricked', 'VBN')...]]
+[('', 20481), ('I', 947),...]]
+[('', 20481), ('I', 947),...]]
+[[''], ['I'], ...]]
+\end{lstlisting}
+
+Testing of the tokenizer:
+
+\begin{lstlisting}
+$ python3 source_code/main.py test
+................................................
+..........................
+------------------------------------------------
+Ran 74 tests in 0.010s
+
+OK
+\end{lstlisting}
+
+Evaluating the tokenizer:
+
+\begin{lstlisting}
+$ python source_code/main.py eval
+...
+Id: 38810765, precision: 1.000, recall: 1.000, f1: 1.000
+Id: 38834478, precision: 1.000, recall: 1.000, f1: 1.000
+Id: 39432272, precision: 0.651, recall: 0.719, f1: 0.683
+Id: 40488966, precision: 1.000, recall: 1.000, f1: 1.000
+Id: 45003750, precision: 1.000, recall: 1.000, f1: 1.000
+Overall: precision: 0.972, recall: 0.976, f1: 0.974
+\end{lstlisting}
+
+Outputting irregular tokens from the dataset:
+
+\begin{lstlisting}
+$ python source_code/main.py tokenize
+Using Unix dictionary...
+[..., ('Django', 64), ('app', 61)...]
+\end{lstlisting}
+
+POS tagging on sentences with irregular tokens:
+
+\begin{lstlisting}
+$python source_code/main.py irregular
+[('I', 'PRP'), ("'m", 'VBP'), ('using', 'VBG'),
+('Google', 'NNP'),...
+\end{lstlisting}
+
+Getting the most common libraries from the dataset:
+
+\begin{lstlisting}
+$ python source_code/main.py common5
+[('numpy', 51), ('re', 32), ('sys', 29), ('random', 22),
+('os', 22)]
+$ python source_code/main.py common10
+[('numpy', 51), ('re', 32), ('sys', 29), ('random', 22),
+('os', 22), ('collections', 21), ('time', 18), ('pandas',
+17), ('csv', 16), ('math', 14)]
+\end{lstlisting}
