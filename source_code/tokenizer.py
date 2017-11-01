@@ -45,7 +45,7 @@ TOK_REG = re.compile(
     r'(?:\w+)(?=n\'t)|' +  # taking words with "n't" at the end without the "n't"
     r'(?:n\'t)|' +  # taking out the "n't" seperately
     # contractions in english language
-    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)|(?:ll)))|' +
+    r'(?:\'((?:ve)|(?:d)|(?:s)|(?:re)|(?:ll)|(?:m)))|' +
     r'(?:[^\s\w])|' +  # punctuations
     r'(?:\w+)')  # normal words
 
@@ -140,8 +140,12 @@ def evaluate(tokens, truth):
     accr_cnt = start_end_sim_cnt + lcs_len
     precision = accr_cnt / len(tokens)
     recall = accr_cnt / len(truth)
-    f1_score = 2 * precision * recall / (precision + recall)
+    try:
+        f1_score = 2 * precision * recall / (precision + recall)
+    except ZeroDivisionError:  # both precision and recall = 0
+        f1_score = 0
     return accr_cnt, precision, recall, f1_score
+
 
 def tokenize_get_code(in_string):
     """Only returns Code snippets"""
