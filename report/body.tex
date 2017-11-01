@@ -135,7 +135,7 @@ this type of error was generally acceptable.
 
 \begin{table}
 \caption{POS Tagging}\label{pos}
-\begin{tabu}{X[0.1,c]X[1,l]X[2,l]}
+\begin{tabu}{X[0.1,l]X[1,l]X[2,l]}
     & \textbf{Sentence} & \textbf{POS Tagging} \\
     \midrule
     1 & You are being tricked by Python's representation of the result
@@ -283,8 +283,8 @@ outputs, allowing us to identify wrong cases to iteratively improve the tokenize
 At the end of testing, the number of errors will be returned; the current
 implementation is expected to pass all tests.
 
-On the 100-post annotated dataset, the tokenizer achieves a precision of 96.8\%,
-a recall of 97.4\% and an F1 score of 97.1\%.
+On the 100-post annotated dataset, the tokenizer achieves a precision of 97.2\%,
+a recall of 97.6\% and an F1 score of 97.4\%.
 
 \section{Further Analysis}
 
@@ -295,7 +295,7 @@ dataset (the code is in \texttt{source\_code/main.py}, function
 \texttt{tokenize\_dataset\,()}). The top 20 non-English tokens are summarised
 in Table~\ref{non-eng}.
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Top 20 non-English tokens in the dataset}\label{non-eng}
 \begin{tabu}{X[0.5,c]X[2,l]X[2,l]}
     & \textbf{Irregular Tokens} & \textbf{(Morphological) Forms} \\
@@ -327,11 +327,94 @@ in Table~\ref{non-eng}.
 
 We choose 10 sentences containing at least one of the tokens above and
 perform POS tagging on them using NLTK, after running the sentences
-through our own tokenizer.
+through our own tokenizer. The results are in Table~\ref{irre}.
+
+\begin{table}[htp]
+\tabulinesep=^2pt_4pt
+\caption{POS Tagging of sentences with irregular tokens}\label{irre}
+\begin{tabu}{X[0.2,l]X[1,l]X[2,l]}
+    & \textbf{Sentence} & \textbf{POS Tagging} \\
+    1 &
+    I'm using Google App Engine and Django templates. &
+    (I,PRP), ('m,VBP), (using,VBG), (Google,NNP), (App,NNP),
+    (Engine,NNP), (and,CC), (Django,NNP), (templates,NNS), (.,.) \\
+    2 & 
+    This means it has a somewhat steep learning curve unless you are
+    already familiar with libcurl's C API. &
+    (This,DT), (means,VBZ), (it,PRP), (has,VBZ), (a,DT), (somewhat,RB),
+    (steep,JJ), (learning,VBG), (curve,NN), (unless,IN), (you,PRP),
+    (are,VBP), (already,RB), (familiar,JJ), (with,IN), (libcurl,NN),
+    ("'s", POS), (C,NNP), (API,NNP), (.,.) \\
+    3 & 
+    Most usages of xrange, generators, etc are over static size,
+    small datasets. & 
+    (Most,JJS), (usages,NNS), (of,IN), (xrange,NN), (,,,), (generators,NNS),
+    (,,,), (etc,FW), (are,VBP), (over,IN), (static,JJ), (size,NN), (,,,),
+    (small,JJ), (datasets,NNS), (.,.) \\
+    4 & 
+    You can define some class variables, e.g.
+    <code>refQtyA = ````qtyA''''</code>. & 
+    (You,PRP), (can,MD), (define,VB), (some,DT), (class,NN), (variables,NNS),
+    (,,,), (e.g.,JJ), (<code>refQtyA = ``qtyA''</code>,NN), (.,.) \\
+    5 & 
+    It appears that the value returned by <code>os.environ\newline</code> is only
+    <em>duck-typed</em> as a dict\ldots &
+    (It,PRP), (appears,VBZ), (that,IN), (the,DT), (value,NN), (returned,VBN),
+    (by,IN), (<code>os.environ</code>,NN), (is,VBZ), (only,RB),
+    (duck-typed,JJ), (as,IN), (a,DT), (dict,NN), (\ldots,:) \\
+    6 &
+    I use PHP, JS, HTML, CSS\@. &
+    (I,PRP), (use,VBP), (PHP,NNP), (,,,), (JS,NNP), (,,,), (HTML,NNP), (,,,),
+    (CSS,NNP), (.,.) \\
+    7 &
+    Use regex to check if the string is in your desired form. &
+    (Use,NNP), (regex,NN), (to,TO), (check,VB), (if,IN), (the,DT),
+    (string,NN), (is,VBZ), (in,IN), (your,PRP\$), (desired,JJ), (form,NN),
+    (.,.) \\
+    8 & 
+    You should read the entire CSV file into memory. &
+    (You,PRP), (should,MD), (read,VB), (the,DT), (entire,JJ), (CSV,NNP),
+    (file,NN), (into,IN), (memory,NN), (.,.) \\
+    9 & 
+    Like dF, though, I usually just use string constants in place of enums. &
+    (Like,IN), (dF,NN), (,,,), (though,IN), (,,,), (I,PRP), (usually,RB),
+    (just,RB), (use,VB), (string,VBG), (constants,NNS), (in,IN), (place,NN),
+    (of,IN), (enums,NNS), (.,.) \\
+    10 & 
+    The \_\_init\_\_.py files of each testing package then contain an AllTests
+    suite. &
+    (The,DT), (\_\_init\_\_.py,JJ), (files,NNS), (of,IN), (each,DT),
+    (testing,VBG), (package,NN), (then,RB), (contain,VB), (an,DT),
+    (AllTests,NNP), (suite,NN), (.,.) \\
+\end{tabu}
+\end{table}
+
+As evident from the tagging results, the ability of our implemented tokenizer
+to handle HTML tags and code segments reduces unnecessary occurrences of
+punctuations, especially <, > and /. The code segments should be treated as
+NN; the two code segments in row 4 and 5 are tagged correctly. Many
+programming-related tokens also function as NN or NNP; most of them are tagged
+correctly and this shows the importance of having an appropriate tokenizer.
+
+Nonetheless, some errors are still present. For instance, in row 4, ``e.g.''
+is tagged as JJ (adjective); it should have been tagged as FW (foreign word),
+similar to ``etc'' in row 3. Another example would be ``\_\_init\_\_.py'' in
+row 10, incorrectly tagged as JJ; it should have been tagged as NN. However,
+these are expected of non-standard English texts such as those in our dataset.
 
 \section{Application}
 
-\begin{figure}[ht]
+Our application is to list out the commonly used Python libraries in the
+dataset, through scanning the code segments. Instead of the normal tokenizer
+function we used previously, a new function was implemented (function
+\texttt{get\_libraries\,()} in \texttt{source\_code/\\tokenizer.py}) to extract
+just the code snippets from the posts; the use of libraries are
+detected through the presence of Python ``import'' statements. The code
+segments containing ``import'' are matched against a regex, IMPORT\_REG, to
+extract these statements, and another regex, LIB\_REG, to extract out the
+libraries. The application flow is shown in Figure~\ref{img:app}.
+
+\begin{figure}[h]
 \includegraphics[width=0.9\linewidth]{application}
 \caption{Implementation of \texttt{get\_libraries\,()}}\label{img:app}
 \end{figure}
