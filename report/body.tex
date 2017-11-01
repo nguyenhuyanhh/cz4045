@@ -286,6 +286,41 @@ implementation is expected to pass all tests.
 On the 100-post annotated dataset, the tokenizer achieves a precision of 96.8\%,
 a recall of 97.4\% and an F1 score of 97.1\%.
 
-\section{Further Analysis and Annotation}
+\section{Further Analysis}
+
+\subsection{Irregular Tokens}
+
+We use the tokenizer in the previous section to tokenize all 1754 posts in our
+dataset (the code is in \texttt{source\_code/main.py}, function
+\texttt{tokenize\_dataset\,()}). The top 20 non-English tokens are summarised
+in Table~\ref{non-eng}.
+
+\begin{table}[h]
+\caption{Top 20 non-English tokens in the dataset}\label{non-eng}
+\begin{tabu}{X[0.5,c]X[2,l]X[2,l]}
+    & \textbf{Irregular Tokens} & \textbf{(Morphological) Forms} \\
+    \midrule
+    1 & Django & Django, django \\
+    2 & app & app, apps \\
+    3 & tuple & tuple, tuples \\
+    4 & etc & etc \\
+    5 & e.g. & e.g., e.g \\
+    6 & dict & dict, dicts \\
+    7 & HTML & HTML, html \\
+    8 & regex & regex, regexes \\
+    9 & csv & csv, CSV \\
+    10 & i.e. & i.e., i.e \\
+    11 & API & API, APIs \\
+    12 & enum & enum, enums \\
+    13 & GUI & GUI, GUIs \\
+    14 & Java & Java, java \\
+    15 & url & url, urls, URL, URLs \\
+    16 & numpy & numpy, Numpy, NumPy \\
+    17 & widget & widget, widgets \\
+    18 & OS & OS, OSes \\
+    19 & lt & lt \\
+    20 & \_\_init\_\_.py & \_\_init\_\_.py \\    
+\end{tabu}    
+\end{table}
 
 \section{Application}
