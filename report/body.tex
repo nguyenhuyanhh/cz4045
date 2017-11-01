@@ -20,7 +20,7 @@ The query satisfies the three requirements:
 The dataset contains 500 questions and 1254 answers, an average of 2.508 answers
 per question. The distribution of answers is shown in Figure~\ref{ans-dist}.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \includegraphics[width=0.9\linewidth]{no_ans_per_qn}
 \caption{Distribution of answers}\label{ans-dist}
 \end{figure}
@@ -36,7 +36,7 @@ stopwords corpus available in NLTK\@; this ensures that we are getting the
 most meaningful words from the dataset. The top 20 words before and after
 stemming are in Table~\ref{stem}.
 
-\begin{table}
+\begin{table}[htp]
 \caption{Top 20 words before and after stemming}\label{stem}
 \begin{tabu}{X[1,l]X[4,l]|X[4,l]X[10,l]}
     \textbf{} & \textbf{Before stemming} &
@@ -133,7 +133,7 @@ noun (NN). The actual tag should be noun (NNP). However, in many cases, the
 tagging of an NNP to an NN should not affect the application adversely. Thus,
 this type of error was generally acceptable.
 
-\begin{table}
+\begin{table}[htp]
 \caption{POS Tagging}\label{pos}
 \begin{tabu}{X[0.1,l]X[1,l]X[2,l]}
     & \textbf{Sentence} & \textbf{POS Tagging} \\
@@ -259,7 +259,7 @@ Overflow dataset. Five different regexes --- TAG\_REG, CODE\_REG, URL\_FILE\_REG
 EXCEPTION\_REG and TOK\_REG --- are utilised; Figure~\ref{img:tok} outlines the
 tokenizer implementation given a string of text.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \includegraphics[width=0.9\linewidth]{tokenizer}
 \caption{Tokenizer implementation}\label{img:tok}
 \end{figure}
@@ -295,7 +295,7 @@ dataset (the code is in \texttt{source\_code/main.py}, function
 \texttt{tokenize\_dataset\,()}). The top 20 non-English tokens are summarised
 in Table~\ref{non-eng}.
 
-\begin{table}[ht]
+\begin{table}[htp]
 \caption{Top 20 non-English tokens in the dataset}\label{non-eng}
 \begin{tabu}{X[0.5,c]X[2,l]X[2,l]}
     & \textbf{Irregular Tokens} & \textbf{(Morphological) Forms} \\
@@ -330,7 +330,6 @@ perform POS tagging on them using NLTK, after running the sentences
 through our own tokenizer. The results are in Table~\ref{irre}.
 
 \begin{table}[htp]
-\tabulinesep=^2pt_4pt
 \caption{POS Tagging of sentences with irregular tokens}\label{irre}
 \begin{tabu}{X[0.2,l]X[1,l]X[2,l]}
     & \textbf{Sentence} & \textbf{POS Tagging} \\
@@ -414,7 +413,11 @@ segments containing ``import'' are matched against a regex, IMPORT\_REG, to
 extract these statements, and another regex, LIB\_REG, to extract out the
 libraries. The application flow is shown in Figure~\ref{img:app}.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \includegraphics[width=0.9\linewidth]{application}
 \caption{Implementation of \texttt{get\_libraries\,()}}\label{img:app}
 \end{figure}
+
+The top 10 most common libraries in the dataset are \texttt{numpy}, \texttt{re},
+\texttt{sys}, \texttt{random}, \texttt{os}, \texttt{collections}, \texttt{time},
+\texttt{pandas}, \texttt{csv} and \texttt{math}.
