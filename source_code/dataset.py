@@ -71,7 +71,7 @@ def choose_random():
 def get_truths(id_):
     """Returns list of tokens from the tagged file with the given id."""
     with open(os.path.join(DATA_DIR, '{}.txt'.format(id_)), 'r') as file_:
-        if (str(id_) == '7771342'):
+        if str(id_) == '7771342':
             token_list = file_.read().split(';')
         else:
             token_list = file_.read().split('~')
