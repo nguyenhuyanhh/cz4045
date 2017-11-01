@@ -140,7 +140,10 @@ def evaluate(tokens, truth):
     accr_cnt = start_end_sim_cnt + lcs_len
     precision = accr_cnt / len(tokens)
     recall = accr_cnt / len(truth)
-    f1_score = 2 * precision * recall / (precision + recall)
+    try:
+        f1_score = 2 * precision * recall / (precision + recall)
+    except ZeroDivisionError:  # both precision and recall = 0
+        f1_score = 0
     return accr_cnt, precision, recall, f1_score
 
 

@@ -53,12 +53,12 @@ def tokenize_dataset():
 
     # print out top non-english, non-digit/punctuation tokens
     counter = Counter(ovr_tokens)
-    keys = counter.keys()
     english_words = get_english_words()
-    for key in keys:
-        # drop english, punctuation and digits-only keys
-        if re.match(r"^[\W\d]+$", key) or key.lower() in english_words:
-            counter.pop(key)
+    # drop english, punctuation and digits-only keys
+    drops = [x for x in counter.keys() if re.match(r"^[\W\d]+$", x)
+             or x.lower() in english_words]
+    for key in drops:
+        counter.pop(key)
     print(counter.most_common(50))
 
 
