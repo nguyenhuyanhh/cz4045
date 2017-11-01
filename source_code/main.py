@@ -9,7 +9,7 @@ import sys
 import pandas as pd
 
 from dataset import get_truths, report
-from tokenizer import evaluate, tokenize_v2
+from tokenizer import evaluate, tokenize_get_code, tokenize_v2
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 RAW_DIR = os.path.join(CUR_DIR, 'raw_data')
@@ -89,14 +89,39 @@ def tokenize_eval():
         pre, rec, f1_))
 
 
+def get_libraries(num=10):
+    """Get the most common libraries used in the dataset."""
+    from collections import Counter
+
+    # regexes
+    import_reg = re.compile(r'((?:from [^\s]+ import)|(?:import [^\s]+))')
+    lib_reg = re.compile(
+        r'((?<=from )(?:[^\s]+)(?= import)|(?<=import )(?:[^\s]+))')
+
+    # read data
+    data = pd.read_csv(os.path.join(RAW_DIR, 'QueryResults.csv'))
+
+    # extract top libraries
+    library_list = []
+    for content in data['Body']:
+        code_blocks = [x for x in tokenize_get_code(content) if 'import ' in x]
+        if code_blocks:
+            for block in code_blocks:
+                temp = import_reg.findall(block)
+                for tmp in temp:
+                    library_list += lib_reg.findall(tmp)
+    return Counter(library_list).most_common(num)
+
+
 def usage():
     """Print command-line usage."""
-    print('usage: main.py [report|stempos|test|tokenize|eval]')
+    print('usage: main.py [report|stempos|test|tokenize|eval|commonX]')
     print('\t report \t report dataset stats')
     print('\t stempos \t stemming and POS tagging on dataset')
     print('\t test \t\t test the tokenizer')
     print('\t tokenize \t tokenize the dataset, output irregular tokens')
     print('\t eval \t\t evaluate the tokenizer on annotated dataset')
+    print('\t commonX \t get the most common X libraries from the dataset')
 
 
 if __name__ == '__main__':
@@ -121,6 +146,12 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'eval':
         # evaluate the tokenizer
         tokenize_eval()
+    elif sys.argv[1].startswith('common'):
+        # get the most common libraries from the dataset
+        try:
+            print(get_libraries(int(sys.argv[1][6:])))
+        except BaseException:
+            print(get_libraries())
     else:
         print('Invalid arguments! Exiting...')
         usage()

@@ -142,3 +142,9 @@ def evaluate(tokens, truth):
     recall = accr_cnt / len(truth)
     f1_score = 2 * precision * recall / (precision + recall)
     return accr_cnt, precision, recall, f1_score
+
+def tokenize_get_code(in_string):
+    """Only returns Code snippets"""
+    # remove html tags
+    in_string = TAG_REG.sub(' ', in_string)
+    return CODE_REG.findall(in_string)
