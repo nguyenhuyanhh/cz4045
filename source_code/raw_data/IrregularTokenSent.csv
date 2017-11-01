@@ -1,0 +1,11 @@
+Sentence
+"I'm using Google App Engine and Django templates."
+"This means it has a somewhat steep learning curve unless you are already familiar with libcurl's C API."
+"Most usages of xrange, generators, etc are over static size, small datasets."
+"You can define some class variables, e.g. <code>refQtyA = ""qtyA""</code>."
+"It appears that the value returned by <code>os.environ</code> is only <em>duck-typed</em> as a dict..."
+"I use PHP, JS, HTML, CSS."
+"Use regex to check if the string is in your desired form."
+"You should read the entire CSV file into memory."
+"Like dF, though, I usually just use string constants in place of enums."
+"The __init__.py files of each testing package then contain an AllTests suite."

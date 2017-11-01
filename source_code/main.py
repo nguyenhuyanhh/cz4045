@@ -89,6 +89,15 @@ def tokenize_eval():
         pre, rec, f1_))
 
 
+def pos_irregular():
+    """POS tagging on a sample of sentences with irregular tokens."""
+    from nltk import pos_tag
+
+    data = pd.read_csv(os.path.join(RAW_DIR, 'IrregularTokenSent.csv'))
+    for str_ in data['Sentence']:
+        print(pos_tag(tokenize_v2(str_)))
+
+
 def get_libraries(num=10):
     """Get the most common libraries used in the dataset."""
     from collections import Counter
@@ -115,12 +124,14 @@ def get_libraries(num=10):
 
 def usage():
     """Print command-line usage."""
-    print('usage: main.py [report|stempos|test|tokenize|eval|commonX]')
+    print(
+        'usage: main.py [report|stempos|test|eval|tokenize|irregular|commonX]')
     print('\t report \t report dataset stats')
     print('\t stempos \t stemming and POS tagging on dataset')
     print('\t test \t\t test the tokenizer')
-    print('\t tokenize \t tokenize the dataset, output irregular tokens')
     print('\t eval \t\t evaluate the tokenizer on annotated dataset')
+    print('\t tokenize \t tokenize the dataset, output irregular tokens')
+    print('\t irregular \t POS tagging on sentences with irregular tokens')
     print('\t commonX \t get the most common X libraries from the dataset')
 
 
@@ -140,12 +151,15 @@ if __name__ == '__main__':
         import unittest
         import test
         unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromModule(test))
-    elif sys.argv[1] == 'tokenize':
-        # tokenize the dataset
-        tokenize_dataset()
     elif sys.argv[1] == 'eval':
         # evaluate the tokenizer
         tokenize_eval()
+    elif sys.argv[1] == 'tokenize':
+        # tokenize the dataset
+        tokenize_dataset()
+    elif sys.argv[1] == 'irregular':
+        # POS tagging on sentences with irregular tokens
+        pos_irregular()
     elif sys.argv[1].startswith('common'):
         # get the most common libraries from the dataset
         try:
