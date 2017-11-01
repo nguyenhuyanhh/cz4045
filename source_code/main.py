@@ -1,6 +1,6 @@
 """Wrapper for all operations."""
 
-from __future__ import print_function, division
+from __future__ import division, print_function
 
 import os
 import re
@@ -10,7 +10,7 @@ import pandas as pd
 
 from dataset import get_truths, report
 from stem_and_pos import stem_and_pos
-from tokenizer import evaluate, tokenize_v2
+from tokenizer import evaluate, tokenize_get_code, tokenize_v2
 
 CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 RAW_DIR = os.path.join(CUR_DIR, 'raw_data')
@@ -47,6 +47,30 @@ def tokenize_and_eval():
     f1_ = 2 * pre * rec / (pre + rec)
     print('Overall: precision: {:.3f}, recall: {:.3f}, f1: {:.3f}'.format(
         pre, rec, f1_))
+
+
+def get_libraries(num=10):
+    """Get the most common libraries used in the dataset."""
+    from collections import Counter
+
+    # regexes
+    import_reg = re.compile(r'((?:from [^\s]+ import)|(?:import [^\s]+))')
+    lib_reg = re.compile(
+        r'((?<=from )(?:[^\s]+)(?= import)|(?<=import )(?:[^\s]+))')
+
+    # read data
+    data = pd.read_csv(os.path.join(RAW_DIR, 'QueryResults.csv'))
+
+    # extract top libraries
+    library_list = []
+    for content in data['Body']:
+        code_blocks = [x for x in tokenize_get_code(content) if 'import ' in x]
+        if code_blocks:
+            for block in code_blocks:
+                temp = import_reg.findall(block)
+                for tmp in temp:
+                    library_list += lib_reg.findall(tmp)
+    return Counter(library_list).most_common(num)
 
 
 if __name__ == '__main__':
