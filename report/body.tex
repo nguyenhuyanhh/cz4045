@@ -301,26 +301,37 @@ in Table~\ref{non-eng}.
     & \textbf{Irregular Tokens} & \textbf{(Morphological) Forms} \\
     \midrule
     1 & Django & Django, django \\
-    2 & app & app, apps \\
-    3 & tuple & tuple, tuples \\
-    4 & etc & etc \\
-    5 & e.g. & e.g., e.g \\
-    6 & dict & dict, dicts \\
-    7 & HTML & HTML, html \\
-    8 & regex & regex, regexes \\
-    9 & csv & csv, CSV \\
-    10 & i.e. & i.e., i.e \\
-    11 & API & API, APIs \\
-    12 & enum & enum, enums \\
-    13 & GUI & GUI, GUIs \\
-    14 & Java & Java, java \\
-    15 & url & url, urls, URL, URLs \\
-    16 & numpy & numpy, Numpy, NumPy \\
-    17 & widget & widget, widgets \\
-    18 & OS & OS, OSes \\
-    19 & lt & lt \\
-    20 & \_\_init\_\_.py & \_\_init\_\_.py \\    
+    2 & app & app, apps, App, Apps \\
+    3 & etc & etc \\
+    4 & e.g. & e.g., e.g \\
+    5 & dict & dict, dicts \\
+    6 & HTML & HTML, html \\
+    7 & regex & regex, regexes \\
+    8 & csv & csv, CSV \\
+    9 & i.e. & i.e., i.e \\
+    10 & API & API, APIs \\
+    11 & enum & enum, enums \\
+    12 & GUI & GUI, GUIs \\
+    13 & Java & Java, java \\
+    14 & url & url, urls, URL, URLs \\
+    15 & numpy & numpy, Numpy, NumPy \\
+    16 & OS & OS, OSes \\
+    17 & lt & lt \\
+    18 & \_\_init\_\_.py & \_\_init\_\_.py \\
+    19 & lxml & lxml, LXML \\
+    20 & config & config, configs \\
 \end{tabu}    
 \end{table}
 
+\subsection{POS Tagging}
+
+We choose 10 sentences containing at least one of the tokens above and
+perform POS tagging on them using NLTK, after running the sentences
+through our own tokenizer.
+
 \section{Application}
+
+\begin{figure}[ht]
+\includegraphics[width=0.9\linewidth]{application}
+\caption{Implementation of \texttt{get\_libraries\,()}}\label{img:app}
+\end{figure}
