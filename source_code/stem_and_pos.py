@@ -19,8 +19,12 @@ def stem_and_pos():
     data = pd.read_csv(os.path.join(RAW_DIR, 'QueryResults.csv'))
 
     # sentence tokenize
-    sent_tokenized_data = [nltk.sent_tokenize(
-        re.sub(r"<.*?>", r"", i)) for i in data.iloc[:, 3]]
+    try:
+        sent_tokenized_data = [nltk.sent_tokenize(
+            re.sub(r"<.*?>", r"", i)) for i in data.iloc[:, 3]]
+    except UnicodeDecodeError:
+        sent_tokenized_data = [nltk.sent_tokenize(
+            re.sub(r"<.*?>", r"", i.decode('utf-8'))) for i in data.iloc[:, 3]]
 
     # word tokenize each row without removing punctuations
     tokenized_data = [nltk.word_tokenize(i[0]) for i in sent_tokenized_data]
