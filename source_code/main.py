@@ -28,11 +28,13 @@ def get_english_words():
             # at /usr/share/dict/words
             with open('/usr/share/dict/words', 'r') as dict_:
                 words = [x.strip() for x in dict_.readlines()]
+                print('Using Unix dictionary...')
                 return set(words)
         else:
             raise OSError
     except BaseException:
         from nltk.corpus import brown
+        print('Using Brown corpus...')
         return set(brown.words())
 
 
@@ -57,7 +59,7 @@ def tokenize_dataset():
         # drop english, punctuation and digits-only keys
         if re.match(r"^[\W\d]+$", key) or key.lower() in english_words:
             counter.pop(key)
-    print(counter.most_common(100))
+    print(counter.most_common(50))
 
 
 def tokenize_eval():
