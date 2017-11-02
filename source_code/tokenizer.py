@@ -148,7 +148,7 @@ def evaluate(tokens, truth):
 
 
 def tokenize_get_code(in_string):
-    """Only returns Code snippets"""
+    """Only return code snippets."""
     # remove html tags
     in_string = TAG_REG.sub(' ', in_string)
-    return CODE_REG.findall(in_string)
+    return [re.sub(r'</?code>', '', x) for x in CODE_REG.findall(in_string)]

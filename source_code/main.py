@@ -118,7 +118,8 @@ def get_libraries(num=10):
             for block in code_blocks:
                 temp = import_reg.findall(block)
                 for tmp in temp:
-                    library_list += lib_reg.findall(tmp)
+                    library_list += [x.split('.')[0]
+                                     for x in lib_reg.findall(tmp)]
     return Counter(library_list).most_common(num)
 
 

@@ -151,10 +151,10 @@ Getting the most common libraries from the dataset:
 
 ***********************************************************
 $ python source_code/main.py common5
-[('numpy', 51), ('re', 32), ('sys', 29), ('random', 22),
-('os', 22)]
-$ python source_code/main.py common10
-[('numpy', 51), ('re', 32), ('sys', 29), ('random', 22),
-('os', 22), ('collections', 21), ('time', 18), ('pandas',
-17), ('csv', 16), ('math', 14)]
+[('numpy', 51), ('re', 32), ('sys', 29), ('os', 27),
+('matplotlib', 23)]
+$ python3 source_code/main.py common10
+[('numpy', 51), ('re', 32), ('sys', 29), ('os', 27),
+('matplotlib', 23), ('selenium', 22), ('random', 22),
+('collections', 21), ('time', 18), ('pandas', 17)]
 ***********************************************************
