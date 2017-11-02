@@ -5,8 +5,8 @@ CZ4045 Assignment: Online Forum Data Processing
 - Library used: NLTK
 
 ***********************************************************
-$ pip install --user --upgrade nltk
-$ python -m nltk.downloader all
+$ pip2 install --user --upgrade nltk
+$ python2 -m nltk.downloader all
 ***********************************************************
 
 - Dataset
@@ -61,7 +61,7 @@ Calling just the main script (by running $ python source_code/main.py)
 would print out this command-line usage:
 
 ***********************************************************
-$ python source_code/main.py
+$ python2 source_code/main.py
 Invalid arguments! Exiting...
 usage: main.py [report|stempos|test|eval|tokenize|
                 irregular|commonX]
@@ -84,7 +84,7 @@ usage: main.py [report|stempos|test|eval|tokenize|
 Reporting of dataset statistics:
 
 ***********************************************************
-$ python source_code/main.py report
+$ python2 source_code/main.py report
 Number of questions: 500
 Number of answers: 1254
 Average number of answers per questions: 2.508
@@ -98,7 +98,7 @@ Stemming and POS tagging on the dataset (there are four separate print outputs
 stemming, the original words):
 
 ***********************************************************
-$ python source_code/main.py stempos
+$ python2 source_code/main.py stempos
 [[('You', 'PRP'), ('are', 'VBP'), ('being', 'VBG'),
 ('tricked', 'VBN')...]]
 [('', 20481), ('I', 947),...]]
@@ -109,7 +109,7 @@ $ python source_code/main.py stempos
 Testing of the tokenizer:
 
 ***********************************************************
-$ python3 source_code/main.py test
+$ python2 source_code/main.py test
 ................................................
 ..........................
 ------------------------------------------------
@@ -121,7 +121,7 @@ OK
 Evaluating the tokenizer:
 
 ***********************************************************
-$ python source_code/main.py eval
+$ python2 source_code/main.py eval
 ...
 Id: 38810765, precision: 1.000, recall: 1.000, f1: 1.000
 Id: 38834478, precision: 1.000, recall: 1.000, f1: 1.000
@@ -134,7 +134,7 @@ Overall: precision: 0.972, recall: 0.976, f1: 0.974
 Outputting irregular tokens from the dataset:
 
 ***********************************************************
-$ python source_code/main.py tokenize
+$ python2 source_code/main.py tokenize
 Using Unix dictionary...
 [..., ('Django', 64), ('app', 61)...]
 ***********************************************************
@@ -142,7 +142,7 @@ Using Unix dictionary...
 POS tagging on sentences with irregular tokens:
 
 ***********************************************************
-$ python source_code/main.py irregular
+$ python2 source_code/main.py irregular
 [('I', 'PRP'), ("'m", 'VBP'), ('using', 'VBG'),
 ('Google', 'NNP'),...
 ***********************************************************
@@ -150,10 +150,10 @@ $ python source_code/main.py irregular
 Getting the most common libraries from the dataset:
 
 ***********************************************************
-$ python source_code/main.py common5
+$ python2 source_code/main.py common5
 [('numpy', 51), ('re', 32), ('sys', 29), ('os', 27),
 ('matplotlib', 23)]
-$ python3 source_code/main.py common10
+$ python2 source_code/main.py common10
 [('numpy', 51), ('re', 32), ('sys', 29), ('os', 27),
 ('matplotlib', 23), ('selenium', 22), ('random', 22),
 ('collections', 21), ('time', 18), ('pandas', 17)]
