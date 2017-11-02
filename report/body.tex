@@ -414,8 +414,8 @@ these are expected of non-standard English texts such as those in our dataset.
 Our application is to list out the commonly used Python libraries in the
 dataset, through scanning the code segments. Instead of the normal tokenizer
 function we used previously, a new function was implemented (function
-\texttt{get\_libraries\,()} in \texttt{source\_code/\\tokenizer.py}) to extract
-just the code snippets from the posts; the use of libraries are
+\texttt{tokenize\_get\_code\,()} in \texttt{source\_code/\\tokenizer.py}) to
+extract just the code snippets from the posts; the use of libraries are
 detected through the presence of Python ``import'' statements. The code
 segments containing ``import'' are matched against a regex, IMPORT\_REG, to
 extract these statements, and another regex, LIB\_REG, to extract out the
